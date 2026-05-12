@@ -8,9 +8,14 @@ import { Eye, EyeOff } from "lucide-react";
 type AuthPageProps = {
   title: string;
   footerLink: string;
+  forgotLink: string;
 };
 
-export default function AuthPage({ title, footerLink }: AuthPageProps) {
+export default function AuthPage({
+  title,
+  footerLink,
+  forgotLink,
+}: AuthPageProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -79,12 +84,12 @@ export default function AuthPage({ title, footerLink }: AuthPageProps) {
             </div>
 
             <div className="flex items-center justify-between gap-4 pt-2">
-              <a
-                href="#"
+              <Link
+                href={forgotLink}
                 className="text-xs text-slate-600 hover:text-slate-950"
               >
                 Forgot Password?
-              </a>
+              </Link>
               <button
                 type="button"
                 className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600 cursor-pointer"

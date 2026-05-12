@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-
 export const metadata: Metadata = {
   title: "Academic Appraisal",
   description: "Centralized Online Research Assessment and Submission System",
   icons: {
-    icon: "/unilaglogo.ico",
+    icon: "./unilaglogo.ico",
   },
 };
 
