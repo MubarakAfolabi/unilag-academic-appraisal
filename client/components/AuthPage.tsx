@@ -3,15 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 type AuthPageProps = {
   title: string;
-  footerText: string;
   footerLink: string;
 };
 
-export default function AuthPage({ title, footerText, footerLink }: AuthPageProps) {
+export default function AuthPage({ title, footerLink }: AuthPageProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -21,14 +20,6 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
     >
       <div className="w-full max-w-2xl rounded-sm bg-white/75 shadow-2xl ring-1 ring-white/40 backdrop-blur-md">
         <div className="px-6 py-6 md:px-10">
-          <Link
-            href="/"
-            className="mb-2 inline-flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-950"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to home
-          </Link>
-
           <div className="flex justify-center">
             <div className="mb-4 relative h-32 w-32">
               <Image
@@ -43,13 +34,19 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
           </div>
 
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-950">{title}</h2>
-            <p className="mt-1 text-xs md:text-sm text-slate-600">Enter Login Details Here</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-950">
+              {title}
+            </h2>
+            <p className="mt-1 text-xs md:text-sm text-slate-600">
+              Enter Login Details Here
+            </p>
           </div>
 
           <form className="mt-6 space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-semibold text-slate-900">Email</label>
+              <label className="mb-1 block text-sm font-semibold text-slate-900">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -58,7 +55,9 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-semibold text-slate-900">Password</label>
+              <label className="mb-1 block text-sm font-semibold text-slate-900">
+                Password
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -70,30 +69,46 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-3 grid place-items-center text-slate-600"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
 
             <div className="flex items-center justify-between gap-4 pt-2">
-              <a href="#" className="text-xs text-slate-600 hover:text-slate-950">
+              <a
+                href="#"
+                className="text-xs text-slate-600 hover:text-slate-950"
+              >
                 Forgot Password?
               </a>
               <button
                 type="button"
-                className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600"
+                className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600 cursor-pointer"
               >
                 Login
               </button>
             </div>
           </form>
 
-          <Link
-            href={footerLink}
-            className="mt-6 inline-block text-left text-xs font-medium text-slate-800 hover:underline"
-          >
-            {footerText}
-          </Link>
+          {footerLink.startsWith("/login-reviewer") ? (
+            <div className="flex gap-2 items-center">
+              <p className="text-xs">Are you a reviewer?</p>
+              <Link href={footerLink} className="text-xs font-bold underline">
+                Reviewer Login
+              </Link>
+            </div>
+          ) : (
+            <div className="flex gap-2 items-center">
+              <p className="text-xs">Are you a publisher?</p>
+              <Link href={footerLink} className="text-xs font-bold underline">
+                Publisher Login
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </main>
