@@ -3,15 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 type AuthPageProps = {
   title: string;
   footerText: string;
   footerLink: string;
+  forgotLink: string;
 };
 
-export default function AuthPage({ title, footerText, footerLink }: AuthPageProps) {
+export default function AuthPage({ title, footerText, footerLink, forgotLink }: AuthPageProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -21,13 +22,6 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
     >
       <div className="w-full max-w-2xl rounded-sm bg-white/75 shadow-2xl ring-1 ring-white/40 backdrop-blur-md">
         <div className="px-6 py-6 md:px-10">
-          <Link
-            href="/"
-            className="mb-2 inline-flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-950"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to home
-          </Link>
 
           <div className="flex justify-center">
             <div className="mb-4 relative h-32 w-32">
@@ -76,9 +70,9 @@ export default function AuthPage({ title, footerText, footerLink }: AuthPageProp
             </div>
 
             <div className="flex items-center justify-between gap-4 pt-2">
-              <a href="#" className="text-xs text-slate-600 hover:text-slate-950">
+              <Link href={forgotLink} className="text-xs text-slate-600 hover:text-slate-950">
                 Forgot Password?
-              </a>
+              </Link>
               <button
                 type="button"
                 className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600"

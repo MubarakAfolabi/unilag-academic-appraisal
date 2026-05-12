@@ -6,6 +6,7 @@ export default function PublisherLoginPage() {
       title="PUBLISHER LOGIN"
       footerText="Are You A Reviewer? Reviewer Login"
       footerLink="/login-reviewer"
+      forgotLink="/login-publisher/forgot-password"
     />
   );
 }
