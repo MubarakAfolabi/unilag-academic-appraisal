@@ -6,10 +6,11 @@ import {
   Hourglass,
   CircleCheckBig,
   FileText,
-  Circle,
-  Check,
-  X,
 } from "lucide-react";
+
+import { userProfile } from "@/constant/publisherDashboard";
+import { recentSubmissions } from "@/constant/publisherDashboard";
+import RecentSubmissions from "@/components/RecentSubmissions";
 
 export default function Dashboard() {
   return (
@@ -26,9 +27,9 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <h2 className="font-bold">Unilag Academic Appraisal</h2>
+            <h2 className="font-bold text-md">Unilag Academic Appraisal</h2>
             <p className="text-sm text-[hsla(0,2%,42%,1)]">
-              Publisher&apos;s Portal
+              {userProfile.portal}
             </p>
           </div>
         </div>
@@ -45,7 +46,7 @@ export default function Dashboard() {
 
           <div className="cursor-pointer">
             <Image
-              src="/profile-pic.svg"
+              src={userProfile.avatar}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -55,9 +56,13 @@ export default function Dashboard() {
       </div>
 
       <div className="flex flex-col">
-        <h2 className="text-xl font-bold">Welcome back, Dr. Alex Johnson</h2>
+        <h2 className="text-xl font-bold">
+          Welcome back, <span>{userProfile.fullName}</span>
+        </h2>
         <p className="text-[hsla(0,2%,42%,1)]">
-          Track your submission and progress
+          {userProfile.role === "PUBLISHER"
+            ? "Track your submissions and progress"
+            : ""}{" "}
         </p>
       </div>
 
@@ -109,122 +114,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <ul className="border border-solid border-[hsla(0,0%,85%,1)] p-2 rounded-xl flex flex-col gap-4">
-          <li className="flex flex-col gap-4">
-            <div className="flex gap-2">
-              <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-                <FileText />
-              </div>
-
-              <div className="flex-1 flex items-center gap-2">
-                <div className="flex-1">
-                  <p className="font-bold">
-                    AI in Healthcare: Opportunities and Challenges
-                  </p>
-                  <p className="text-sm text-[hsla(0,2%,42%,1)]">
-                    Submitted on April 23, 2026
-                  </p>
-                </div>
-
-                <div className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] w-fit h-fit p-1 rounded-lg flex items-center justify-center">
-                  Under Review
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="text-[hsla(35,98%,52%,1)]">
-                <Circle size={24} strokeWidth={2} />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="text-[hsla(0,0%,85%,1)]">
-                <Circle strokeWidth={2} />
-              </div>
-            </div>
-          </li>
-
-          <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-
-          <li className="flex flex-col gap-4">
-            <div className="flex gap-2">
-              <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-                <FileText />
-              </div>
-
-              <div className="flex-1 flex items-center gap-2">
-                <div className="flex-1">
-                  <p className="font-bold">
-                    AI in Healthcare: Opportunities and Challenges
-                  </p>
-                  <p className="text-sm text-[hsla(0,2%,42%,1)]">
-                    Submitted on April 23, 2026
-                  </p>
-                </div>
-
-                <div className="bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)] w-fit h-fit p-1 rounded-lg flex items-center justify-center">
-                  Agreed
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-            </div>
-          </li>
-
-          <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-
-          <li className="flex flex-col gap-4">
-            <div className="flex gap-2">
-              <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-                <FileText />
-              </div>
-
-              <div className="flex-1 flex items-center gap-2">
-                <div className="flex-1">
-                  <p className="font-bold">
-                    AI in Healthcare: Opportunities and Challenges
-                  </p>
-                  <p className="text-sm text-[hsla(0,2%,42%,1)]">
-                    Submitted on April 23, 2026
-                  </p>
-                </div>
-
-                <div className="bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)] w-fit h-fit p-1 rounded-lg flex items-center justify-center">
-                  Under Review
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center">
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="bg-[hsla(150,90%,24%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <Check />
-              </div>
-              <hr className="w-full border-[hsla(0,0%,85%,1)] border" />
-              <div className="bg-[hsla(353,100%,46%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-                <X />
-              </div>
-            </div>
-          </li>
-        </ul>
+        <RecentSubmissions recentSubmissions={recentSubmissions} />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -241,7 +131,7 @@ export default function Dashboard() {
                   <p className="font-bold">AI in Healthcare.pdf</p>
                   <p className="text-[hsla(210,79%,46%,1)]">Processing...</p>
                 </div>
-                <p className="text-sm text-[hsla(0,2%,42%,1)]">3.6mb</p>
+                <p className="text-sm text-[hsla(0,2%,42%,1)]">3.6MB</p>
               </div>
 
               <div className="flex items-center gap-6">
@@ -263,7 +153,7 @@ export default function Dashboard() {
                   <p className="font-bold">Chemical Interactions</p>
                   <p className="text-[hsla(210,79%,46%,1)]">Processing...</p>
                 </div>
-                <p className="text-sm text-[hsla(0,2%,42%,1)]">2.8mb</p>
+                <p className="text-sm text-[hsla(0,2%,42%,1)]">2.8MB</p>
               </div>
 
               <div className="flex items-center gap-6">
