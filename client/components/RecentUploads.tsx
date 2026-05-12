@@ -6,6 +6,8 @@ type Props = {
 };
 
 export default function RecentUploads({ recentUploadActivity }: Props) {
+  console.log(recentUploadActivity);
+
   return (
     <ul className="flex flex-col gap-4">
       {recentUploadActivity.map((file, index) => {
@@ -29,7 +31,8 @@ export default function RecentUploads({ recentUploadActivity }: Props) {
               <div className="flex items-center gap-6">
                 <div className="bg-[hsla(0,0%,85%,1)] w-full h-1.5 rounded-full overflow-hidden">
                   <div
-                    className={`bg-[hsla(210,79%,46%,1)] h-full w-[${file.progressValue}%]`}
+                    className="bg-[hsla(210,79%,46%,1)] h-full"
+                    style={{ width: `${file.progressValue}%` }}
                   ></div>
                 </div>
                 <p className="text-[hsla(0,2%,42%,1)]">{file.progressValue}%</p>
