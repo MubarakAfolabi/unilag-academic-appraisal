@@ -6,8 +6,6 @@ type Props = {
 };
 
 export default function RecentUploads({ recentUploadActivity }: Props) {
-  console.log(recentUploadActivity);
-
   return (
     <ul className="flex flex-col gap-4">
       {recentUploadActivity.map((file, index) => {

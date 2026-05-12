@@ -83,6 +83,10 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                 })}
               </div>
             </div>
+
+            {index < recentSubmissions.length - 1 && (
+              <hr className="w-full border-[hsla(0,0%,85%,1)]" />
+            )}
           </li>
         );
       })}
