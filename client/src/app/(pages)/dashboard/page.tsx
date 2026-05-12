@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
+import { LogOut, Bell } from "lucide-react";
 
 import { userProfile } from "@/constant/publisherDashboard";
 import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/RecentSubmissions";
 import { recentUploadActivity } from "@/constant/publisherDashboard";
+import { publisherOverviewCards } from "@/constant/publisherDashboard";
 import RecentUploads from "@/components/RecentUploads";
+import PublisherOverviewCards from "@/components/PublisherOverviewCards";
 
 export default function Dashboard() {
   return (
@@ -63,42 +65,9 @@ export default function Dashboard() {
 
       <div className="flex flex-col gap-2">
         <h2 className="text-lg">Submission Overview</h2>
-
-        <ul className="flex gap-2 flex-wrap">
-          <li className="bg-[hsl(209,67%,89%)] flex-1 p-4 rounded-xl flex flex-col justify-between gap-4">
-            <div>
-              <div className="bg-[hsla(208,78%,85%,1)] text-[hsla(210,79%,46%,1)] w-fit p-1 rounded-full">
-                <Clock4 />
-              </div>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-black">28</p>
-              <p className="text-[hsla(0,2%,42%,1)]">Total Submission</p>
-            </div>
-          </li>
-          <li className="bg-[hsl(45,100%,85%)] text-[hsla(45,100%,51%,1)] flex-1 p-4 rounded-xl flex flex-col justify-between gap-4">
-            <div>
-              <div className="bg-[hsla(60,100%,51%,0.2)] w-fit p-1 rounded-full">
-                <Hourglass />
-              </div>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-black">8</p>
-              <p className="text-[hsla(0,2%,42%,1)]">Under Review</p>
-            </div>
-          </li>
-          <li className="bg-[hsl(150,28%,85%)] text-[hsla(150,90%,24%,1)] flex-1 p-4 rounded-xl flex flex-col justify-between gap-4">
-            <div>
-              <div className="bg-[hsla(150,90%,24%,0.2)] w-fit p-1 rounded-full">
-                <CircleCheckBig />
-              </div>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-black">15</p>
-              <p className="text-[hsla(0,2%,42%,1)]">Approved</p>
-            </div>
-          </li>
-        </ul>
+        <PublisherOverviewCards
+          publisherOverviewCards={publisherOverviewCards}
+        />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -108,7 +77,6 @@ export default function Dashboard() {
             View all
           </p>
         </div>
-
         <RecentSubmissions recentSubmissions={recentSubmissions} />
       </div>
 

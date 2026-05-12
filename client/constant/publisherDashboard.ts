@@ -1,7 +1,11 @@
+import { CircleCheckBig, Clock4, Hourglass, LucideIcon } from "lucide-react";
+
 export type OverviewCard = {
   label: string;
   value: string;
-  icon: string;
+  icon: LucideIcon;
+  iconColor: string;
+  iconWrapper: string;
   bgClass: string;
 };
 
@@ -36,20 +40,26 @@ export const publisherOverviewCards: OverviewCard[] = [
   {
     label: "Total Submissions",
     value: "28",
-    icon: "/dashboard-icons/clock-4.svg",
-    bgClass: "bg-[#e8f0ff]",
+    icon: Clock4,
+    iconColor: "text-[hsla(210,79%,46%,1)]",
+    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+    bgClass: "bg-[hsl(209,67%,89%)]",
   },
   {
     label: "Under Review",
     value: "8",
-    icon: "/dashboard-icons/hourglass.svg",
-    bgClass: "bg-[#f5f3a5]",
+    icon: Hourglass,
+    iconColor: "text-[hsla(45,100%,51%,1)]",
+    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+    bgClass: "bg-[hsl(45,100%,85%)]",
   },
   {
     label: "Approved",
     value: "15",
-    icon: "/dashboard-icons/approvedCardIcon.svg",
-    bgClass: "bg-[#dff3e8]",
+    icon: CircleCheckBig,
+    iconColor: "text-[hsla(150,90%,24%,1)]",
+    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+    bgClass: "bg-[hsl(150,28%,85%)]",
   },
 ];
 
