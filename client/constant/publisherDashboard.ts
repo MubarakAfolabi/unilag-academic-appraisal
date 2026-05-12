@@ -92,8 +92,14 @@ export const recentSubmissions: SubmissionItem[] = [
 export const recentUploadActivity: UploadActivityItem[] = [
   {
     filename: "AI in Healthcare.pdf",
-    meta: "3.6 MB . PDF",
+    meta: "3.6MB",
     status: "Processing...",
     progressValue: 60,
+  },
+  {
+    filename: "Chemical Interactions",
+    meta: "2.8MB",
+    status: "Processing...",
+    progressValue: 75,
   },
 ];

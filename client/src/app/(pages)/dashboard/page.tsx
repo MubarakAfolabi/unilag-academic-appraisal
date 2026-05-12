@@ -1,16 +1,11 @@
 import Image from "next/image";
-import {
-  LogOut,
-  Bell,
-  Clock4,
-  Hourglass,
-  CircleCheckBig,
-  FileText,
-} from "lucide-react";
+import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 
 import { userProfile } from "@/constant/publisherDashboard";
 import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/RecentSubmissions";
+import { recentUploadActivity } from "@/constant/publisherDashboard";
+import RecentUploads from "@/components/RecentUploads";
 
 export default function Dashboard() {
   return (
@@ -119,52 +114,7 @@ export default function Dashboard() {
 
       <div className="flex flex-col gap-2">
         <h2 className="text-lg">Recent Upload Activity</h2>
-
-        <ul className="flex flex-col gap-4">
-          <li className="flex gap-2 border border-solid border-[hsla(0,0%,85%,1)] p-2 rounded-xl">
-            <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-              <FileText />
-            </div>
-            <div className="flex-1 flex flex-col gap-2">
-              <div>
-                <div className="flex justify-between">
-                  <p className="font-bold">AI in Healthcare.pdf</p>
-                  <p className="text-[hsla(210,79%,46%,1)]">Processing...</p>
-                </div>
-                <p className="text-sm text-[hsla(0,2%,42%,1)]">3.6MB</p>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <div className="bg-[hsla(0,0%,85%,1)] w-full h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[hsla(210,79%,46%,1)] h-full w-[60%]"></div>
-                </div>
-                <p className="text-[hsla(0,2%,42%,1)]">60%</p>
-              </div>
-            </div>
-          </li>
-
-          <li className="flex gap-2 border border-solid border-[hsla(0,0%,85%,1)] p-2 rounded-xl">
-            <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-              <FileText />
-            </div>
-            <div className="flex-1 flex flex-col gap-2">
-              <div>
-                <div className="flex justify-between">
-                  <p className="font-bold">Chemical Interactions</p>
-                  <p className="text-[hsla(210,79%,46%,1)]">Processing...</p>
-                </div>
-                <p className="text-sm text-[hsla(0,2%,42%,1)]">2.8MB</p>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <div className="bg-[hsla(0,0%,85%,1)] w-full h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[hsla(210,79%,46%,1)] h-full w-[75%]"></div>
-                </div>
-                <p className="text-[hsla(0,2%,42%,1)]">75%</p>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <RecentUploads recentUploadActivity={recentUploadActivity} />
       </div>
     </section>
   );
