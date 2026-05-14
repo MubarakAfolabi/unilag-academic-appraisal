@@ -1,6 +1,8 @@
+require("dotenv").config();
 const queries = require("../prisma/queries.js");
 const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const validateUser = [
   body("firstname")
@@ -71,4 +73,37 @@ const registerUser = [
   },
 ];
 
-module.exports = { registerUser };
+const login = async (req, res) => {
+  try {
+    console.log(req.params);
+
+    const { email, password } = req.body;
+    const user = await queries.findUserByEmail(email);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email or password" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    return res.status(200).json({ success: true, token });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+module.exports = { registerUser, login };
