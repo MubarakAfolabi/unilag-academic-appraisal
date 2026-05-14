@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type AuthPageProps = {
   title: string;
@@ -16,7 +17,38 @@ export default function AuthPage({
   footerLink,
   forgotLink,
 }: AuthPageProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const role = footerLink.startsWith("/login-publisher")
+    ? "REVIEWER"
+    : "PUBLISHER";
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(`${apiUrl}/api/${role}/login`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setResponseData(data);
+      });
+  };
+
+  useEffect(() => {
+    if (responseData?.success) {
+      localStorage.setItem("token", responseData.token);
+      router.replace("/dashboard");
+    }
+  }, [responseData]);
 
   return (
     <main
@@ -45,7 +77,16 @@ export default function AuthPage({
             <p className="text-sm text-slate-600">Enter Login Details Here</p>
           </div>
 
-          <form className="flex flex-col gap-4">
+          {!responseData?.success && (
+            <aside className="text-red-500 text-center">
+              {responseData?.message}
+            </aside>
+          )}
+
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div>
               <label className="mb-1 block text-sm font-semibold text-slate-900">
                 Email
@@ -54,6 +95,8 @@ export default function AuthPage({
                 type="email"
                 placeholder="Enter your email"
                 className="w-full rounded-md bg-[hsla(203,100%,89%,1)] p-3 text-md text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -66,6 +109,8 @@ export default function AuthPage({
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="w-full rounded-md bg-[hsla(203,100%,89%,1)] p-3 text-md text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"

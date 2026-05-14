@@ -75,7 +75,7 @@ const registerUser = [
 
 const login = async (req, res) => {
   try {
-    console.log(req.params);
+    const { role } = req.params;
 
     const { email, password } = req.body;
     const user = await queries.findUserByEmail(email);
@@ -92,6 +92,15 @@ const login = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Invalid email or password" });
+    }
+
+    console.log(user.role, role);
+
+    if (user.role !== role) {
+      return res.status(403).json({
+        success: false,
+        message: `This account is registered as a ${user.role.toLowerCase()}. Please use the ${user.role.toLowerCase()} login.`,
+      });
     }
 
     const token = jwt.sign(
