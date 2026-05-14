@@ -6,31 +6,30 @@ export default function HomePage() {
       className="min-h-screen bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/home-bg.jpg')" }}
     >
-      <div className="min-h-screen bg-black/45 flex items-end px-6 py-10 md:px-12 lg:px-16">
-        <section className="max-w-xl text-white pb-12 md:pb-20">
-          <h1 className="text-5xl md:text-6xl font-extrabold leading-[0.95] drop-shadow-lg">
-            University of Lagos
-          </h1>
+      <div className="min-h-screen bg-black/45">
+        <section className="h-screen flex flex-col items-center pt-20 p-4 gap-8 lg:justify-end lg:items-start lg:p-30">
+          <div className="flex flex-col text-center gap-1 lg:text-start lg:gap-2">
+            <h1 className="text-white font-extrabold text-4xl lg:text-6xl">
+              University of Lagos
+            </h1>
+            <p className="text-white font-bold text-lg lg:text-2xl">
+              (Academic Appraisal)
+            </p>
+            <p className="text-white font-bold lg:text-lg">
+              Centralized Online Research Assessment and Submission System
+            </p>
+          </div>
 
-          <p className="mt-4 text-base md:text-lg font-semibold uppercase tracking-wide">
-            (Academic Appraisal)
-          </p>
-
-          <p className="mt-2 max-w-lg text-sm md:text-base font-medium text-white/95">
-            Centralized Online Research Assessment and Submission System
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="flex items-center gap-4">
             <Link
+              className="bg-[hsla(155,36%,42%,1)] font-bold text-white p-2 rounded-md lg:text-lg cursor-pointer"
               href="/login-publisher"
-              className="rounded-md bg-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-500"
             >
               Publisher Sign-in
             </Link>
-
             <Link
+              className="bg-[hsla(201,83%,70%,1)] font-bold text-white p-2 rounded-md lg:text-lg cursor-pointer"
               href="/login-reviewer"
-              className="rounded-md bg-sky-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-sky-400"
             >
               Reviewer Sign-in
             </Link>
