@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { LogOut, Bell } from "lucide-react";
 
-import { UserProfile } from "@/constant/reviewerDashboard";
-import { recentSubmissions } from "@/constant/publisherDashboard";
-import RecentSubmissions from "@/components/RecentSubmissions";
+import { reviewerPerformance , pendingSubmissions, reviewerOverviewCards, UserProfile, recentActivity } from "@/constant/reviewerDashboard";
+import PendingSubmissions from "@/components/PendingSubmission";
 import { recentUploadActivity } from "@/constant/publisherDashboard";
-import { publisherOverviewCards } from "@/constant/publisherDashboard";
 import RecentUploads from "@/components/RecentUploads";
-import PublisherOverviewCards from "@/components/PublisherOverviewCards";
+import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
+import RecentActivity from "@/components/RecentActivity";
+import ReviewPerformance from "@/components/ReviewPerformance";
 
 export default function Dashboard() {
   return (
@@ -61,8 +61,8 @@ export default function Dashboard() {
       
             <div className="flex flex-col gap-2">
               <h2 className="text-lg font-semibold">Submission Overview</h2>
-              <PublisherOverviewCards
-                publisherOverviewCards={publisherOverviewCards}
+              <ReviewerOverviewCards
+                reviewerOverviewCards={reviewerOverviewCards}
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -72,6 +72,7 @@ export default function Dashboard() {
                   View all
                 </p>
               </div>
+              <PendingSubmissions pendingSubmissions={pendingSubmissions} />
             </div>
             <div className="flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Recent Activity</h2>
@@ -79,12 +80,15 @@ export default function Dashboard() {
                   View all
                 </p>
               </div>
+              <RecentActivity recentActivity={recentActivity} />
+
             <div className="flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Review Performance</h2>
                 <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
                   View all
                 </p>
               </div>
+              <ReviewPerformance reviewPerformance={reviewerPerformance} />
               
             
     </section>

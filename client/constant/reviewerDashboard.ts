@@ -1,7 +1,11 @@
-export type OverviewCard = {
+import { CircleCheckBig, Clock4, Hourglass, LucideIcon } from "lucide-react";
+
+export type OverviewCard= {
   label: string;
   value: string;
-  icon: string;
+  icon: LucideIcon;
+  iconColor: string;
+  iconWrapper: string;
   bgClass: string;
 };
 
@@ -37,20 +41,26 @@ export const reviewerOverviewCards: OverviewCard[] = [
   {
     label: "Pending Reviews",
     value: "24",
-    icon: "/dashboard-icons/clock-4.svg",
-    bgClass: "bg-[#e8f0ff]",
+    icon: Clock4,
+    iconColor: "text-[hsla(210,79%,46%,1)]",
+    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+    bgClass: "bg-[hsl(209,67%,89%)]",
   },
   {
     label: "In Progress",
     value: "6",
-    icon: "/dashboard-icons/hourglass.svg",
-    bgClass: "bg-[#f5f3a5]",
+    icon: Hourglass,
+    iconColor: "text-[hsla(45,100%,51%,1)]",
+    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+    bgClass: "bg-[hsl(45,100%,85%)]",
   },
   {
     label: "Completed",
     value: "18",
-    icon: "/dashboard-icons/approvedCardIcon.svg",
-    bgClass: "bg-[#dff3e8]",
+    icon: CircleCheckBig,
+    iconColor: "text-[hsla(150,90%,24%,1)]",
+    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+    bgClass: "bg-[hsl(150,28%,85%)]",
   },
 ];
 
@@ -77,7 +87,7 @@ export const pendingSubmissions: PendingSubmissionItem[] = [
   },
 ];
 
-export const recentActivities: RecentActivityItem[] = [
+export const recentActivity: RecentActivityItem[] = [
   {
     title: "Reviewed: Blockchain Tech in Education",
     date: "Reviewed on March 20, 2026",
@@ -105,18 +115,19 @@ export const reviewerPerformance: PerformanceItem[] = [
     value: "18",
     label: "Completed Reviews",
     sublabel: "This month",
-    icon: "/dashboard-icons/file-text.svg",
+    icon: "Check",
   },
   {
     value: "2.4 Days",
     label: "Average Review Time",
     sublabel: "This month",
-    icon: "/dashboard-icons/file-text.svg",
+    icon: "Clock4",
   },
   {
     value: "4.8 / 5",
     label: "Quality Score",
     sublabel: "Based on editor feedback",
-    icon: "/dashboard-icons/file-text.svg",
+    icon: "Star",
   },
 ];
+
