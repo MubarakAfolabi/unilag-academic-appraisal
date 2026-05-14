@@ -17,7 +17,7 @@ model User {
   id        Int      @id @default(autoincrement())
   firstname String
   lastname  String
-  title     String
+  title     String   @default("Dr.")
   email     String   @unique
   password  String
   createdAt DateTime @default(now())

@@ -6,6 +6,20 @@ const findUserById = async (id) => {
       id,
     },
   });
+  return user;
 };
 
-module.exports = { findUserById };
+const createUser = async (firstname, lastname, email, password, role) => {
+  const user = prisma.user.create({
+    data: {
+      firstname,
+      lastname,
+      email,
+      password,
+      role,
+    },
+  });
+  return user;
+};
+
+module.exports = { findUserById, createUser };
