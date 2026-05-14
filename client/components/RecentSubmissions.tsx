@@ -37,7 +37,7 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
   };
 
   return (
-    <ul className="border border-solid border-[hsla(0,0%,85%,1)] p-2 rounded-xl flex flex-col gap-4">
+    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex flex-col gap-4">
       {recentSubmissions.map((submission, index) => {
         return (
           <li key={index} className="flex flex-col gap-4">
@@ -48,7 +48,7 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
               <div className="flex-1 flex items-center gap-2">
                 <div className="flex-1">
-                  <p className="font-bold">{submission.title}</p>
+                  <p className="font-semibold">{submission.title}</p>
                   <p className="text-sm text-[hsla(0,2%,42%,1)]">
                     {submission.date}
                   </p>
