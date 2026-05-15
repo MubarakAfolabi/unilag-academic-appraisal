@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { LogOut, Bell } from "lucide-react";
 
@@ -12,10 +14,16 @@ import PendingSubmissions from "@/components/PendingSubmission";
 import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
 import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
+import LogoutModal from "@/components/LogoutModal";
+import { useState } from "react";
 
 export default function Dashboard() {
+  const [modal, setModal] = useState(false);
+
   return (
     <section className="flex flex-col p-4 gap-6">
+      {modal && <LogoutModal onClose={() => setModal(false)} />}
+
       <div className="flex items-center justify-between">
         <div className="flex-1 flex items-center gap-2">
           <div>
@@ -34,7 +42,10 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer">
+          <button
+            className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
+            onClick={() => setModal(true)}
+          >
             <LogOut size={22} />
           </button>
           <button className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative">
