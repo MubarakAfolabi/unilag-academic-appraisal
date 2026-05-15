@@ -15,15 +15,17 @@ export default function RecentUploads({ recentUploadActivity }: Props) {
             className="flex gap-2 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl"
           >
             <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-              <FileText />
+              <FileText className="lg:w-9 lg:h-9" />
             </div>
             <div className="flex-1 flex flex-col gap-2">
               <div>
                 <div className="flex justify-between">
-                  <p className="font-semibold">{file.filename}</p>
+                  <p className="font-semibold lg:text-lg">{file.filename}</p>
                   <p className="text-[hsla(210,79%,46%,1)]">{file.status}</p>
                 </div>
-                <p className="text-sm text-[hsla(0,2%,42%,1)]">{file.meta}</p>
+                <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+                  {file.meta}
+                </p>
               </div>
 
               <div className="flex items-center gap-6">
