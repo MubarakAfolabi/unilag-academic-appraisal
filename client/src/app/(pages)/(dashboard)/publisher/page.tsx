@@ -12,12 +12,13 @@ import RecentUploads from "@/components/RecentUploads";
 import PublisherOverviewCards from "@/components/PublisherOverviewCards";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
+import PublisherNavigationLayout from "@/components/PublisherNavigationLayout";
 
 export default function Dashboard() {
   const [modal, setModal] = useState(false);
 
   return (
-    <section className="flex flex-col p-4 gap-6">
+    <section className="flex flex-col p-4 gap-6 mb-15">
       {modal && <LogoutModal onClose={() => setModal(false)} />}
 
       <div className="flex items-center justify-between">
@@ -93,6 +94,8 @@ export default function Dashboard() {
         <h2 className="text-lg font-semibold">Recent Upload Activity</h2>
         <RecentUploads recentUploadActivity={recentUploadActivity} />
       </div>
+
+      <PublisherNavigationLayout />
     </section>
   );
 }
