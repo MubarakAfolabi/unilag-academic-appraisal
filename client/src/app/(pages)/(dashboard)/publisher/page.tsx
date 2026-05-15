@@ -77,7 +77,7 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="gap-4 items-center hidden md:flex">
             <button className="bg-[hsla(0,0%,96%,1)] h-fit w-fit p-2 rounded-md relative cursor-pointer">
               <span className="bg-[hsla(0,93%,52%,1)] absolute top-[-3] right-[-3] h-3 w-3 rounded-full"></span>
               <Bell />

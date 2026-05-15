@@ -88,16 +88,10 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                   })}
                 </div>
               </div>
-
-              {index < recentSubmissions.length - 1 && (
-                <hr className="w-full border-[hsla(0,0%,85%,1)] lg:hidden" />
-              )}
             </li>
 
             {index < recentSubmissions.length - 1 && (
-              <div>
-                <hr className="w-full border-[hsla(0,0%,85%,1)] hidden lg:block" />
-              </div>
+              <hr className="w-full border-[hsla(0,0%,85%,1)]" />
             )}
           </Fragment>
         );
