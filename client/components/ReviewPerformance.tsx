@@ -35,14 +35,16 @@ export default function ReviewPerformance({ reviewPerformance }: Props) {
   };
 
   return (
-    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex gap-4">
+    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex items-center justify-between gap-4">
       {reviewPerformance.map((item, index) => (
-        <li key={index} className="flex flex-col items-center gap-2">
+        <li key={index} className="flex flex-col items-center gap-2 ">
           {renderIcon(item.icon)}
           <div className="flex flex-col items-center text-center">
-            <p className="text-xl font-semibold ">{item.value}</p>
-            <p className="">{item.label}</p>
-            <p className="text-sm text-[hsla(0,2%,42%,1)]">{item.sublabel}</p>
+            <p className="text-xl font-semibold lg:text-2xl">{item.value}</p>
+            <p>{item.label}</p>
+            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-mg">
+              {item.sublabel}
+            </p>
           </div>
         </li>
       ))}

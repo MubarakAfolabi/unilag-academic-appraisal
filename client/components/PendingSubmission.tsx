@@ -18,13 +18,15 @@ export default function PendingSubmissions({ pendingSubmissions }: Props) {
           }`}
         >
           <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-            <FileText />
+            <FileText className="lg:w-9 lg:h-9" />
           </div>
 
           <div className="flex-1 flex flex-col">
-            <p className="font-semibold">{submission.title}</p>
+            <p className="font-semibold lg:text-lg">{submission.title}</p>
             <p>{submission.author}</p>
-            <p className="text-sm text-[hsla(0,2%,42%,1)]">{submission.date}</p>
+            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+              {submission.date}
+            </p>
           </div>
 
           <div className="flex justify-center items-center text-[hsla(0,2%,42%,1)]">

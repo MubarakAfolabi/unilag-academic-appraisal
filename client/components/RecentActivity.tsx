@@ -41,8 +41,10 @@ export default function RecentActivity({ recentActivity }: Props) {
           {renderIcon(activity.iconState)}
 
           <div className="flex-1 flex flex-col">
-            <p className="font-semibold">{activity.title}</p>
-            <p className="text-sm text-[hsla(0,2%,42%,1)]">{activity.date}</p>
+            <p className="font-semibold lg:text-lg">{activity.title}</p>
+            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+              {activity.date}
+            </p>
           </div>
 
           <div className="text-[hsla(0,2%,42%,1)]">
