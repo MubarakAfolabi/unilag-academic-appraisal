@@ -76,7 +76,7 @@ export default function ReviewerNavigationLayout() {
           />
           <div className="text-white">
             <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
-            <p className="text-[hsla(0,2%,42%,1)]">Publisher&apos;s Portal</p>
+            <p className="text-[hsla(0,2%,42%,1)]">Reviewer&apos;s Portal</p>
           </div>
         </div>
 
