@@ -1,6 +1,6 @@
 import { CircleCheckBig, Clock4, Hourglass, LucideIcon } from "lucide-react";
 
-export type OverviewCard= {
+export type OverviewCard = {
   label: string;
   value: string;
   icon: LucideIcon;
@@ -26,6 +26,14 @@ export type PerformanceItem = {
   label: string;
   sublabel: string;
   icon: string;
+};
+
+export type Reviews = {
+  title: string;
+  manuscriptId: string;
+  date: string;
+  dueDate?: string;
+  status: string;
 };
 
 export const UserProfile = {
@@ -106,7 +114,7 @@ export const recentActivity: RecentActivityItem[] = [
   {
     title: "Reviewed: Cloud Computing Adoption",
     date: "Reviewed on April 2, 2026",
-    iconState: "info",
+    iconState: "success",
   },
 ];
 
@@ -131,3 +139,61 @@ export const reviewerPerformance: PerformanceItem[] = [
   },
 ];
 
+export const allReviews: Reviews[] = [
+  {
+    title: "AI in Healthcare: Opportunities and Challenges 1",
+    manuscriptId: "RH-2026-0156",
+    date: "Submitted on March 21, 2026",
+    dueDate: "April 23, 2026",
+    status: "Completed",
+  },
+  {
+    title: "The Role of IoT in Smart Cities",
+    manuscriptId: "RH-2026-0157",
+    date: "Submitted on February 13, 2026",
+    dueDate: "March 15, 2026",
+    status: "Completed",
+  },
+  {
+    title: "Quantum Computing: Current Advances",
+    manuscriptId: "RH-2026-0158",
+    date: "Submitted on March 1, 2026",
+    dueDate: "March 3, 2026",
+    status: "Completed",
+  },
+  {
+    title: "Blockchain Technology in Education",
+    manuscriptId: "RH-2026-0159",
+    date: "Submitted on April 23, 2026",
+    dueDate: "April 25, 2026",
+    status: "Completed",
+  },
+  {
+    title: "The future of Renewable Energy",
+    manuscriptId: "RH-2026-0160",
+    date: "Submitted on April 24, 2026",
+    dueDate: "April 26, 2026",
+    status: "Pending"
+  },
+  {
+    title: "AI in Healthcare: Opportunities and Challenges 2",
+    manuscriptId: "RH-2026-0161",
+    date: "Submitted on April 25, 2026",
+    dueDate: "April 27, 2026",
+    status: "Pending"
+  },
+  {
+    title: "AI in Healthcare: Opportunities and Challenges 3",
+    manuscriptId: "RH-2026-0162",
+    date: "Submitted on May 1, 2026",
+    dueDate: "May 3, 2026",
+    status: "Pending"
+  },
+  {
+    title: "AI in Healthcare: Opportunities and Challenges 4",
+    manuscriptId: "RH-2026-0163",
+    date: "Submitted on May 5, 2026",
+    dueDate: "May 7, 2026",
+    status: "Pending"
+  },
+];

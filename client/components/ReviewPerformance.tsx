@@ -5,42 +5,27 @@ type Props = {
   reviewPerformance: PerformanceItem[];
 };
 
-export default function ReviewPerformance({
-  reviewPerformance,
-}: Props) {
-  
+export default function ReviewPerformance({ reviewPerformance }: Props) {
   const renderIcon = (icon: string) => {
     switch (icon) {
       case "Check":
         return (
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#dff3e8]">
-            <Check
-              size={18}
-              className="text-[#1d8f5f]"
-              strokeWidth={3}
-            />
+          <div className="bg-[hsla(150,90%,24%,0.2)] text-[hsla(150,90%,24%,1)] w-fit p-1 rounded-full">
+            <Check size={22} />
           </div>
         );
 
       case "Clock4":
         return (
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#dbeafe]">
-            <Clock4
-              size={18}
-              className="text-[#2d77c7]"
-              strokeWidth={2.5}
-            />
+          <div className="bg-[hsla(210,79%,46%,0.2)] text-[hsla(210,79%,46%,1)] w-fit p-1 rounded-full">
+            <Clock4 size={22} />
           </div>
         );
 
       case "Star":
         return (
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fff4cc]">
-            <Star
-              size={18}
-              className="text-[#f4b400]"
-              strokeWidth={2.5}
-            />
+          <div className="bg-[hsla(45,100%,51%,0.1)] text-[hsla(45,100%,51%,1)] w-fit p-1 rounded-full">
+            <Star size={22} />
           </div>
         );
 
@@ -50,37 +35,19 @@ export default function ReviewPerformance({
   };
 
   return (
-    <div className="rounded-2xl border border-[#e5e5e5] bg-white p-5 shadow-sm">
-      <div className="mb-6">
-        <h2 className="text-[24px] font-semibold text-[#111111]">
-          Review Performance
-        </h2>
-      </div>
-
-      <ul className="grid grid-cols-1 divide-y divide-[#eeeeee] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-        
-        {reviewPerformance.map((item, index) => (
-          <li
-            key={index}
-            className="flex items-center gap-4 px-2 py-6 lg:px-8"
-          >
-                        {renderIcon(item.icon)}
-            <div>
-              <h3 className="text-[32px] font-semibold leading-none text-[#111111]">
-                {item.value}
-              </h3>
-
-              <p className="mt-1 text-[17px] text-[#222222]">
-                {item.label}
-              </p>
-
-              <p className="mt-1 text-[13px] text-[#7a7a7a]">
-                {item.sublabel}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex items-center justify-between gap-4">
+      {reviewPerformance.map((item, index) => (
+        <li key={index} className="flex flex-col items-center gap-2 ">
+          {renderIcon(item.icon)}
+          <div className="flex flex-col items-center text-center">
+            <p className="text-xl font-semibold lg:text-2xl">{item.value}</p>
+            <p>{item.label}</p>
+            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-mg">
+              {item.sublabel}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }

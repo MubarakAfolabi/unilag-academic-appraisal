@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type AuthPageProps = {
   title: string;
@@ -16,7 +17,38 @@ export default function AuthPage({
   footerLink,
   forgotLink,
 }: AuthPageProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const role = footerLink.startsWith("/login-publisher")
+    ? "REVIEWER"
+    : "PUBLISHER";
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(`${apiUrl}/api/${role}/login`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setResponseData(data);
+      });
+  };
+
+  useEffect(() => {
+    if (responseData?.success) {
+      localStorage.setItem("token", responseData.token);
+      router.replace("/dashboard");
+    }
+  }, [responseData]);
 
   return (
     <main
@@ -24,16 +56,16 @@ export default function AuthPage({
       style={{ backgroundImage: "url('/login-bg.jpg')" }}
     >
       <div className="w-full max-w-2xl rounded-sm bg-white/75 shadow-2xl ring-1 ring-white/40 backdrop-blur-md">
-        <div className="px-6 py-6 md:px-10">
+        <div className="px-6 py-4 md:px-10 flex flex-col gap-2">
           <div className="flex justify-center">
-            <div className="mb-4 relative h-32 w-32">
+            <div className="relative h-50 w-50">
               <Image
                 src="/unilaglogo.svg"
                 alt="Company Logo"
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 768px) 128px, 128px"
+                sizes="(max-width: 768px) 140px, 140px"
               />
             </div>
           </div>
@@ -42,12 +74,19 @@ export default function AuthPage({
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-950">
               {title}
             </h2>
-            <p className="mt-1 text-xs md:text-sm text-slate-600">
-              Enter Login Details Here
-            </p>
+            <p className="text-sm text-slate-600">Enter Login Details Here</p>
           </div>
 
-          <form className="mt-6 space-y-4">
+          {!responseData?.success && (
+            <aside className="text-red-500 text-center">
+              {responseData?.message}
+            </aside>
+          )}
+
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div>
               <label className="mb-1 block text-sm font-semibold text-slate-900">
                 Email
@@ -55,7 +94,9 @@ export default function AuthPage({
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="h-11 w-full rounded-sm border border-sky-200 bg-sky-100 px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                className="w-full rounded-md bg-[hsla(203,100%,89%,1)] p-3 text-md text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -67,7 +108,9 @@ export default function AuthPage({
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="h-11 w-full rounded-sm border border-sky-200 bg-sky-100 px-4 pr-12 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                  className="w-full rounded-md bg-[hsla(203,100%,89%,1)] p-3 text-md text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
@@ -83,15 +126,15 @@ export default function AuthPage({
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-4 pt-2">
+            <div className="flex items-start justify-between gap-4">
               <Link
                 href={forgotLink}
-                className="text-xs text-slate-600 hover:text-slate-950"
+                className="text-sm text-slate-600 hover:text-slate-950"
               >
                 Forgot Password?
               </Link>
               <button
-                type="button"
+                type="submit"
                 className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600 cursor-pointer"
               >
                 Login
@@ -101,15 +144,15 @@ export default function AuthPage({
 
           {footerLink.startsWith("/login-reviewer") ? (
             <div className="flex gap-2 items-center">
-              <p className="text-xs">Are you a reviewer?</p>
-              <Link href={footerLink} className="text-xs font-bold underline">
+              <p className="text-sm">Are you a reviewer?</p>
+              <Link href={footerLink} className="text-sm font-bold underline">
                 Reviewer Login
               </Link>
             </div>
           ) : (
             <div className="flex gap-2 items-center">
-              <p className="text-xs">Are you a publisher?</p>
-              <Link href={footerLink} className="text-xs font-bold underline">
+              <p className="text-sm">Are you a publisher?</p>
+              <Link href={footerLink} className="text-sm font-bold underline">
                 Publisher Login
               </Link>
             </div>
