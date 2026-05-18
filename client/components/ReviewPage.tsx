@@ -7,22 +7,34 @@ type Props = {
 };
 
 export default function ReviewPage({ allReviews }: Props) {
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed">(
+    "all",
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
-
   const filteredReviews = allReviews.filter((review) => {
-    if (activeTab === "pending" && review.status?.toLowerCase() !== "pending") return false;
-    if (activeTab === "completed" && review.status?.toLowerCase() !== "completed") return false;
+    if (activeTab === "pending" && review.status?.toLowerCase() !== "pending")
+      return false;
+    if (
+      activeTab === "completed" &&
+      review.status?.toLowerCase() !== "completed"
+    )
+      return false;
 
     // 2. Filter by Search Query
-    return review.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           review.manuscriptId.toLowerCase().includes(searchQuery.toLowerCase());
+    return (
+      review.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      review.manuscriptId.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   });
 
   // Count metrics for tab labels
-  const pendingCount = allReviews.filter(r => r.status?.toLowerCase() === "pending").length;
-  const completedCount = allReviews.filter(r => r.status?.toLowerCase() === "completed").length;
+  const pendingCount = allReviews.filter(
+    (r) => r.status?.toLowerCase() === "pending",
+  ).length;
+  const completedCount = allReviews.filter(
+    (r) => r.status?.toLowerCase() === "completed",
+  ).length;
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:space-y-6 bg-white">
@@ -33,32 +45,40 @@ export default function ReviewPage({ allReviews }: Props) {
           className={`pb-3 relative transition-colors ${activeTab === "all" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           All Reviews
-          {activeTab === "all" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "all" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
         <button
           onClick={() => setActiveTab("pending")}
           className={`pb-3 relative transition-colors ${activeTab === "pending" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           Pending({pendingCount})
-          {activeTab === "pending" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "pending" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
         <button
           onClick={() => setActiveTab("completed")}
           className={`pb-3 relative transition-colors ${activeTab === "completed" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           Completed({completedCount})
-          {activeTab === "completed" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "completed" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
       </div>
 
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+      <div className="border border-solid border-[hsla(0,0%,85%,1)] text-[hsla(0,2%,42%,1)] rounded-lg p-2 flex gap-2 items-center">
+        <div>
+          <Search className="" />
+        </div>
         <input
           type="text"
           placeholder="Search reviews..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 md:pl-12 pr-4 py-2.5 md:py-3 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:border-blue-500 placeholder-gray-400"
+          className="w-full outline-none"
         />
       </div>
 
@@ -67,7 +87,10 @@ export default function ReviewPage({ allReviews }: Props) {
           const isPending = review.status?.toLowerCase() === "pending";
 
           return (
-            <li key={review.manuscriptId || index} className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 py-5 first:pt-1 last:pb-1">
+            <li
+              key={review.manuscriptId || index}
+              className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 py-5 first:pt-1 last:pb-1"
+            >
               {/* Left Column: Icon and Text Details */}
               <div className="flex items-start gap-4 flex-1 min-w-0">
                 <div className="bg-blue-50 text-blue-500 p-3 rounded-xl shrink-0 mt-0.5">
@@ -78,10 +101,16 @@ export default function ReviewPage({ allReviews }: Props) {
                     {review.title}
                   </h4>
                   <p className="text-xs text-gray-400 font-medium">
-                    Manuscript ID: <span className="text-gray-500 font-normal">{review.manuscriptId}</span>
+                    Manuscript ID:{" "}
+                    <span className="text-gray-500 font-normal">
+                      {review.manuscriptId}
+                    </span>
                   </p>
                   <p className="text-xs text-gray-400 font-medium">
-                    Submitted on <span className="text-gray-500 font-normal">{review.date}</span>
+                    Submitted on{" "}
+                    <span className="text-gray-500 font-normal">
+                      {review.date}
+                    </span>
                   </p>
                 </div>
               </div>
@@ -99,8 +128,12 @@ export default function ReviewPage({ allReviews }: Props) {
                       Completed
                     </span>
                   )}
-                  <p className="text-[10px] text-gray-400 font-medium leading-none pt-1">Due in 2 days</p>
-                  <p className="text-[10px] text-gray-400 leading-none">{review.dueDate}</p>
+                  <p className="text-[10px] text-gray-400 font-medium leading-none pt-1">
+                    Due in 2 days
+                  </p>
+                  <p className="text-[10px] text-gray-400 leading-none">
+                    {review.dueDate}
+                  </p>
                 </div>
 
                 {/* Conditional Action Button */}
