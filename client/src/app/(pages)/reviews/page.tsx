@@ -11,6 +11,7 @@ import {
   reviewerOverviewCards,
 } from "@/constant/reviewerDashboard";
 import ReviewPage from "@/components/ReviewList";
+import ReviewList from "@/components/ReviewList";
 
 export default function Reviews() {
   const [modal, setModal] = useState(false);
@@ -87,7 +88,7 @@ export default function Reviews() {
       </div>
 
       <div className="md:px-6">
-        <ReviewPage allReviews={allReviews} />
+        <ReviewList allReviews={allReviews} />
       </div>
     </section>
   );

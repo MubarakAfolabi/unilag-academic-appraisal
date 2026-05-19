@@ -136,6 +136,11 @@ export default function AuthPage({
               <button
                 type="submit"
                 className="rounded-md bg-rose-700 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-rose-600 cursor-pointer"
+                onClick={() => {
+                  footerLink.startsWith("/login-publisher")
+                    ? router.push("/reviewer")
+                    : router.push("/publisher");
+                }}
               >
                 Login
               </button>

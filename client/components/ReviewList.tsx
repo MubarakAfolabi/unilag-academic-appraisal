@@ -6,7 +6,7 @@ type Props = {
   allReviews: Reviews[];
 };
 
-export default function ReviewPage({ allReviews }: Props) {
+export default function ReviewList({ allReviews }: Props) {
   const navArr = [
     {
       name: "All",

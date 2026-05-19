@@ -1,5 +1,5 @@
-// import { userProfile } from "@/constant/publisherDashboard";
-import { userProfile } from "@/constant/reviewerDashboard";
+"use client";
+import { usePathname } from "next/navigation";
 import ReviewerNavigationLayout from "@/components/ReviewerNavigationLayout";
 import PublisherNavigationLayout from "@/components/PublisherNavigationLayout";
 
@@ -8,9 +8,11 @@ export default function PageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isPublisher = pathname.includes("/publisher");
   return (
     <div className="flex md:h-screen overflow-hidden">
-      {userProfile.role === "PUBLISHER" ? (
+      {isPublisher ? (
         <PublisherNavigationLayout />
       ) : (
         <ReviewerNavigationLayout />

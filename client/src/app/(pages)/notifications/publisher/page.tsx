@@ -1,18 +1,12 @@
 "use client";
 
-import {
-  ChevronLeft,
-  Check,
-  FileText,
-  ChevronRight,
-  CircleCheck,
-  MessageSquareText,
-  Clock,
-  Megaphone,
-} from "lucide-react";
-import { Fragment, useState } from "react";
+import { ChevronLeft, Check } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { userProfile } from "@/constant/publisherDashboard";
+import PublisherNotification from "@/components/PublisherNotification";
 
-export default function publisherNotifications() {
+export default function PublisherNotifications() {
   const [filter, setFilter] = useState(0);
 
   const navArr = [
@@ -26,64 +20,34 @@ export default function publisherNotifications() {
     },
   ];
 
-  const notificationsArr = [
-    {
-      title: "New review assigned",
-      details:
-        "You have been assigned a review for “Deep Learning Approaches in Medical Imaging” by...",
-      timeReceived: "10 mins ago",
-      icon: <FileText />,
-      iconColor: "hsla(261,79%,54%,1)",
-      iconBgColor: "hsla(261,79%,54%,0.25)",
-    },
-    {
-      title: "Review submitted",
-      details:
-        "Your review for “Blockchain Technology Overview”has been submitted successfully.",
-      timeReceived: "1 hour ago",
-      icon: <CircleCheck />,
-      iconColor: "hsla(124,93%,26%,1)",
-      iconBgColor: "hsla(129,48%,95%,1)",
-    },
-    {
-      title: "Author responded to your review",
-      details:
-        "Dr. Samuel Okoro has responded to your review for “Advanced Alogorithms Lecture Notes.",
-      timeReceived: "Yesterday",
-      icon: <MessageSquareText />,
-      iconColor: "hsla(216,59%,54%,1)",
-      iconBgColor: "hsla(216,59%,54%,0.25)",
-    },
-    {
-      title: "Reviewer reminder",
-      details: "Please complete your review for “Mobile Computing trends”",
-      timeReceived: "Yesterday",
-      icon: <Clock />,
-      iconColor: "hsla(35,98%,52%,1)",
-      iconBgColor: "hsla(35,98%,52%,0.25)",
-    },
-    {
-      title: "System announcement",
-      details: "New guidelines for reviewers have been updated ",
-      timeReceived: "Yesterday",
-      icon: <Megaphone />,
-      iconColor: "hsla(207,98%,50%,1)",
-      iconBgColor: "hsla(200,91%,95%,1)",
-    },
-  ];
-
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
-      <header>
-        <div className="flex items-center gap-2">
-          <div className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer">
+      <header className="md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
+        <div className="flex items-center gap-2 md:justify-between">
+          <div className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer md:hidden">
             <ChevronLeft />
           </div>
-          <h2 className="font-bold text-xl">Notifications</h2>
+          <div>
+            <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
+              Notifications
+            </h2>
+            <p className="text-[hsla(0,2%,42%,1)] md:text-lg hidden md:block">
+              Stay updated with your review activities and system alerts.
+            </p>
+          </div>
+
+          <div className="shrink-0 gap-4 items-center hidden md:flex">
+            <Image
+              src={userProfile.avatar}
+              alt="Profile Picture"
+              width={50}
+              height={50}
+            />
+          </div>
         </div>
       </header>
 
-      <nav className="flex items-center gap-6">
+      <nav className="flex items-center gap-6 md:px-6">
         {navArr.map((item, index) => {
           return (
             <div
@@ -103,58 +67,16 @@ export default function publisherNotifications() {
         })}
       </nav>
 
-      <div className="flex items-center gap-1 justify-end text-[hsla(216,59%,54%,1)]">
+      <div className="flex items-center gap-1 justify-end text-[hsla(216,59%,54%,1)] md:px-6">
         <div className="cursor-pointer">
           <Check />
         </div>
         <p className="cursor-pointer">Mark all as read</p>
-        <div></div>
       </div>
 
-      <ul className="flex flex-col gap-4 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl">
-        {notificationsArr.map((item, index) => {
-          return (
-            <Fragment key={index}>
-              <li className="flex items-center gap-1">
-                <div
-                  style={{ backgroundColor: item.iconColor }}
-                  className="shrink-0 h-2 w-2  rounded-full"
-                ></div>
-                <div
-                  style={{
-                    color: item.iconColor,
-                    backgroundColor: item.iconBgColor,
-                  }}
-                  className="w-fit h-fit p-2 rounded-full"
-                >
-                  {item.icon}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="font-semibold">{item.title}</p>
-                    <p className="text-sm text-[hsla(229,20%,33%,1)]">
-                      {item.timeReceived}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-[hsla(229,20%,33%,1)]">
-                      {item.details}
-                    </p>
-                    <div className="text-[hsla(230,31%,24%,1)] cursor-pointer">
-                      <ChevronRight />
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              {index < notificationsArr.length - 1 && (
-                <hr className="w-full border-[hsla(0,0%,85%,1)]" />
-              )}
-            </Fragment>
-          );
-        })}
-      </ul>
+      <div className="md:px-6">
+        <PublisherNotification />
+      </div>
     </section>
   );
 }
