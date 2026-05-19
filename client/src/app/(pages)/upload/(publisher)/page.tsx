@@ -1,18 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { LogOut, Bell } from "lucide-react";
-import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
+import { LogOut, Bell, Clock4, Hourglass} from "lucide-react";
+
+import { publisherOverviewCards, userProfile } from "@/constant/publisherDashboard";
+import UploadPage from "@/components/UploadPage";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
-import {
-  userProfile,
-  allReviews,
-  reviewerOverviewCards,
-} from "@/constant/reviewerDashboard";
-import ReviewPage from "@/components/ReviewPage";
 
-export default function Reviews() {
+export default function Dashboard() {
   const [modal, setModal] = useState(false);
 
   return (
@@ -29,6 +25,7 @@ export default function Reviews() {
               height={50}
             />
           </div>
+
           <div>
             <h2 className="font-bold text-md">Unilag Academic Appraisal</h2>
             <p className="text-sm text-[hsla(0,2%,42%,1)]">
@@ -36,6 +33,7 @@ export default function Reviews() {
             </p>
           </div>
         </div>
+
         <div className="flex items-center gap-4">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
@@ -48,6 +46,7 @@ export default function Reviews() {
 
             <Bell size={22} />
           </button>
+
           <div className="cursor-pointer">
             <Image
               src={userProfile.avatar}
@@ -62,12 +61,13 @@ export default function Reviews() {
       <div className="flex justify-between items-center md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
         <div>
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
-            My Reviews
+            Upload Article
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
-            Manage and track your reviews
+            Upload your submissions and documents
           </p>
         </div>
+
         <div className="gap-4 items-center hidden md:flex">
           <button className="bg-[hsla(0,0%,96%,1)] h-fit w-fit p-2 rounded-md relative cursor-pointer">
             <span className="bg-[hsla(0,93%,52%,1)] absolute top-[-3] right-[-3] h-3 w-3 rounded-full"></span>
@@ -83,9 +83,13 @@ export default function Reviews() {
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
-        <ReviewerOverviewCards reviewerOverviewCards={reviewerOverviewCards} />
+        <h2 className="text-lg font-semibold md:text-xl">
+          Submission Overview
+        </h2>
+        <UploadPage
+            publisherOverviewCards={publisherOverviewCards}
+         />
       </div>
-      <ReviewPage allReviews={allReviews} />
     </section>
   );
 }

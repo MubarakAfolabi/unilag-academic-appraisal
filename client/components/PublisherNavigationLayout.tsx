@@ -11,7 +11,7 @@ const navBarArr = [
   },
   {
     name: "Upload",
-    path: "/#",
+    path: "/upload/publisher",
     icon: <CloudUpload size={18} />,
   },
   {
@@ -29,12 +29,12 @@ const sideBarArr = [
   },
   {
     name: "Upload Article",
-    path: "/#",
+    path: "/upload",
     icon: <CloudUpload />,
   },
   {
     name: "Notifications",
-    path: "/#",
+    path: "/notifications/publisher",
     icon: <Bell />,
   },
   {
