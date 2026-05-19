@@ -10,7 +10,7 @@ import {
   allReviews,
   reviewerOverviewCards,
 } from "@/constant/reviewerDashboard";
-import ReviewPage from "@/components/ReviewPage";
+import ReviewPage from "@/components/ReviewList";
 
 export default function Reviews() {
   const [modal, setModal] = useState(false);
@@ -85,7 +85,10 @@ export default function Reviews() {
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
         <ReviewerOverviewCards reviewerOverviewCards={reviewerOverviewCards} />
       </div>
-      <ReviewPage allReviews={allReviews} />
+
+      <div className="md:px-6">
+        <ReviewPage allReviews={allReviews} />
+      </div>
     </section>
   );
 }
