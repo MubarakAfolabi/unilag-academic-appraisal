@@ -7,23 +7,35 @@ type Props = {
 };
 
 export default function ReviewPage({ allReviews }: Props) {
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed">(
+    "all",
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredReviews = allReviews.filter((review) => {
-    if (activeTab === "pending" && review.status?.toLowerCase() !== "pending") return false;
-    if (activeTab === "completed" && review.status?.toLowerCase() !== "completed") return false;
+    if (activeTab === "pending" && review.status?.toLowerCase() !== "pending")
+      return false;
+    if (
+      activeTab === "completed" &&
+      review.status?.toLowerCase() !== "completed"
+    )
+      return false;
 
-    return review.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           review.manuscriptId.toLowerCase().includes(searchQuery.toLowerCase());
+    return (
+      review.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      review.manuscriptId.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   });
 
-  const pendingCount = allReviews.filter(r => r.status?.toLowerCase() === "pending").length;
-  const completedCount = allReviews.filter(r => r.status?.toLowerCase() === "completed").length;
+  const pendingCount = allReviews.filter(
+    (r) => r.status?.toLowerCase() === "pending",
+  ).length;
+  const completedCount = allReviews.filter(
+    (r) => r.status?.toLowerCase() === "completed",
+  ).length;
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-4 md:space-y-6 bg-white">
-      
       {/* 1. Tabs Navigation - Horizontal scrolling enabled on tiny devices */}
       <div className="flex items-center gap-4 md:gap-8 border-b border-gray-100 text-xs md:text-sm font-medium text-gray-500 overflow-x-auto scrollbar-none whitespace-nowrap">
         <button
@@ -31,21 +43,27 @@ export default function ReviewPage({ allReviews }: Props) {
           className={`pb-3 relative transition-colors ${activeTab === "all" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           All Reviews
-          {activeTab === "all" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "all" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
         <button
           onClick={() => setActiveTab("pending")}
           className={`pb-3 relative transition-colors ${activeTab === "pending" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           Pending ({pendingCount})
-          {activeTab === "pending" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "pending" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
         <button
           onClick={() => setActiveTab("completed")}
           className={`pb-3 relative transition-colors ${activeTab === "completed" ? "text-blue-600 font-semibold" : "hover:text-gray-700"}`}
         >
           Completed ({completedCount})
-          {activeTab === "completed" && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />}
+          {activeTab === "completed" && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600" />
+          )}
         </button>
       </div>
 
@@ -67,8 +85,8 @@ export default function ReviewPage({ allReviews }: Props) {
           const isPending = review.status?.toLowerCase() === "pending";
 
           return (
-            <li 
-              key={review.manuscriptId || index} 
+            <li
+              key={review.manuscriptId || index}
               className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-5 first:pt-1 last:pb-1"
             >
               {/* Left Side Container */}
@@ -76,35 +94,43 @@ export default function ReviewPage({ allReviews }: Props) {
                 <div className="bg-blue-50 text-blue-500 p-2 md:p-3 rounded-lg md:rounded-xl shrink-0 mt-0.5">
                   <FileText className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
-                
+
                 <div className="flex flex-col space-y-1 min-w-0 flex-1">
                   <h4 className="font-bold text-gray-900 text-sm md:text-base leading-snug break-words pr-2 md:pr-0">
                     {review.title}
                   </h4>
                   <p className="text-[11px] md:text-xs text-gray-400 font-medium">
-                    Manuscript ID: <span className="text-gray-500 font-mono">{review.manuscriptId}</span>
+                    Manuscript ID:{" "}
+                    <span className="text-gray-500 font-mono">
+                      {review.manuscriptId}
+                    </span>
                   </p>
-                  
+
                   {/* Mobile-only Quick Info Badges */}
                   <div className="flex flex-wrap gap-2 pt-1 md:hidden">
                     <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 bg-gray-50 px-2 py-0.5 rounded">
-                      <Calendar className="h-3 w-3 text-gray-400" /> {review.date}
+                      <Calendar className="h-3 w-3 text-gray-400" />{" "}
+                      {review.date}
                     </span>
-                    <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded ${isPending ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                    <span
+                      className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded ${isPending ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}
+                    >
                       <Clock className="h-3 w-3" /> Due: {review.dueDate}
                     </span>
                   </div>
 
                   {/* Desktop-only Submission Date */}
                   <p className="hidden md:block text-xs text-gray-400 font-medium">
-                    Submitted on <span className="text-gray-500 font-normal">{review.date}</span>
+                    Submitted on{" "}
+                    <span className="text-gray-500 font-normal">
+                      {review.date}
+                    </span>
                   </p>
                 </div>
               </div>
 
               {/* Right Side Actions Container */}
               <div className="flex items-center justify-between md:justify-end gap-3 md:gap-4 border-t border-dashed border-gray-100 pt-3 md:pt-0 md:border-t-0 shrink-0">
-                
                 {/* Desktop-only Due Date & Status Box */}
                 <div className="hidden md:flex flex-col items-center text-center space-y-1 min-w-[100px]">
                   {isPending ? (
@@ -116,7 +142,9 @@ export default function ReviewPage({ allReviews }: Props) {
                       Completed
                     </span>
                   )}
-                  <p className="text-[10px] text-gray-400 leading-none pt-1">Due: {review.dueDate}</p>
+                  <p className="text-[10px] text-gray-400 leading-none pt-1">
+                    Due: {review.dueDate}
+                  </p>
                 </div>
 
                 {/* Action Button - Expands dynamically on small screens */}
@@ -135,7 +163,6 @@ export default function ReviewPage({ allReviews }: Props) {
                   <ChevronRight size={18} />
                 </div>
               </div>
-
             </li>
           );
         })}

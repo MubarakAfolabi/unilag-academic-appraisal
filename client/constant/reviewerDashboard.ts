@@ -36,7 +36,7 @@ export type Reviews = {
   status: string;
 };
 
-export const UserProfile = {
+export const userProfile = {
   fullName: "Dr. John Doe",
   subtitle: "Track your submissions and progress",
   role: "REVIEWER",
@@ -173,27 +173,27 @@ export const allReviews: Reviews[] = [
     manuscriptId: "RH-2026-0160",
     date: "Submitted on April 24, 2026",
     dueDate: "April 26, 2026",
-    status: "Pending"
+    status: "Pending",
   },
   {
     title: "AI in Healthcare: Opportunities and Challenges 2",
     manuscriptId: "RH-2026-0161",
     date: "Submitted on April 25, 2026",
     dueDate: "April 27, 2026",
-    status: "Pending"
+    status: "Pending",
   },
   {
     title: "AI in Healthcare: Opportunities and Challenges 3",
     manuscriptId: "RH-2026-0162",
     date: "Submitted on May 1, 2026",
     dueDate: "May 3, 2026",
-    status: "Pending"
+    status: "Pending",
   },
   {
     title: "AI in Healthcare: Opportunities and Challenges 4",
     manuscriptId: "RH-2026-0163",
     date: "Submitted on May 5, 2026",
     dueDate: "May 7, 2026",
-    status: "Pending"
+    status: "Pending",
   },
 ];

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Reviews } from "@/constant/reviewerDashboard";
 import { ChevronRight, FileText, Search } from "lucide-react";
 
@@ -37,7 +37,7 @@ export default function ReviewPage({ allReviews }: Props) {
   ).length;
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:space-y-6 bg-white">
+    <div className="flex flex-col gap-2">
       {/* 1. Tabs Navigation */}
       <div className="flex items-center gap-8 border-b border-gray-100 text-sm font-medium text-gray-500 pb-1">
         <button
@@ -82,77 +82,57 @@ export default function ReviewPage({ allReviews }: Props) {
         />
       </div>
 
-      <ul className="border border-gray-100 shadow-sm rounded-2xl p-4 flex flex-col divide-y divide-gray-100">
+      <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
         {filteredReviews.map((review, index) => {
           const isPending = review.status?.toLowerCase() === "pending";
 
           return (
-            <li
-              key={review.manuscriptId || index}
-              className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 py-5 first:pt-1 last:pb-1"
-            >
-              {/* Left Column: Icon and Text Details */}
-              <div className="flex items-start gap-4 flex-1 min-w-0">
-                <div className="bg-blue-50 text-blue-500 p-3 rounded-xl shrink-0 mt-0.5">
-                  <FileText className="h-6 w-6" />
-                </div>
-                <div className="flex flex-col space-y-1 min-w-0">
-                  <h4 className="font-bold text-gray-900 text-sm md:text-base leading-snug truncate">
-                    {review.title}
-                  </h4>
-                  <p className="text-xs text-gray-400 font-medium">
-                    Manuscript ID:{" "}
-                    <span className="text-gray-500 font-normal">
-                      {review.manuscriptId}
-                    </span>
-                  </p>
-                  <p className="text-xs text-gray-400 font-medium">
-                    Submitted on{" "}
-                    <span className="text-gray-500 font-normal">
+            <Fragment key={index}>
+              <li className="flex flex-col gap-4">
+                <div className="flex gap-1">
+                  <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
+                    <FileText />
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="font-semibold">{review.title}</p>
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                      Manuscript ID: {review.manuscriptId}
+                    </p>
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
                       {review.date}
-                    </span>
-                  </p>
-                </div>
-              </div>
+                    </p>
+                  </div>
 
-              {/* Right Column: Status info, Buttons, and Chevron */}
-              <div className="flex items-center gap-4 shrink-0">
-                {/* Due Date & Badge Box */}
-                <div className="hidden sm:flex flex-col items-center text-center space-y-1 min-w-[90px]">
-                  {isPending ? (
-                    <span className="px-3 py-1 bg-amber-50 text-amber-500 rounded-full text-xs font-semibold">
-                      Pending
-                    </span>
-                  ) : (
-                    <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-semibold">
-                      Completed
-                    </span>
-                  )}
-                  <p className="text-[10px] text-gray-400 font-medium leading-none pt-1">
-                    Due in 2 days
-                  </p>
-                  <p className="text-[10px] text-gray-400 leading-none">
-                    {review.dueDate}
-                  </p>
+                  <div>
+                    {isPending ? (
+                      <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 rounded-full">
+                        Pending
+                      </p>
+                    ) : (
+                      <p className="bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)] px-2 py-1 rounded-full">
+                        Completed
+                      </p>
+                    )}
+
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                      Due in 2 days
+                    </p>
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                      {review.dueDate}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Conditional Action Button */}
-                {isPending ? (
-                  <button className="bg-gray-900 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-800 transition-colors shadow-sm">
-                    Review Now
-                  </button>
-                ) : (
-                  <button className="bg-white border border-gray-200 text-gray-700 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-50 transition-colors shadow-sm">
-                    View Review
-                  </button>
-                )}
+                <button className="bg-[hsla(194,30%,14%,1)] text-[hsla(0,0%,100%,1)] w-full p-2 rounded-md cursor-pointer">
+                  Review
+                </button>
+              </li>
 
-                {/* Arrow Icon */}
-                <div className="text-gray-300">
-                  <ChevronRight size={18} />
-                </div>
-              </div>
-            </li>
+              {index < filteredReviews.length - 1 && (
+                <hr className="w-full border-[hsla(0,0%,85%,1)]" />
+              )}
+            </Fragment>
           );
         })}
 
