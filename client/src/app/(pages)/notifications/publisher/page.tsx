@@ -52,7 +52,7 @@ export default function PublisherNotifications() {
           return (
             <div
               key={index}
-              className={`${filter === index ? "text-[hsla(216,59%,54%,1)]" : "text-[hsla(237,15%,47%,1)]"} flex flex-col gap-1 cursor-pointer`}
+              className={`${filter === index ? "text-[hsla(216,59%,54%,1)]" : "text-[hsla(237,15%,47%,1)]"} flex flex-col gap-1 cursor-pointer relative`}
               onClick={() => setFilter(index)}
             >
               <button className="flex items-center gap-2 font-semibold cursor-pointer">
@@ -61,7 +61,9 @@ export default function PublisherNotifications() {
                   {item.unread}
                 </span>
               </button>
-              <hr className="border rounded-full" />
+              {filter === index && (
+                <hr className="border rounded-full absolute bottom-[-5] left-0 right-0" />
+              )}
             </div>
           );
         })}
