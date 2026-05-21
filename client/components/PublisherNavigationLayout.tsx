@@ -11,7 +11,7 @@ const navBarArr = [
   },
   {
     name: "Upload",
-    path: "/upload/publisher",
+    path: "/upload",
     icon: <CloudUpload size={18} />,
   },
   {

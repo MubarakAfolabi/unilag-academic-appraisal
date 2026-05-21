@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { LogOut, Bell, Clock4, Hourglass} from "lucide-react";
+import { LogOut, Bell } from "lucide-react";
+import PublisherOverviewCards from "@/components/PublisherOverviewCards";
 
-import { publisherOverviewCards, userProfile } from "@/constant/publisherDashboard";
-import UploadPage from "@/components/UploadPage";
+import {
+  publisherOverviewCards,
+  userProfile,
+} from "@/constant/publisherDashboard";
+import UploadCard from "@/components/UploadCard";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
 
-export default function Dashboard() {
+export default function UploadPage() {
   const [modal, setModal] = useState(false);
 
   return (
@@ -86,9 +90,47 @@ export default function Dashboard() {
         <h2 className="text-lg font-semibold md:text-xl">
           Submission Overview
         </h2>
-        <UploadPage
-            publisherOverviewCards={publisherOverviewCards}
-         />
+        <PublisherOverviewCards
+          publisherOverviewCards={publisherOverviewCards}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
+        <h2 className="text-lg font-semibold md:text-xl">Article Submission</h2>
+        <UploadCard />
+      </div>
+
+      <div className="md:px-6">
+        <div className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-gray-100">
+                <th className="pb-3 text-sm font-semibold text-gray-700 w-1/5">
+                  Document
+                </th>
+                <th className="pb-3 text-sm font-semibold text-gray-700 w-1/5">
+                  Article
+                </th>
+                <th className="pb-3 text-sm font-semibold text-gray-700 w-1/5">
+                  Submitted To
+                </th>
+                <th className="pb-3 text-sm font-semibold text-gray-700 w-1/5">
+                  Status
+                </th>
+                <th className="pb-3 text-sm font-semibold text-gray-700 w-1/5">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="h-32">
+                <td colSpan={5} className="text-center text-gray-400 text-sm">
+                  No submissions found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );
