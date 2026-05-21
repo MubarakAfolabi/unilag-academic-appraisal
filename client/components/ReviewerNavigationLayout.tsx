@@ -36,7 +36,7 @@ const sideBarArr = [
   },
   {
     name: "Notifications",
-    path: "/#",
+    path: "/notifications/reviewer",
     icon: <Bell />,
   },
   {
