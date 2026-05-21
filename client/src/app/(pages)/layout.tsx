@@ -9,7 +9,8 @@ export default function PageLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isPublisher = pathname.includes("/publisher");
+  const isPublisher =
+    pathname.includes("/publisher") || pathname.includes("/upload");
   return (
     <div className="flex md:h-screen overflow-hidden">
       {isPublisher ? (
