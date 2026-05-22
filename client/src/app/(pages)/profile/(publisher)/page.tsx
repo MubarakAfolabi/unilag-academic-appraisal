@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { userProfile } from "@/constant/publisherDashboard";
-import { LogOut, Bell } from "lucide-react";
+import { LogOut, Bell, UserRound, SquarePen } from "lucide-react";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import PublisherProfileCard from "@/components/PublisherProfileCard";
+import PersonalInfoCard from "@/components/PersonalInfoCard";
 
 export default function PublisherProfilePage() {
   const [modal, setModal] = useState(false);
@@ -54,7 +55,13 @@ export default function PublisherProfilePage() {
         </div>
       </div>
 
-      <PublisherProfileCard />
+      <div>
+        <PublisherProfileCard />
+      </div>
+
+      <div>
+        <PersonalInfoCard />
+      </div>
     </section>
   );
 }
