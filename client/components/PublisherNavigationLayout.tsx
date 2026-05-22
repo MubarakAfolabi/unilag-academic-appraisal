@@ -15,8 +15,8 @@ const navBarArr = [
     icon: <CloudUpload size={18} />,
   },
   {
-    name: "User",
-    path: "/#",
+    name: "Profile",
+    path: "/profile",
     icon: <UserRound size={18} />,
   },
 ];
@@ -39,7 +39,7 @@ const sideBarArr = [
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/profile",
     icon: <UserRound />,
   },
 ];

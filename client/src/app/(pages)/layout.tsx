@@ -10,7 +10,9 @@ export default function PageLayout({
 }>) {
   const pathname = usePathname();
   const isPublisher =
-    pathname.includes("/publisher") || pathname.includes("/upload");
+    pathname.includes("/publisher") ||
+    pathname.includes("/upload") ||
+    pathname.includes("/profile");
   return (
     <div className="flex md:h-screen overflow-hidden">
       {isPublisher ? (
