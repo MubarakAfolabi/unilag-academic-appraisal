@@ -1,106 +1,134 @@
 "use client";
-
-import {
-  FileText,
-  ChevronRight,
-  CircleCheck,
-  MessageSquareText,
-  Clock,
-  Megaphone,
-} from "lucide-react";
-import { Fragment } from "react";
+import { useState } from "react";
+import { ArrowRight, Check } from "lucide-react";
+import { PublisherNotifications } from "@/constant/publisherDashboard";
 
 export default function PublisherNotification() {
-  const notificationsArr = [
-    {
-      title: "New review assigned",
-      details:
-        "You have been assigned a review for “Deep Learning Approaches in Medical Imaging” by...",
-      timeReceived: "10 mins ago",
-      icon: <FileText className="lg:w-9 lg:h-9" />,
-      iconColor: "hsla(261,79%,54%,1)",
-      iconBgColor: "hsla(261,79%,54%,0.25)",
-    },
-    {
-      title: "Review submitted",
-      details:
-        "Your review for “Blockchain Technology Overview”has been submitted successfully.",
-      timeReceived: "1 hour ago",
-      icon: <CircleCheck className="lg:w-9 lg:h-9" />,
-      iconColor: "hsla(124,93%,26%,1)",
-      iconBgColor: "hsla(129,48%,95%,1)",
-    },
-    {
-      title: "Author responded to your review",
-      details:
-        "Dr. Samuel Okoro has responded to your review for “Advanced Alogorithms Lecture Notes.",
-      timeReceived: "Yesterday",
-      icon: <MessageSquareText className="lg:w-9 lg:h-9" />,
-      iconColor: "hsla(216,59%,54%,1)",
-      iconBgColor: "hsla(216,59%,54%,0.25)",
-    },
-    {
-      title: "Reviewer reminder",
-      details: "Please complete your review for “Mobile Computing trends”",
-      timeReceived: "Yesterday",
-      icon: <Clock className="lg:w-9 lg:h-9" />,
-      iconColor: "hsla(35,98%,52%,1)",
-      iconBgColor: "hsla(35,98%,52%,0.25)",
-    },
-    {
-      title: "System announcement",
-      details: "New guidelines for reviewers have been updated ",
-      timeReceived: "Yesterday",
-      icon: <Megaphone className="lg:w-9 lg:h-9" />,
-      iconColor: "hsla(207,98%,50%,1)",
-      iconBgColor: "hsla(200,91%,95%,1)",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
+
+  const [notifications, setNotifications] = useState(PublisherNotifications);
+
+  const totalCount = notifications.length;
+  const unreadCount = notifications.filter((n) => n.isUnread).length;
+  const readCount = totalCount - unreadCount;
+
+  // 3. Create the update handler
+  const handleMarkAllAsRead = () => {
+    setNotifications((prev) =>
+      prev.map((item) => ({
+        ...item,
+        isUnread: false,
+      }))
+    );
+  };
+
+  const filteredNotifications = notifications.filter((n) => {
+    if (activeTab === "unread") return n.isUnread;
+    if (activeTab === "read") return !n.isUnread;
+    return true;
+  });
 
   return (
-    <ul className="flex flex-col gap-4 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
-      {notificationsArr.map((item, index) => {
-        return (
-          <Fragment key={index}>
-            <li className="flex items-center gap-1 lg:gap-2">
-              <div
-                style={{ backgroundColor: item.iconColor }}
-                className="shrink-0 h-2 w-2  rounded-full"
-              ></div>
-              <div
-                style={{
-                  color: item.iconColor,
-                  backgroundColor: item.iconBgColor,
-                }}
-                className="w-fit h-fit p-2 rounded-full"
+    <div className="w-full font-sans bg-white p-4">
+      <div className="flex items-center gap-6 border-b border-gray-100 pb-3 mb-4 text-sm font-medium">
+        <button
+          onClick={() => setActiveTab("all")}
+          className={`flex items-center gap-2 pb-3 -mb-[13px] border-b-2 transition-colors ${
+            activeTab === "all"
+              ? "border-[hsla(261,79%,54%,1)] text-[hsla(261,79%,54%,1)]"
+              : "border-transparent text-gray-500 hover:text-gray-800"
+          }`}
+        >
+          All{" "}
+          <span className={`px-1.5 py-0.5 text-xs rounded-full ${activeTab === "all" ? "bg-[hsla(261,79%,54%,0.15)] text-[hsla(261,79%,54%,1)]" : "bg-gray-100 text-gray-600"}`}>
+            {totalCount}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("unread")}
+          className={`flex items-center gap-2 pb-3 -mb-[13px] border-b-2 transition-colors ${
+            activeTab === "unread"
+              ? "border-[hsla(261,79%,54%,1)] text-[hsla(261,79%,54%,1)]"
+              : "border-transparent text-gray-500 hover:text-gray-800"
+          }`}
+        >
+          Unread{" "}
+          <span className={`px-1.5 py-0.5 text-xs rounded-full ${activeTab === "unread" ? "bg-[hsla(261,79%,54%,0.15)] text-[hsla(261,79%,54%,1)]" : "bg-gray-100 text-gray-600"}`}>
+            {unreadCount}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("read")}
+          className={`flex items-center gap-2 pb-3 -mb-[13px] border-b-2 transition-colors ${
+            activeTab === "read"
+              ? "border-[hsla(261,79%,54%,1)] text-[hsla(261,79%,54%,1)]"
+              : "border-transparent text-gray-500 hover:text-gray-800"
+          }`}
+        >
+          Read{" "}
+          <span className={`px-1.5 py-0.5 text-xs rounded-full ${activeTab === "read" ? "bg-[hsla(261,79%,54%,0.15)] text-[hsla(261,79%,54%,1)]" : "bg-gray-100 text-gray-600"}`}>
+            {readCount}
+          </span>
+        </button>
+
+        <button
+          onClick={handleMarkAllAsRead}
+          className="flex w-full items-center gap-1 justify-end text-[hsla(216,59%,54%,1)] md:px-6 hover:opacity-80 transition-opacity"
+        >
+          <div>
+            <Check className="w-4 h-4" />
+          </div>
+          <p>Mark all as read</p>
+        </button>
+      </div>
+
+      <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <ul className="flex flex-col divide-y divide-gray-100">
+          {filteredNotifications.map((item) => {
+            const IconComponent = item.icon;
+
+            return (
+              <li
+                key={item.id}
+                className="flex items-start gap-4 p-4 lg:p-5 transition-colors hover:bg-gray-50/50"
               >
-                {item.icon}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <p className="font-semibold lg:text-lg">{item.title}</p>
-                  <p className="text-sm text-[hsla(229,20%,33%,1)] lg:text-md">
-                    {item.timeReceived}
-                  </p>
+                <div className="w-2 h-2 mt-4 shrink-0 flex items-center justify-center">
+                  {item.isUnread && (
+                    <div className="h-2.5 w-2.5 rounded-full bg-[hsla(261,79%,54%,1)]" />
+                  )}
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-[hsla(229,20%,33%,1)] lg:text-md">
-                    {item.details}
-                  </p>
-                  <div className="text-[hsla(230,31%,24%,1)] cursor-pointer">
-                    <ChevronRight />
+                <div
+                  style={{
+                    color: item.iconColor,
+                    backgroundColor: item.iconBgColor,
+                  }}
+                  className="shrink-0 p-2.5 rounded-full flex items-center justify-center"
+                >
+                  {IconComponent && <IconComponent className="w-5 h-5 lg:w-6 lg:h-6" />}
+                </div>
+
+                <div className="flex-1 min-w-0 flex flex-col md:flex-row md:justify-between gap-1 md:gap-4">
+                  <div className="space-y-1">
+                    <h4 className="font-semibold text-gray-900 text-sm lg:text-base">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs lg:text-sm text-gray-500 leading-relaxed max-w-4xl">
+                      {item.details}
+                    </p>
                   </div>
+                  
+                  <span className="shrink-0 text-xs text-gray-400 whitespace-nowrap self-start pt-0.5">
+                    {item.timeReceived}
+                  </span>
                 </div>
-              </div>
-            </li>
-
-            {index < notificationsArr.length - 1 && (
-              <hr className="w-full border-[hsla(0,0%,85%,1)]" />
-            )}
-          </Fragment>
-        );
-      })}
-    </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 }

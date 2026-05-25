@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight, Eye } from "lucide-react";
 import { ReviewerNotifications } from "@/constant/reviewerDashboard";
 
 export default function ReviewerNotification() {
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
 
-  // Tab filtering calculations based on imported constant array
+
   const totalCount = ReviewerNotifications.length;
   const unreadCount = ReviewerNotifications.filter((n) => n.isUnread).length;
   const readCount = totalCount - unreadCount;
@@ -20,7 +20,6 @@ export default function ReviewerNotification() {
 
   return (
     <div className="w-full font-sans bg-white p-4">
-      {/* 1. Header Filter Tabs */}
       <div className="flex items-center gap-6 border-b border-gray-100 pb-3 mb-4 text-sm font-medium">
         <button
           onClick={() => setActiveTab("all")}
@@ -65,11 +64,9 @@ export default function ReviewerNotification() {
         </button>
       </div>
 
-      {/* 2. Notifications List Wrapper Container */}
       <div className="border border-gray-200 rounded-lg overflow-hidden">
         <ul className="flex flex-col divide-y divide-gray-100">
           {filteredNotifications.map((item) => {
-            // Dynamic Lucide component instantiation
             const IconComponent = item.icon;
 
             return (
@@ -77,14 +74,12 @@ export default function ReviewerNotification() {
                 key={item.id}
                 className="flex items-start gap-4 p-4 lg:p-5 transition-colors hover:bg-gray-50/50"
               >
-                {/* Leftmost column: Unread indicator dot */}
                 <div className="w-2 h-2 mt-4 shrink-0 flex items-center justify-center">
                   {item.isUnread && (
                     <div className="h-2.5 w-2.5 rounded-full bg-[hsla(261,79%,54%,1)]" />
                   )}
                 </div>
 
-                {/* Icon Container */}
                 <div
                   style={{
                     color: item.iconColor,
@@ -95,7 +90,6 @@ export default function ReviewerNotification() {
                   {IconComponent && <IconComponent className="w-5 h-5 lg:w-6 lg:h-6" />}
                 </div>
 
-                {/* Main Text & Timeline Content */}
                 <div className="flex-1 min-w-0 flex flex-col md:flex-row md:justify-between gap-1 md:gap-4">
                   <div className="space-y-1">
                     <h4 className="font-semibold text-gray-900 text-sm lg:text-base">
@@ -106,10 +100,10 @@ export default function ReviewerNotification() {
                     </p>
                   </div>
                   
-                  {/* Timestamp */}
                   <span className="shrink-0 text-xs text-gray-400 whitespace-nowrap self-start pt-0.5">
                     {item.timeReceived}
                   </span>
+            
                 </div>
               </li>
             );
