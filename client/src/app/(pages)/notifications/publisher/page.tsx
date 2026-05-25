@@ -4,16 +4,20 @@ import { ChevronLeft, Check } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { userProfile } from "@/constant/publisherDashboard";
+import { useRouter } from "next/navigation";
 import PublisherNotification from "@/components/PublisherNotification";
 
 export default function PublisherNotifications() {
+  const router = useRouter();
   return (
       <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
         <header className="md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
           <div className="flex items-center gap-2 md:justify-between">
-            <div className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer md:hidden">
+            <button 
+              onClick={() => router.push("/publisher")}
+              className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer md:hidden">
               <ChevronLeft />
-            </div>
+            </button>
             <div>
               <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
                 Notifications

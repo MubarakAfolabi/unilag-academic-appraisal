@@ -15,10 +15,12 @@ import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
 import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
 import LogoutModal from "@/components/LogoutModal";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Dashboard() {
   const [modal, setModal] = useState(false);
+  const router = useRouter();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -48,7 +50,10 @@ export default function Dashboard() {
           >
             <LogOut size={22} />
           </button>
-          <button className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative">
+          <button
+            onClick={() => router.push("/notifications/reviewer")}
+            className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative"
+          >
             <div className="bg-[hsla(0,93%,52%,1)] absolute right-1 h-1 w-1 rounded-full"></div>
 
             <Bell size={22} />
