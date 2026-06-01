@@ -18,7 +18,7 @@ const navBarArr = [
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/user/reviewer",
     icon: <UserRound size={18} />,
   },
 ];
@@ -41,7 +41,7 @@ const sideBarArr = [
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/user/reviewer",
     icon: <UserRound />,
   },
 ];

@@ -15,6 +15,12 @@ export type PendingSubmissionItem = {
   date: string;
 };
 
+export type AssignedReviewItem = {
+  title: string;
+  author: string;
+  date: string;
+};
+
 export type RecentActivityItem = {
   title: string;
   date: string;
@@ -116,6 +122,16 @@ export const userProfile = {
   avatar: "/userAvatar_r.svg",
   portal: "Reviewer's Portal",
   notificationsCount: 4,
+  specilaization: "Artificial Intelligence",
+  rank: "Professor",
+  faculty: "Science",
+  department: "Computer Science",
+  reviewerId: "REV-2024-0045",
+  phone_number: "0803 123 4567",
+  email: "kehinde.oladipo@gmail.com",
+  dateJoined: "September 1, 2015",
+
+
 };
 
 export const reviewerOverviewCards: OverviewCard[] = [
@@ -165,6 +181,34 @@ export const pendingSubmissions: PendingSubmissionItem[] = [
     title: "AI in Healthcare: Opportunities and Challenges",
     author: "By Dr. Anthony Lade",
     date: "Submitted on March 2, 2026",
+  },
+];
+
+export const assignedReviews: AssignedReviewItem[] = [
+  {
+    title: "Machine Learning Approaches in Data Mining",
+    author: "By Dr. Adeola John",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Advanced Algorithms Lecture Notes",
+    author: "By Dr. Samuel okoro",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Research Methodology in Computing",
+    author: "By Dr. Maryam Bello",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Database System Course Material",
+    author: "By Dr. Tunde Adebayo",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Ai and Society: Ethical Considerations",
+    author: "By Dr. Ibrahim Hassan",
+    date: "Submitted on May 12, 2024",
   },
 ];
 
