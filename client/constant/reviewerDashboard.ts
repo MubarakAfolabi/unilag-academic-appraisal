@@ -1,4 +1,4 @@
-import { CircleCheckBig, Clock4, Hourglass, LucideIcon } from "lucide-react";
+import { CircleCheckBig,Settings, FileText,Download, CircleCheck,FileSpreadsheet, MessageSquareText, Clock, Megaphone, Clock4, Hourglass, LucideIcon } from "lucide-react";
 
 export type OverviewCard = {
   label: string;
@@ -10,6 +10,12 @@ export type OverviewCard = {
 };
 
 export type PendingSubmissionItem = {
+  title: string;
+  author: string;
+  date: string;
+};
+
+export type AssignedReviewItem = {
   title: string;
   author: string;
   date: string;
@@ -35,6 +41,79 @@ export type Reviews = {
   dueDate?: string;
   status: string;
 };
+export type Notifications = {
+  id: number;
+  title: string;
+  details: string;
+  timeReceived: string;
+  icon: LucideIcon;
+  iconColor: string;
+  iconBgColor: string;
+  isUnread: boolean;
+};
+
+export const ReviewerNotifications: Notifications[] = [
+  {
+     id: 1,
+      title: "New review assigned",
+      details: "You have been assigned a review for “Deep Learning Approaches in Medical Imaging” by Dr. Adeola John (Computer Science Department).",
+      timeReceived: "10 mins ago",
+      icon: FileText,
+      iconColor: "hsla(261,79%,54%,1)",
+      iconBgColor: "hsla(261,79%,54%,0.1)",
+      isUnread: true,
+  },
+  {
+    id: 2,
+      title: "Review submitted successfully",
+      details: "Your review for “Blockchain Technology Overview”has been submitted successfully.",
+      timeReceived: "1 hour ago",
+      icon: CircleCheck,
+      iconColor: "hsla(142,71%,45%,1)",
+      iconBgColor: "hsla(142,71%,45%,0.1)",
+      isUnread: true,
+  },
+  {
+     id: 3,
+      title: "Author responded to your review",
+      details: "Dr. Samuel Okoro has responded to your review for “Advanced Alogorithms Lecture Notes”.",
+      timeReceived: "Yesterday, 4:30 PM",
+      icon: MessageSquareText,
+      iconColor: "hsla(216,59%,54%,1)",
+      iconBgColor: "hsla(216,59%,54%,0.1)",
+      isUnread: false,
+  },
+  {
+    id: 4,
+      title: "New submission in your department",
+      details: "A new work “AI and Society: Ethical Considerations” has been submitted in Computer Science Department.",
+      timeReceived: "Yesterday, 11:15 AM",
+      icon: FileSpreadsheet,
+      iconColor: "hsla(271,70%,60%,1)",
+      iconBgColor: "hsla(271,70%,60%,0.1)",
+      isUnread: false,
+  },
+  {
+    id: 5,
+      title: "Documents available for download",
+      details: "The revised version of “Data Structure and Applications” is available for rerview.",
+      timeReceived: "May 7, 2024, 3:20PM",
+      icon: Download,
+      iconColor: "hsla(142,71%,45%,1)",
+      iconBgColor: "hsla(142,71%,45%,0.1)",
+      isUnread: false,
+  },
+  {
+      id: 6,
+      title: "System maintenance notice",
+      details: "The APRI system will undergo scheduled maintenance on May 12, 2024 from 12:00 AM to 2:00 PM.",
+      timeReceived: "May 5, 2024, 6:00PM",
+      icon: Settings,
+      iconColor: "hsla(220,15%,40%,1)",
+      iconBgColor: "hsla(220,15%,40%,0.1)",
+      isUnread: false,
+    },
+];
 
 export const userProfile = {
   fullName: "Dr. John Doe",
@@ -43,6 +122,16 @@ export const userProfile = {
   avatar: "/userAvatar_r.svg",
   portal: "Reviewer's Portal",
   notificationsCount: 4,
+  specilaization: "Artificial Intelligence",
+  rank: "Professor",
+  faculty: "Science",
+  department: "Computer Science",
+  reviewerId: "REV-2024-0045",
+  phone_number: "0803 123 4567",
+  email: "kehinde.oladipo@gmail.com",
+  dateJoined: "September 1, 2015",
+
+
 };
 
 export const reviewerOverviewCards: OverviewCard[] = [
@@ -92,6 +181,34 @@ export const pendingSubmissions: PendingSubmissionItem[] = [
     title: "AI in Healthcare: Opportunities and Challenges",
     author: "By Dr. Anthony Lade",
     date: "Submitted on March 2, 2026",
+  },
+];
+
+export const assignedReviews: AssignedReviewItem[] = [
+  {
+    title: "Machine Learning Approaches in Data Mining",
+    author: "By Dr. Adeola John",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Advanced Algorithms Lecture Notes",
+    author: "By Dr. Samuel okoro",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Research Methodology in Computing",
+    author: "By Dr. Maryam Bello",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Database System Course Material",
+    author: "By Dr. Tunde Adebayo",
+    date: "Submitted on May 12, 2024",
+  },
+  {
+    title: "Ai and Society: Ethical Considerations",
+    author: "By Dr. Ibrahim Hassan",
+    date: "Submitted on May 12, 2024",
   },
 ];
 

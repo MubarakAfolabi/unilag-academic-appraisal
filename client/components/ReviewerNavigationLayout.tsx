@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText, UserRound, Bell } from "lucide-react";
+import { LayoutGrid, FileText, UserRound,LogOut, Bell } from "lucide-react";
 import Image from "next/image";
 
 const navBarArr = [
@@ -18,7 +18,7 @@ const navBarArr = [
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/user/reviewer",
     icon: <UserRound size={18} />,
   },
 ];
@@ -36,22 +36,27 @@ const sideBarArr = [
   },
   {
     name: "Notifications",
-    path: "/#",
+    path: "/notifications/reviewer",
     icon: <Bell />,
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/user/reviewer",
     icon: <UserRound />,
   },
+  {
+    name: "Logout", 
+    path: "/#",
+    icon: <LogOut/>,
+  }
 ];
 
 export default function ReviewerNavigationLayout() {
   const pathname = usePathname();
 
+
   return (
-    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
-      <div className="md:hidden flex flex-1 justify-between px-6">
+    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">      <div className="md:hidden flex flex-1 justify-between px-6">
         {navBarArr.map((item, index) => {
           return (
             <Link

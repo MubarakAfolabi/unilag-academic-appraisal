@@ -15,10 +15,12 @@ import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
 import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
 import LogoutModal from "@/components/LogoutModal";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Dashboard() {
   const [modal, setModal] = useState(false);
+  const router = useRouter();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -48,7 +50,10 @@ export default function Dashboard() {
           >
             <LogOut size={22} />
           </button>
-          <button className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative">
+          <button
+            onClick={() => router.push("/notifications/reviewer")}
+            className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative"
+          >
             <div className="bg-[hsla(0,93%,52%,1)] absolute right-1 h-1 w-1 rounded-full"></div>
 
             <Bell size={22} />
@@ -74,7 +79,9 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="gap-4 items-center hidden md:flex">
-          <button className="bg-[hsla(0,0%,96%,1)] h-fit w-fit p-2 rounded-md relative cursor-pointer">
+          <button 
+          onClick={()=> router.push("/notifications/reviewer")}
+          className="bg-[hsla(0,0%,96%,1)] h-fit w-fit p-2 rounded-md relative cursor-pointer">
             <span className="bg-[hsla(0,93%,52%,1)] absolute top-[-3] right-[-3] h-3 w-3 rounded-full"></span>
             <Bell />
           </button>

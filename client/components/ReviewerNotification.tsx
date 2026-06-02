@@ -1,28 +1,18 @@
 "use client";
-import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
-import { PublisherNotifications } from "@/constant/publisherDashboard";
 
-export default function PublisherNotification() {
+import { useState } from "react";
+import { ArrowRight, ChevronRight, Eye } from "lucide-react";
+import { ReviewerNotifications } from "@/constant/reviewerDashboard";
+
+export default function ReviewerNotification() {
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
 
-  const [notifications, setNotifications] = useState(PublisherNotifications);
 
-  const totalCount = notifications.length;
-  const unreadCount = notifications.filter((n) => n.isUnread).length;
+  const totalCount = ReviewerNotifications.length;
+  const unreadCount = ReviewerNotifications.filter((n) => n.isUnread).length;
   const readCount = totalCount - unreadCount;
 
-  // 3. Create the update handler
-  const handleMarkAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((item) => ({
-        ...item,
-        isUnread: false,
-      }))
-    );
-  };
-
-  const filteredNotifications = notifications.filter((n) => {
+  const filteredNotifications = ReviewerNotifications.filter((n) => {
     if (activeTab === "unread") return n.isUnread;
     if (activeTab === "read") return !n.isUnread;
     return true;
@@ -72,16 +62,6 @@ export default function PublisherNotification() {
             {readCount}
           </span>
         </button>
-
-        <button
-          onClick={handleMarkAllAsRead}
-          className="flex w-full items-center gap-1 justify-end text-[hsla(216,59%,54%,1)] md:px-6 hover:opacity-80 transition-opacity"
-        >
-          <div>
-            <Check className="w-4 h-4" />
-          </div>
-          <p>Mark all as read</p>
-        </button>
       </div>
 
       <div className="border border-gray-200 rounded-lg overflow-hidden">
@@ -123,12 +103,14 @@ export default function PublisherNotification() {
                   <span className="shrink-0 text-xs text-gray-400 whitespace-nowrap self-start pt-0.5">
                     {item.timeReceived}
                   </span>
+            
                 </div>
               </li>
             );
           })}
         </ul>
       </div>
+
     </div>
   );
 }
