@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { userProfile } from "@/constant/publisherDashboard";
-import { LogOut, Bell, Folder } from "lucide-react";
+import { LogOut, Bell } from "lucide-react";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import PublisherProfileCard from "@/components/PublisherProfileCard";
@@ -16,9 +16,9 @@ export default function PublisherProfilePage() {
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
       {modal && <LogoutModal onClose={() => setModal(false)} />}
 
-      <div className="flex items-center justify-between md:hidden">
+      <div className="flex items-center justify-between md:p-6 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
         <div className="flex-1 flex items-center gap-2">
-          <div>
+          <div className="md:hidden">
             <Image
               src="/unilaglogo.svg"
               alt="UNILAG logo"
@@ -28,7 +28,9 @@ export default function PublisherProfilePage() {
           </div>
 
           <div>
-            <h2 className="font-bold text-xl">My Profile</h2>
+            <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
+              My Profile
+            </h2>
           </div>
         </div>
 
@@ -56,15 +58,15 @@ export default function PublisherProfilePage() {
         </div>
       </div>
 
-      <div>
+      <div className="md:px-6">
         <PublisherProfileCard />
       </div>
 
-      <div>
+      <div className="md:px-6">
         <PersonalInfoCard />
       </div>
 
-      <div>
+      <div className="md:px-6">
         <UploadListCard />
       </div>
     </section>
