@@ -89,12 +89,10 @@ export default function Reviews() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
-        {/* Main Header Info Card */}
+      <div className="-mt-10 md:mt-0  flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
         <div className="border border-gray-100 rounded-2xl p-6 shadow-sm flex flex-col gap-6 bg-white">
           
-          {/* Avatar and Identity Details */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <div className="relative w-20 h-20 rounded-full overflow-hidden border border-gray-100 bg-gray-50 flex-shrink-0">
               <Image
                 src={userProfile.avatar}

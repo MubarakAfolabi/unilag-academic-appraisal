@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, CloudUpload, UserRound, Bell } from "lucide-react";
+import { LayoutGrid, CloudUpload, UserRound,LogOut, Bell } from "lucide-react";
 
 const navBarArr = [
   {
@@ -42,6 +42,11 @@ const sideBarArr = [
     path: "/#",
     icon: <UserRound />,
   },
+  {
+    name: "Logout", 
+    path: "/#",
+    icon: <LogOut/>,
+  }
 ];
 
 import { usePathname } from "next/navigation";
