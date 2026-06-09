@@ -23,7 +23,7 @@ export default function HomePage() {
           <div>
             <Link
               className="bg-[hsla(155,36%,42%,1)] font-bold text-white py-2 px-10 rounded-md lg:text-lg cursor-pointer"
-              href="/login-publisher"
+              href="/login"
             >
               Staff Sign-in
             </Link>
