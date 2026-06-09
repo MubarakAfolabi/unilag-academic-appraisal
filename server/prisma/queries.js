@@ -18,11 +18,19 @@ const findUserByEmail = async (email) => {
   return user;
 };
 
-const createUser = async (firstname, lastname, email, password, role) => {
+const createUser = async (
+  firstname,
+  lastname,
+  staffId,
+  email,
+  password,
+  role,
+) => {
   const user = prisma.user.create({
     data: {
       firstname,
       lastname,
+      staffId,
       email,
       password,
       role,
