@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/home-bg.jpg')" }}
+      style={{ backgroundImage: "url('/login-bg.jpg')" }}
     >
       <div className="min-h-screen bg-black/45">
         <section className="h-screen flex flex-col items-center pt-20 p-4 gap-8 lg:justify-end lg:items-start lg:p-30">
@@ -20,18 +20,12 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div>
             <Link
-              className="bg-[hsla(155,36%,42%,1)] font-bold text-white p-2 rounded-md lg:text-lg cursor-pointer"
+              className="bg-[hsla(155,36%,42%,1)] font-bold text-white py-2 px-10 rounded-md lg:text-lg cursor-pointer"
               href="/login-publisher"
             >
-              Publisher Sign-in
-            </Link>
-            <Link
-              className="bg-[hsla(201,83%,70%,1)] font-bold text-white p-2 rounded-md lg:text-lg cursor-pointer"
-              href="/login-reviewer"
-            >
-              Reviewer Sign-in
+              Staff Sign-in
             </Link>
           </div>
         </section>
