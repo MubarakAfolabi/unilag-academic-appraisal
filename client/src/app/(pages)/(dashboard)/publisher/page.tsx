@@ -48,13 +48,6 @@ export default function Dashboard() {
           >
             <LogOut size={22} />
           </button>
-          <button
-          onClick={() => router.push("/notifications/publisher")} 
-          className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative">
-            <div className="bg-[hsla(0,93%,52%,1)] absolute right-1 h-1 w-1 rounded-full"></div>
-
-            <Bell size={22} />
-          </button>
 
           <div className="cursor-pointer">
             <Image
@@ -78,12 +71,6 @@ export default function Dashboard() {
         </div>
 
         <div className="gap-4 items-center hidden md:flex">
-          <button 
-            onClick={() => router.push("/notifications/publisher")}
-          className="bg-[hsla(0,0%,96%,1)] h-fit w-fit p-2 rounded-md relative cursor-pointer">
-            <span className="bg-[hsla(0,93%,52%,1)] absolute top-[-3] right-[-3] h-3 w-3 rounded-full"></span>
-            <Bell />
-          </button>
           <Image
             src={userProfile.avatar}
             alt="Profile Picture"

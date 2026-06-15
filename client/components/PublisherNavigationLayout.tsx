@@ -32,11 +32,7 @@ const sideBarArr = [
     path: "/upload",
     icon: <CloudUpload />,
   },
-  {
-    name: "Notifications",
-    path: "/notifications/publisher",
-    icon: <Bell />,
-  },
+ 
   {
     name: "Profile",
     path: "/profile",

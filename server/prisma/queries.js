@@ -23,16 +23,16 @@ const createUser = async (
   lastname,
   staffId,
   email,
-  password,
+  passwordHash,
   role,
 ) => {
-  const user = prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       firstname,
       lastname,
       staffId,
       email,
-      password,
+      passwordHash,
       role,
     },
   });

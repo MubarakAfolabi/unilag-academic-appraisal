@@ -43,7 +43,7 @@ export default function Reviews() {
         <div className="flex items-center gap-4">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
-            onClick={() => setModal(true)}
+            onClick={() => setModal(true)} 
           >
             <LogOut size={22} />
           </button>

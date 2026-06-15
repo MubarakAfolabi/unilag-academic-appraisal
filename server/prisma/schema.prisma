@@ -31,3 +31,68 @@ enum Role {
   HRMD
   VC
 }
+
+// Submission model
+model Submission {
+  id          Int      @id @default(autoincrement())
+
+  title       String
+  description String?
+
+  status      SubmissionStatus
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      Int
+  user        User @relation(fields: [userId], references: [id])
+}
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+// upload model
+model Upload {
+  id            Int      @id @default(autoincrement())
+
+  filename      String
+  fileSize      String
+
+  uploadStatus  UploadStatus
+
+  progress      Int
+
+  createdAt     DateTime @default(now())
+
+  userId        Int
+  user          User @relation(fields: [userId], references: [id])
+}
+enum UploadStatus {
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// Review model
+model Review {
+  id          Int      @id @default(autoincrement())
+
+  title       String
+
+  comments    String?
+
+  status      ReviewStatus
+
+  createdAt   DateTime @default(now())
+
+  userId      Int
+  user        User @relation(fields: [userId], references: [id])
+}
+enum ReviewStatus {
+  PENDING
+  COMPLETED
+  REJECTED
+}
