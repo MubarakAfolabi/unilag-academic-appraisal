@@ -32,7 +32,7 @@ const createUser = async (
       lastname,
       staffId,
       email,
-      passwordHash,
+      password,
       role,
     },
   });
