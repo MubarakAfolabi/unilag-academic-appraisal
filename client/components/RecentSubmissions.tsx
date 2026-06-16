@@ -27,10 +27,10 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
             <Circle size={24} strokeWidth={2} />
           </div>
         );
-      case "failed":
+      case "scored":
         return (
-          <div className="bg-[hsla(353,100%,46%,1)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
-            <X />
+          <div className="bg-[rgb(11,62,112)] text-white h-6 w-6 p-1 rounded-full flex items-center justify-center">
+            <h1> 2 </h1>
           </div>
         );
     }

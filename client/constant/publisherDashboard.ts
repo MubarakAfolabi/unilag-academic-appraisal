@@ -27,7 +27,7 @@ export type SubmissionItem = {
   statusClass: string;
   progress: {
     label: string;
-    state: "done" | "current" | "pending" | "failed";
+    state: "done" | "current" | "pending" | "scored";
   }[];
 };
 
@@ -146,7 +146,7 @@ export const recentSubmissions: SubmissionItem[] = [
     progress: [
       { label: "Submitted", state: "done" },
       { label: "Under Review", state: "current" },
-      { label: "Decision", state: "pending" },
+      { label: "Scored", state: "pending" },
     ],
   },
   {
@@ -157,7 +157,7 @@ export const recentSubmissions: SubmissionItem[] = [
     progress: [
       { label: "Submitted", state: "done" },
       { label: "Under Review", state: "done" },
-      { label: "Decision", state: "done" },
+      { label: "Scored", state: "scored" },
     ],
   },
   {
@@ -168,7 +168,7 @@ export const recentSubmissions: SubmissionItem[] = [
     progress: [
       { label: "Submitted", state: "done" },
       { label: "Under Review", state: "done" },
-      { label: "Decision", state: "failed" },
+      { label: "Scored", state: "pending" },
     ],
   },
 ];

@@ -47,7 +47,7 @@ export default function UploadPage() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center text-center gap-4 max-w-2xl mx-auto px-4 py-8">
+      <div className="flex flex-col items-center text-center gap-4 max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto px-4 py-8">
         <div className="relative w-24 h-24 flex items-center justify-center mb-2">
           <Image
             src="/unilaglogo.svg" 
@@ -68,13 +68,10 @@ export default function UploadPage() {
         <p className="text-sm sm:text-base text-gray-500 max-w-xl">
           Fill in the details below and attach your file. Once submitted, your document will be published and visible online.
         </p>
-
-        {/* Form/Card Component */}
-      <div className="flex flex-col text-left">
-        <UploadCard />
       </div>
-      </div>
-
+    <div className=" px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4 text-left">
+      <UploadCard />
+    </div>
     </section>
   );
 }
