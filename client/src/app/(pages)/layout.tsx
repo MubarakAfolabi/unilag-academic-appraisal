@@ -6,6 +6,9 @@ import { user } from "@/constant/user";
 const VCNavigationLayout = dynamic(
   () => import("@/components/VC/VCNavigationLayout"),
 );
+const HRMDNavigationLayout = dynamic(
+  () => import("@/components/HRMD/HRMDNavigationLayout"),
+);
 
 export default function PageLayout({
   children,
@@ -14,6 +17,7 @@ export default function PageLayout({
 }>) {
   const navigationLayouts = {
     VC: <VCNavigationLayout />,
+    HRMD: <HRMDNavigationLayout />,
   };
 
   return (
