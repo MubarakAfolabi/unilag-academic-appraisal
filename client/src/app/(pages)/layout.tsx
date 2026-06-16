@@ -10,7 +10,10 @@ const HRMDNavigationLayout = dynamic(
   () => import("@/components/HRMD/HRMDNavigationLayout"),
 );
 const AccessorNavigationLayout = dynamic(
-  () => import("@/components/Accessor/AccessorNavigationLayout"),
+  () => import("@/components/accessor/AccessorNavigationLayout"),
+);
+const PublisherNavigationLayout = dynamic(
+  () => import("@/components/publisher/PublisherNavigationLayout"),
 );
 
 export default function PageLayout({
@@ -22,6 +25,7 @@ export default function PageLayout({
     VC: <VCNavigationLayout />,
     HRMD: <HRMDNavigationLayout />,
     ACCESSOR: <AccessorNavigationLayout />,
+    PUBLISHER: <PublisherNavigationLayout />,
   };
 
   return (

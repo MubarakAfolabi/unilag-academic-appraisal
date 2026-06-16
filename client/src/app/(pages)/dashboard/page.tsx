@@ -6,7 +6,7 @@ import { user } from "@/constant/user";
 const VCDashboard = dynamic(() => import("@/components/VC/VCDashboard"));
 const HRMDDashboard = dynamic(() => import("@/components/HRMD/HRMDDashboard"));
 const AccessorDashboard = dynamic(
-  () => import("@/components/Accessor/AccessorDashboard"),
+  () => import("@/components/accessor/AccessorDashboard"),
 );
 const PublisherDashboard = dynamic(
   () => import("@/components/publisher/PublisherDashboard"),

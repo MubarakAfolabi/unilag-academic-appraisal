@@ -2,23 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText, UserRound,LogOut, Bell } from "lucide-react";
 import Image from "next/image";
+import { LayoutGrid, CloudUpload, UserRound, LogOut } from "lucide-react";
 
 const navBarArr = [
   {
     name: "Dashboard",
-    path: "/reviewer",
+    path: "/dashboard",
     icon: <LayoutGrid size={18} />,
   },
   {
-    name: "My Reviews",
-    path: "/reviews",
-    icon: <FileText size={18} />,
+    name: "Upload",
+    path: "/upload",
+    icon: <CloudUpload size={18} />,
   },
   {
     name: "Profile",
-    path: "/user/reviewer",
+    path: "/profile",
     icon: <UserRound size={18} />,
   },
 ];
@@ -26,37 +26,34 @@ const navBarArr = [
 const sideBarArr = [
   {
     name: "Dashboard",
-    path: "/reviewer",
+    path: "/dashboard",
     icon: <LayoutGrid />,
   },
   {
-    name: "Reviews",
-    path: "/reviews",
-    icon: <FileText />,
+    name: "Upload Article",
+    path: "/upload",
+    icon: <CloudUpload />,
   },
-  {
-    name: "Notifications",
-    path: "/notifications/reviewer",
-    icon: <Bell />,
-  },
+
   {
     name: "Profile",
-    path: "/user/reviewer",
+    path: "/profile",
     icon: <UserRound />,
   },
   {
-    name: "Logout", 
+    name: "Logout",
     path: "/#",
-    icon: <LogOut/>,
-  }
+    icon: <LogOut />,
+  },
 ];
 
-export default function ReviewerNavigationLayout() {
+export default function PublisherNavigationLayout() {
   const pathname = usePathname();
 
-
   return (
-    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">      <div className="md:hidden flex flex-1 justify-between px-6">
+    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
+      {" "}
+      <div className="md:hidden flex flex-1 justify-between gap-2 px-6">
         {navBarArr.map((item, index) => {
           return (
             <Link
@@ -70,7 +67,6 @@ export default function ReviewerNavigationLayout() {
           );
         })}
       </div>
-
       <div className="hidden p-2 md:flex flex-col gap-15">
         <div className="flex gap-2 items-center">
           <Image
@@ -81,7 +77,7 @@ export default function ReviewerNavigationLayout() {
           />
           <div className="text-white">
             <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
-            <p className="text-[hsla(0,2%,42%,1)]">Reviewer&apos;s Portal</p>
+            <p className="text-[hsla(0,2%,42%,1)]">Publisher&apos;s Portal</p>
           </div>
         </div>
 

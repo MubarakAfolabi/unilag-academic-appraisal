@@ -27,7 +27,7 @@ export default function HRMDNavigationLayout() {
   return (
     <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
       {" "}
-      <div className="md:hidden flex flex-1 justify-evenly gap-4 px-6">
+      <div className="md:hidden flex flex-1 justify-evenly gap-2 px-6">
         {navBarArr.map((item, index) => {
           return (
             <Link
