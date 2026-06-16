@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, CloudUpload, UserRound,LogOut, Bell } from "lucide-react";
+import { LayoutGrid, CloudUpload, UserRound, LogOut} from "lucide-react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import LogoutModal from "@/components/LogoutModal";
 
 const navBarArr = [
   {
@@ -32,71 +36,74 @@ const sideBarArr = [
     path: "/upload",
     icon: <CloudUpload />,
   },
- 
   {
     name: "Profile",
     path: "/profile",
     icon: <UserRound />,
   },
-  {
-    name: "Logout", 
-    path: "/#",
-    icon: <LogOut/>,
-  }
 ];
-
-import { usePathname } from "next/navigation";
-import Image from "next/image";
 
 export default function PublisherNavigationLayout() {
   const pathname = usePathname();
+  const [modal, setModal] = useState(false);
 
   return (
-    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
-      <div className="md:hidden flex flex-1 justify-between px-6">
-        {navBarArr.map((item, index) => {
-          return (
-            <Link
-              href={item.path}
-              key={index}
-              className={`flex flex-col items-center gap-1 ${pathname === item.path ? "text-[hsla(210,79%,46%,1)]" : "text-[hsla(228,28%,29%,1)]"}  cursor-pointer`}
-            >
-              <div>{item.icon}</div>
-              <p className="text-xs">{item.name}</p>
-            </Link>
-          );
-        })}
-      </div>
-
-      <div className="hidden p-2 md:flex flex-col gap-15">
-        <div className="flex gap-2 items-center">
-          <Image
-            src="/unilaglogo.svg"
-            alt="UNILAG logo"
-            width={50}
-            height={50}
-          />
-          <div className="text-white">
-            <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
-            <p className="text-[hsla(0,2%,42%,1)]">Publisher&apos;s Portal</p>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          {sideBarArr.map((item, index) => {
+    <>
+      {modal && <LogoutModal onClose={() => setModal(false)} />}
+      <aside className="fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
+        <div className="md:hidden flex flex-1 justify-between px-6">
+          {navBarArr.map((item, index) => {
             return (
               <Link
                 href={item.path}
                 key={index}
-                className={`flex items-center gap-4 text-white ${pathname === item.path ? "bg-[hsla(210,73%,64%,1)]" : ""} p-4 rounded-lg cursor-pointer`}
+                className={`flex flex-col items-center gap-1 ${pathname === item.path ? "text-[hsla(210,79%,46%,1)]" : "text-[hsla(228,28%,29%,1)]"} cursor-pointer`}
               >
                 <div>{item.icon}</div>
-                <p className="font-semibold">{item.name}</p>
+                <p className="text-xs">{item.name}</p>
               </Link>
             );
           })}
         </div>
-      </div>
-    </aside>
+
+        <div className="hidden p-2 md:flex flex-col gap-15">
+          <div className="flex gap-2 items-center">
+            <Image
+              src="/unilaglogo.svg"
+              alt="UNILAG logo"
+              width={50}
+              height={50}
+            />
+            <div className="text-white">
+              <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
+              <p className="text-[hsla(0,2%,42%,1)]">Publisher&apos;s Portal</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {sideBarArr.map((item, index) => {
+              return (
+                <Link
+                  href={item.path}
+                  key={index}
+                  className={`flex items-center gap-4 text-white ${pathname === item.path ? "bg-[hsla(210,73%,64%,1)]" : ""} p-4 rounded-lg cursor-pointer`}
+                >
+                  <div>{item.icon}</div>
+                  <p className="font-semibold">{item.name}</p>
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => setModal(true)}
+              className="flex items-center gap-4 text-white p-4 rounded-lg hover:bg-[hsla(210,73%,64%,1)] transition-colors"
+            >
+              <LogOut />
+              <span className="font-semibold">Logout</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }

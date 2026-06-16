@@ -156,8 +156,8 @@ export const recentSubmissions: SubmissionItem[] = [
     statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
     progress: [
       { label: "Submitted", state: "done" },
-      { label: "Under Review", state: "done" },
-      { label: "Scored", state: "scored" },
+      { label: "Under Review", state: "current" },
+      { label: "Scored", state: "pending" },
     ],
   },
   {
@@ -168,7 +168,7 @@ export const recentSubmissions: SubmissionItem[] = [
     progress: [
       { label: "Submitted", state: "done" },
       { label: "Under Review", state: "done" },
-      { label: "Scored", state: "pending" },
+      { label: "Scored", state: "scored" },
     ],
   },
 ];

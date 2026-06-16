@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import SubmitModal from "@/components/SubmitModal";
+import ResetModal from "@/components/ResetModal";
 
 type PublicationType = "Journal Article" | "Book Chapter" | "Book" | "Conference" | "";
 type QuartileType = "Q1" | "Q2" | "Q3" | "others" | "";
@@ -9,6 +11,10 @@ type ClassificationType = "National" | "International" | "";
 
 export default function UploadDocumentForm() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const [form, setForm] = useState({
     publication: "",
@@ -39,7 +45,10 @@ export default function UploadDocumentForm() {
   };
 
   const handleReset = () => {
-    setForm({
+    try {
+      setIsResetting(true);
+      setShowResetModal(false);
+      setForm({
       publication: "",
       publicationType: "",
       quartile: "",
@@ -51,31 +60,43 @@ export default function UploadDocumentForm() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    }
+    catch (error) {
+      alert("Failed to reset form");
+    }
+    finally {
+      setIsResetting(false);
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleOpenModal = async (e: React.FormEvent) => {
     e.preventDefault();
+    setShowModal(true);
+  };
+  const handleActualSubmit = async () => {
+    try {
+      setIsSubmitting(true);
 
-    const token = localStorage.getItem("token");
-    const fd = new FormData();
+      const token = localStorage.getItem("token");
+      const fd = new FormData();
 
-    fd.append("publication", form.publication);
-    fd.append("publicationType", form.publicationType);
-    fd.append("quartile", form.quartile);
-    fd.append("nonIndexed", form.nonIndexed);
-    fd.append("classification", form.classification);
+      fd.append("publication", form.publication);
+      fd.append("publicationType", form.publicationType);
+      fd.append("quartile", form.quartile);
+      fd.append("nonIndexed", form.nonIndexed);
+      fd.append("classification", form.classification);
 
-    if (form.file) {
-      fd.append("file", form.file);
-    }
+      if (form.file) {
+        fd.append("file", form.file);
+      }
 
-    const res = await fetch("http://localhost:5000/api/publications", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: fd,
-    });
+      const res = await fetch("http://localhost:5000/api/publications", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: fd,
+      });
 
     const data = await res.json();
 
@@ -85,114 +106,138 @@ export default function UploadDocumentForm() {
     }
 
     alert("Submitted successfully");
-    handleReset();
+    setShowModal(false);
+      handleReset();
+    } catch (error) {
+      alert("Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
-      <h2 className="mb-4 text-xl font-semibold text-black">Information</h2>
+    <>
+      {showModal && (
+        <SubmitModal
+          onClose={() => setShowModal(false)}
+          onConfirm={handleActualSubmit}
+        />
+      )}
+      {showResetModal && (
+        <ResetModal
+          onClose={() => setShowResetModal(false)}
+          onConfirm={handleReset}
+        />
+      )}
+      <form 
+        onSubmit={handleOpenModal} 
+        className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
+        <h2 className="mb-4 text-xl font-semibold text-black">Information</h2>
 
-      <div className="space-y-4">
-        <div>
-          <label className="mb-1 block text-sm font-medium">Publication (Full Citation)</label>
-          <input
-            name="publication"
-            value={form.publication}
-            onChange={handleChange}
-            placeholder="Enter full citation"
-            className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">Publication Type</label>
-          <select
-            name="publicationType"
-            value={form.publicationType}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
-          >
-            <option value="">Select type</option>
-            <option value="Journal Article">Journal Article</option>
-            <option value="Book Chapter">Book Chapter</option>
-            <option value="Book">Book</option>
-            <option value="Conference">Conference</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">Publication Quartile / Outlet Ranking / Index Status</label>
-          <select
-            name="quartile"
-            value={form.quartile}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
-          >
-            <option value="">Select quartile</option>
-            <option value="Q1">Q1</option>
-            <option value="Q2">Q2</option>
-            <option value="Q3">Q3</option>
-            <option value="others">others</option>
-          </select>
-        </div>
-
-        {showNonIndexed && (
+        <div className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium">Non Indexed</label>
+            <label className="mb-1 block text-sm font-medium">Publication (Full Citation)</label>
+            <input
+              name="publication"
+              value={form.publication}
+              onChange={handleChange}
+              placeholder="Enter full citation"
+              className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">Publication Type</label>
             <select
-              name="nonIndexed"
-              value={form.nonIndexed}
+              name="publicationType"
+              value={form.publicationType}
               onChange={handleChange}
               className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
             >
-              <option value="">Select non indexed type</option>
-              <option value="University Based">University Based</option>
-              <option value="Non-University Based">Non-University Based</option>
+              <option value="">Select type</option>
+              <option value="Journal Article">Journal Article</option>
+              <option value="Book Chapter">Book Chapter</option>
+              <option value="Book">Book</option>
+              <option value="Conference">Conference</option>
             </select>
           </div>
-        )}
 
-        <div>
-          <label className="mb-1 block text-sm font-medium">Classification</label>
-          <select
-            name="classification"
-            value={form.classification}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
-          >
-            <option value="">Select classification</option>
-            <option value="National">National</option>
-            <option value="International">International</option>
-          </select>
+          <div>
+            <label className="mb-1 block text-sm font-medium">Publication Quartile / Outlet Ranking / Index Status</label>
+            <select
+              name="quartile"
+              value={form.quartile}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
+            >
+              <option value="">Select quartile</option>
+              <option value="Q1">Q1</option>
+              <option value="Q2">Q2</option>
+              <option value="Q3">Q3</option>
+              <option value="others">others</option>
+            </select>
+          </div>
+
+          {showNonIndexed && (
+            <div>
+              <label className="mb-1 block text-sm font-medium">Non Indexed</label>
+              <select
+                name="nonIndexed"
+                value={form.nonIndexed}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
+              >
+                <option value="">Select non indexed type</option>
+                <option value="University Based">University Based</option>
+                <option value="Non-University Based">Non-University Based</option>
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">Classification</label>
+            <select
+              name="classification"
+              value={form.classification}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-400 px-4 py-3 outline-none focus:border-blue-500"
+            >
+              <option value="">Select classification</option>
+              <option value="National">National</option>
+              <option value="International">International</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">Upload File</label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileChange}
+              className="w-full rounded-lg border border-gray-400 px-4 py-3"
+            />
+          </div>
+
+          <div className="flex items-center justify-between gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => setShowResetModal(true)}
+              className="rounded-full border border-gray-400 bg-white px-5 py-2 font-semibold text-black"
+              disabled={isResetting}
+            >
+              Reset information
+            </button>
+
+            <button
+              type="submit"
+              className="rounded-full bg-black px-6 py-2 font-semibold text-white"
+              disabled={isSubmitting}
+            >
+              Submit
+            </button>
+          </div>
         </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">Upload File</label>
-          <input
-            ref={fileInputRef}
-            type="file"
-            onChange={handleFileChange}
-            className="w-full rounded-lg border border-gray-400 px-4 py-3"
-          />
-        </div>
-
-        <div className="flex items-center justify-between gap-3 pt-2">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="rounded-full border border-gray-400 bg-white px-5 py-2 font-semibold text-black"
-          >
-            Reset information
-          </button>
-
-          <button
-            type="submit"
-            className="rounded-full bg-black px-6 py-2 font-semibold text-white"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
