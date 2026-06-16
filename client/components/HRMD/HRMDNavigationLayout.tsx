@@ -51,7 +51,9 @@ export default function HRMDNavigationLayout() {
           />
           <div className="text-white">
             <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
-            <p className="text-[hsla(0,2%,42%,1)]">Reviewer&apos;s Portal</p>
+            <p className="text-[hsla(0,2%,42%,1)]">
+              Human Resource Management and Development&apos;s Portal
+            </p>
           </div>
         </div>
 

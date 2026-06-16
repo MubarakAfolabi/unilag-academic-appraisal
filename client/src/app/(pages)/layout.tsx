@@ -9,6 +9,9 @@ const VCNavigationLayout = dynamic(
 const HRMDNavigationLayout = dynamic(
   () => import("@/components/HRMD/HRMDNavigationLayout"),
 );
+const AccessorNavigationLayout = dynamic(
+  () => import("@/components/Accessor/AccessorNavigationLayout"),
+);
 
 export default function PageLayout({
   children,
@@ -18,6 +21,7 @@ export default function PageLayout({
   const navigationLayouts = {
     VC: <VCNavigationLayout />,
     HRMD: <HRMDNavigationLayout />,
+    ACCESSOR: <AccessorNavigationLayout />,
   };
 
   return (

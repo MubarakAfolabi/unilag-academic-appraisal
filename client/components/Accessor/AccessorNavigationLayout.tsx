@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText } from "lucide-react";
+import { LayoutGrid, FileText, Bell, UserRound } from "lucide-react";
 import Image from "next/image";
 
 const navBarArr = [
@@ -12,9 +12,14 @@ const navBarArr = [
     icon: <LayoutGrid size={18} />,
   },
   {
-    name: "Accessment Report",
+    name: "My Reviews",
     path: "/#",
     icon: <FileText size={18} />,
+  },
+  {
+    name: "Profile",
+    path: "/#",
+    icon: <UserRound size={18} />,
   },
 ];
 
@@ -25,19 +30,29 @@ const sideBarArr = [
     icon: <LayoutGrid />,
   },
   {
-    name: "Accessment Report",
+    name: "My Reviews",
     path: "/#",
     icon: <FileText />,
   },
+  {
+    name: "Notifications",
+    path: "/#",
+    icon: <Bell />,
+  },
+  {
+    name: "Profile",
+    path: "/#",
+    icon: <UserRound />,
+  },
 ];
 
-export default function VCNavigationLayout() {
+export default function AccessorNavigationLayout() {
   const pathname = usePathname();
 
   return (
     <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
       {" "}
-      <div className="md:hidden flex flex-1 justify-evenly gap-4 px-6">
+      <div className="md:hidden flex flex-1 justify-between gap-4 px-6">
         {navBarArr.map((item, index) => {
           return (
             <Link
@@ -61,9 +76,7 @@ export default function VCNavigationLayout() {
           />
           <div className="text-white">
             <h1 className="text-lg font-semibold">Unilag Academic Appraisal</h1>
-            <p className="text-[hsla(0,2%,42%,1)]">
-              Vice Chancellor&apos;s Portal
-            </p>
+            <p className="text-[hsla(0,2%,42%,1)]">Accessor&apos;s Portal</p>
           </div>
         </div>
 
