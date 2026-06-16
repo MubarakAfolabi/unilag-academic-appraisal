@@ -67,7 +67,7 @@ export default function VCDashboard() {
             </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
-            Track your submissions and progress
+            Overview of the academic appraisal system
           </p>
         </div>
 
