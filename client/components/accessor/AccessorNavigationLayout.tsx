@@ -13,7 +13,7 @@ const navBarArr = [
   },
   {
     name: "My Reviews",
-    path: "/#",
+    path: "/reviews",
     icon: <FileText size={18} />,
   },
   {
@@ -31,7 +31,7 @@ const sideBarArr = [
   },
   {
     name: "My Reviews",
-    path: "/#",
+    path: "/reviews",
     icon: <FileText />,
   },
   {

@@ -1,6 +1,13 @@
 import { Fragment, useState } from "react";
-import { Reviews } from "@/constant/reviewerDashboard";
 import { FileText, Search } from "lucide-react";
+
+type Reviews = {
+  title: string;
+  manuscriptId: string;
+  date: string;
+  dueDate?: string;
+  status: string;
+};
 
 type Props = {
   allReviews: Reviews[];
@@ -129,9 +136,15 @@ export default function ReviewList({ allReviews }: Props) {
                   </div>
                 </div>
 
-                <button className="bg-[hsla(194,30%,14%,1)] text-[hsla(0,0%,100%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
-                  Review
-                </button>
+                {review.status === "Completed" ? (
+                  <button className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
+                    View Review
+                  </button>
+                ) : (
+                  <button className="bg-[hsla(194,30%,14%,1)] text-[hsla(0,0%,100%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
+                    Review Now
+                  </button>
+                )}
               </li>
 
               {index < filteredReviews.length - 1 && (

@@ -1,16 +1,41 @@
 "use client";
 
 import Image from "next/image";
-import { LogOut, Bell } from "lucide-react";
-import ReviewerOverviewCards from "@/components/ReviewerOverviewCards";
+import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
-import {
-  userProfile,
-  allReviews,
-  reviewerOverviewCards,
-} from "@/constant/reviewerDashboard";
-import ReviewList from "@/components/ReviewList";
+import { allReviews } from "@/constant/reviewerDashboard";
+import { user } from "@/constant/user";
+import ReviewList from "@/components/accessor/ReviewList";
+import OverviewCards from "@/components/OverviewCards";
+import { OverviewCard } from "@/components/OverviewCards";
+
+const overviewCards: OverviewCard[] = [
+  {
+    label: "Pending Reviews",
+    value: "24",
+    icon: Clock4,
+    iconColor: "text-[hsla(210,79%,46%,1)]",
+    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+    bgClass: "bg-[hsl(209,67%,89%)]",
+  },
+  {
+    label: "In Progress",
+    value: "6",
+    icon: Hourglass,
+    iconColor: "text-[hsla(45,100%,51%,1)]",
+    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+    bgClass: "bg-[hsl(45,100%,85%)]",
+  },
+  {
+    label: "Completed",
+    value: "18",
+    icon: CircleCheckBig,
+    iconColor: "text-[hsla(150,90%,24%,1)]",
+    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+    bgClass: "bg-[hsl(150,28%,85%)]",
+  },
+];
 
 export default function Reviews() {
   const [modal, setModal] = useState(false);
@@ -32,7 +57,7 @@ export default function Reviews() {
           <div>
             <h2 className="font-bold text-md">Unilag Academic Appraisal</h2>
             <p className="text-sm text-[hsla(0,2%,42%,1)]">
-              {userProfile.portal}
+              Accessor&apos;s Portal
             </p>
           </div>
         </div>
@@ -50,7 +75,7 @@ export default function Reviews() {
           </button>
           <div className="cursor-pointer">
             <Image
-              src={userProfile.avatar}
+              src={user.avatar}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -74,7 +99,7 @@ export default function Reviews() {
             <Bell />
           </button>
           <Image
-            src={userProfile.avatar}
+            src={user.avatar}
             alt="Profile Picture"
             width={50}
             height={50}
@@ -83,7 +108,8 @@ export default function Reviews() {
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
-        <ReviewerOverviewCards reviewerOverviewCards={reviewerOverviewCards} />
+        <h2 className="text-lg font-semibold md:text-xl">Overview</h2>
+        <OverviewCards overviewCards={overviewCards} />
       </div>
 
       <div className="md:px-6">
