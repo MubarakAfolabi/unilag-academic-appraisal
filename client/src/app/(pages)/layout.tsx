@@ -1,25 +1,24 @@
 "use client";
-import { usePathname } from "next/navigation";
-import ReviewerNavigationLayout from "@/components/ReviewerNavigationLayout";
-import PublisherNavigationLayout from "@/components/PublisherNavigationLayout";
+
+import dynamic from "next/dynamic";
+import { user } from "@/constant/user";
+
+const VCNavigationLayout = dynamic(
+  () => import("@/components/VC/VCNavigationLayout"),
+);
 
 export default function PageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isPublisher =
-    pathname.includes("/publisher") ||
-    pathname.includes("/upload") ||
-    pathname.includes("/profile");
+  const navigationLayouts = {
+    VC: <VCNavigationLayout />,
+  };
+
   return (
     <div className="flex md:h-screen overflow-hidden">
-      {isPublisher ? (
-        <PublisherNavigationLayout />
-      ) : (
-        <ReviewerNavigationLayout />
-      )}
+      {navigationLayouts[user.role]}
       {children}
     </div>
   );
