@@ -9,7 +9,7 @@ import RecentSubmissions from "@/components/RecentSubmissions";
 import { recentUploadActivity } from "@/constant/publisherDashboard";
 import { publisherOverviewCards } from "@/constant/publisherDashboard";
 import RecentUploads from "@/components/RecentUploads";
-import PublisherOverviewCards from "@/components/PublisherOverviewCards";
+import PublisherOverviewCards from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

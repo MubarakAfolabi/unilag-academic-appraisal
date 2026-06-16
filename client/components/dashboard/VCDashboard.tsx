@@ -1,16 +1,43 @@
 "use client";
 
 import Image from "next/image";
-import { LogOut } from "lucide-react";
+import { LogOut, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 
 import { user } from "@/constant/user";
 import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/RecentSubmissions";
-import { publisherOverviewCards } from "@/constant/publisherDashboard";
-import PublisherOverviewCards from "@/components/PublisherOverviewCards";
+import OverviewCards from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { OverviewCard } from "@/constant/publisherDashboard";
+
+const overviewCards: OverviewCard[] = [
+  {
+    label: "Total Submissions",
+    value: "1245",
+    icon: Clock4,
+    iconColor: "text-[hsla(210,79%,46%,1)]",
+    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+    bgClass: "bg-[hsl(209,67%,89%)]",
+  },
+  {
+    label: "Under Review",
+    value: "86",
+    icon: Hourglass,
+    iconColor: "text-[hsla(45,100%,51%,1)]",
+    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+    bgClass: "bg-[hsl(45,100%,85%)]",
+  },
+  {
+    label: "Scored",
+    value: "982",
+    icon: CircleCheckBig,
+    iconColor: "text-[hsla(150,90%,24%,1)]",
+    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+    bgClass: "bg-[hsl(150,28%,85%)]",
+  },
+];
 
 export default function VCDashboard() {
   const [modal, setModal] = useState(false);
@@ -82,12 +109,8 @@ export default function VCDashboard() {
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
-        <h2 className="text-lg font-semibold md:text-xl">
-          Submission Overview
-        </h2>
-        <PublisherOverviewCards
-          publisherOverviewCards={publisherOverviewCards}
-        />
+        <h2 className="text-lg font-semibold md:text-xl">Overview</h2>
+        <OverviewCards overviewCards={overviewCards} />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:pb-10">

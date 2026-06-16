@@ -1,15 +1,13 @@
 import { OverviewCard } from "@/constant/publisherDashboard";
 
 type Props = {
-  publisherOverviewCards: OverviewCard[];
+  overviewCards: OverviewCard[];
 };
 
-export default function PublisherOverviewCards({
-  publisherOverviewCards,
-}: Props) {
+export default function OverviewCards({ overviewCards }: Props) {
   return (
     <ul className="flex gap-2 flex-wrap">
-      {publisherOverviewCards.map((card, index) => {
+      {overviewCards.map((card, index) => {
         const Icon = card.icon;
 
         return (

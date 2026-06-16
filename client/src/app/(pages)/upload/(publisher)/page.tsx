@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { LogOut, Bell } from "lucide-react";
-import PublisherOverviewCards from "@/components/PublisherOverviewCards";
+import PublisherOverviewCards from "@/components/OverviewCards";
 
 import {
   publisherOverviewCards,
