@@ -23,7 +23,7 @@ const createUser = async (
   lastname,
   staffId,
   email,
-  passwordHash,
+  password,
   role,
 ) => {
   const user = await prisma.user.create({

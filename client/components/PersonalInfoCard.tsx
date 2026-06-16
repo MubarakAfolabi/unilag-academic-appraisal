@@ -1,115 +1,110 @@
 "use client";
 
-import { UserRound, SquarePen, Check } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Check, PenLine, UserRound } from "lucide-react";
 
 export default function PersonalInfoCard() {
   const [edit, setEdit] = useState(false);
+
   const [info, setInfo] = useState(
-    " Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing.",
+    "Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing."
   );
+
+  const [phone, setPhone] = useState("0803 123 4567");
+  const [department, setDepartment] = useState("Computer Science");
+  const [faculty, setFaculty] = useState("Science");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "auto";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
+    if (!textarea) return;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
   useEffect(() => {
     adjustHeight();
-  }, [info]);
+  }, [info, edit]);
+
+  const profileFields = [
+    { label: "Full Name", value: "Dr. Alex Johnson", editable: false },
+    { label: "Staff ID", value: "UL/CSC/2015/1122", editable: false },
+    { label: "Email", value: "alex.johnson@gmail.com", editable: false },
+    { label: "Phone", value: phone, editable: true, setter: setPhone },
+    {
+      label: "Department",
+      value: department,
+      editable: true,
+      setter: setDepartment,
+    },
+    { label: "Faculty", value: faculty, editable: true, setter: setFaculty },
+    { label: "Rank", value: "Lecturer I", editable: false },
+    { label: "Date Joined", value: "September 1, 2015", editable: false },
+  ] as const;
+
+  const handleSave = () => {
+    setEdit(false);
+  };
 
   return (
-    <div className="border border-solid border-[hsla(0,0%,85%,1)] p-4 rounded-xl flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2 items-center justify-between text-[hsla(216,59%,54%,1)]">
-          <div className="flex items-center gap-2">
-            <div>
-              <UserRound />
-            </div>
-            <p className="font-semibold">Personal Information</p>
-          </div>
-          {edit ? (
-            <button className="cursor-pointer" onClick={() => setEdit(false)}>
-              <Check />
-            </button>
-          ) : (
-            <button
-              className="cursor-pointer"
-              onClick={() => setEdit((prev) => !prev)}
-            >
-              <SquarePen />
-            </button>
-          )}
+    <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-blue-600">
+          <UserRound className="h-5 w-5" />
+          <h3 className="text-lg font-semibold">Personal Information</h3>
         </div>
 
-        <div>
+        <button
+          onClick={() => (edit ? handleSave() : setEdit(true))}
+          className="rounded-lg p-2 text-blue-600 transition hover:bg-blue-50"
+          aria-label={edit ? "Save changes" : "Edit profile"}
+        >
           {edit ? (
-            <textarea
-              ref={textareaRef}
-              className="border border-[hsla(0,0%,85%,1)] w-full min-h-10 max-h-75 rounded-md outline-none px-3 py-2 resize-none leading-relaxed"
-              value={info}
-              onChange={(e) => {
-                setInfo(e.target.value);
-                adjustHeight();
-              }}
-            />
+            <Check className="h-5 w-5" />
           ) : (
-            <div>
-              {info.trim().length > 0 ? (
-                <p className="text-[hsla(215,28%,37%,1)]">{info}</p>
-              ) : (
-                <p className="text-[hsla(215,28%,37%,1)] text-sm text-center">
-                  No Bio
-                </p>
-              )}
-            </div>
+            <PenLine className="h-5 w-5" />
           )}
-        </div>
+        </button>
       </div>
 
-      <hr className="border-solid border-[hsla(0,0%,85%,1)]" />
+      <div className="mt-4">
+        <h4 className="mb-2 text-lg font-semibold text-slate-900">About Me</h4>
 
-      <ul className="flex flex-col gap-4">
-        <li className="flex">
-          <p className="flex-1 font-semibold">Full Name:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">Dr. Alex Johnson</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Staff ID:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">UL/CSC/2015/1122</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Email:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">
-            alex.johnson@gmail.com
+        {edit ? (
+          <textarea
+            ref={textareaRef}
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+            className="min-h-[80px] w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-relaxed text-slate-700 outline-none focus:border-blue-500"
+          />
+        ) : (
+          <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm leading-relaxed text-slate-700">
+            {info}
           </p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Phone:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">0803 123 4567</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Department:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">Computer Science</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Faculty:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">Science</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Rank:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">Lecturer I</p>
-        </li>
-        <li className="flex">
-          <p className="flex-1 font-semibold">Date Joined:</p>
-          <p className="flex-1 text-[hsla(215,28%,37%,1)]">Septemper 1, 2015</p>
-        </li>
-      </ul>
+        )}
+      </div>
+
+      <div className="my-5 border-t border-slate-200" />
+
+      <div className="space-y-3">
+        {profileFields.map((field) => (
+          <div key={field.label} className="grid grid-cols-[140px_1fr] gap-3">
+            <p className="font-semibold text-slate-900">{field.label}:</p>
+
+            {edit && field.editable ? (
+              <input
+                type="text"
+                value={field.value}
+                onChange={(e) => field.setter?.(e.target.value)}
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-500"
+              />
+            ) : (
+              <p className="text-slate-600">{field.value}</p>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
