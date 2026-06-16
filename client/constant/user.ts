@@ -14,6 +14,6 @@ export const user: User = {
   lastname: "Mubarak",
   title: "Dr.",
   email: "mubarakbolu150@gmail.com",
-  role: "ACCESSOR",
+  role: "VC",
   avatar: "/profile-pic.svg",
 };
