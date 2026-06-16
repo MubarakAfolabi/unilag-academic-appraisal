@@ -1,5 +1,10 @@
-import { RecentActivityItem } from "@/constant/reviewerDashboard";
 import { Check, X, ChevronRight } from "lucide-react";
+
+export type RecentActivityItem = {
+  title: string;
+  date: string;
+  iconState: "success" | "warning" | "info" | "error";
+};
 
 type Props = {
   recentActivity: RecentActivityItem[];

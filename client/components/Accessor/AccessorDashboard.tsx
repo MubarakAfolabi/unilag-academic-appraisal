@@ -1,37 +1,43 @@
 "use client";
 
-import Image from "next/image";
-import { LogOut, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
-
 import { user } from "@/constant/user";
-import { recentSubmissions } from "@/constant/publisherDashboard";
-import RecentSubmissions from "@/components/RecentSubmissions";
-import OverviewCards from "@/components/OverviewCards";
-import LogoutModal from "@/components/LogoutModal";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { OverviewCard } from "@/constant/publisherDashboard";
+import LogoutModal from "@/components/LogoutModal";
+import Image from "next/image";
+import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
+import { useRouter } from "next/navigation";
+import OverviewCards from "@/components/OverviewCards";
+import { OverviewCard } from "@/components/OverviewCards";
+import PendingSubmissions from "@/components/PendingSubmission";
+import RecentActivity from "@/components/RecentActivity";
+import ReviewPerformance from "@/components/ReviewPerformance";
+
+import {
+  pendingSubmissions,
+  recentActivity,
+  reviewerPerformance,
+} from "@/constant/reviewerDashboard";
 
 const overviewCards: OverviewCard[] = [
   {
-    label: "Total Submissions",
-    value: "1245",
+    label: "Pending Reviews",
+    value: "24",
     icon: Clock4,
     iconColor: "text-[hsla(210,79%,46%,1)]",
     iconWrapper: "bg-[hsla(208,78%,85%,1)]",
     bgClass: "bg-[hsl(209,67%,89%)]",
   },
   {
-    label: "Under Review",
-    value: "86",
+    label: "In Progress",
+    value: "6",
     icon: Hourglass,
     iconColor: "text-[hsla(45,100%,51%,1)]",
     iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
     bgClass: "bg-[hsl(45,100%,85%)]",
   },
   {
-    label: "Scored",
-    value: "982",
+    label: "Completed",
+    value: "18",
     icon: CircleCheckBig,
     iconColor: "text-[hsla(150,90%,24%,1)]",
     iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
@@ -39,7 +45,7 @@ const overviewCards: OverviewCard[] = [
   },
 ];
 
-export default function VCDashboard() {
+export default function AccessorDashboard() {
   const [modal, setModal] = useState(false);
   const router = useRouter();
 
@@ -61,7 +67,7 @@ export default function VCDashboard() {
           <div>
             <h2 className="font-bold text-md">Unilag Academic Appraisal</h2>
             <p className="text-sm text-[hsla(0,2%,42%,1)]">
-              Vice Chancellor&apos;s Portal
+              Accessor&apos;s Portal
             </p>
           </div>
         </div>
@@ -72,6 +78,15 @@ export default function VCDashboard() {
             onClick={() => setModal(true)}
           >
             <LogOut size={22} />
+          </button>
+
+          <button
+            onClick={() => router.push("/notifications/reviewer")}
+            className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer relative"
+          >
+            <div className="bg-[hsla(0,93%,52%,1)] absolute right-1 h-1 w-1 rounded-full"></div>
+
+            <Bell size={22} />
           </button>
 
           <div className="cursor-pointer">
@@ -94,7 +109,7 @@ export default function VCDashboard() {
             </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
-            Overview of the academic appraisal system
+            Review Submissions
           </p>
         </div>
 
@@ -113,16 +128,38 @@ export default function VCDashboard() {
         <OverviewCards overviewCards={overviewCards} />
       </div>
 
-      <div className="flex flex-col gap-2 md:px-6 md:pb-10">
+      <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold md:text-xl">
-            Recent Submission
+            Pending Submission
           </h2>
-          <p className="text-[hsla(210,79%,46%,1)] md:hidden font-bold cursor-pointer">
+          <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
             View all
           </p>
         </div>
-        <RecentSubmissions recentSubmissions={recentSubmissions} />
+        <PendingSubmissions pendingSubmissions={pendingSubmissions} />
+      </div>
+
+      <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold md:text-xl">Recent Activity</h2>
+          <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
+            View all
+          </p>
+        </div>
+        <RecentActivity recentActivity={recentActivity} />
+      </div>
+
+      <div className="flex flex-col gap-2 md:px-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold md:text-xl">
+            Review Performance
+          </h2>
+          <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
+            View all
+          </p>
+        </div>
+        <ReviewPerformance reviewPerformance={reviewerPerformance} />
       </div>
     </section>
   );

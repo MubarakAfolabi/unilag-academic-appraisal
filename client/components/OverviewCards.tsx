@@ -1,4 +1,13 @@
-import { OverviewCard } from "@/constant/publisherDashboard";
+import { LucideIcon } from "lucide-react";
+
+export type OverviewCard = {
+  label: string;
+  value: string;
+  icon: LucideIcon;
+  iconColor: string;
+  iconWrapper: string;
+  bgClass: string;
+};
 
 type Props = {
   overviewCards: OverviewCard[];

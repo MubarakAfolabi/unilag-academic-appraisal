@@ -5,7 +5,7 @@ import { LogOut, Bell } from "lucide-react";
 
 import { userProfile } from "@/constant/publisherDashboard";
 import { recentSubmissions } from "@/constant/publisherDashboard";
-import RecentSubmissions from "@/components/RecentSubmissions";
+import RecentSubmissions from "@/components/VC/RecentSubmissions";
 import { recentUploadActivity } from "@/constant/publisherDashboard";
 import { publisherOverviewCards } from "@/constant/publisherDashboard";
 import RecentUploads from "@/components/RecentUploads";

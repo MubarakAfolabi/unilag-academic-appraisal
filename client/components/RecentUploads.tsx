@@ -1,5 +1,11 @@
-import { UploadActivityItem } from "@/constant/publisherDashboard";
 import { FileText } from "lucide-react";
+
+export type UploadActivityItem = {
+  filename: string;
+  meta: string;
+  status: string;
+  progressValue: number;
+};
 
 type Props = {
   recentUploadActivity: UploadActivityItem[];

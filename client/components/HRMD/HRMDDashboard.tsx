@@ -6,7 +6,30 @@ import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut } from "lucide-react";
 import RecentActivity from "@/components/RecentActivity";
-import { recentActivity } from "@/constant/reviewerDashboard";
+import { RecentActivityItem } from "@/components/RecentActivity";
+
+export const recentActivity: RecentActivityItem[] = [
+  {
+    title: "Reviewed: Blockchain Tech in Education",
+    date: "Reviewed on March 20, 2026",
+    iconState: "success",
+  },
+  {
+    title: "Reviewed: The Future of Renewable Energy",
+    date: "Reviewed on March 23, 2026",
+    iconState: "success",
+  },
+  {
+    title: "Reviewed: Data Privacy in the Digital Age",
+    date: "Reviewed on March 28, 2026",
+    iconState: "error",
+  },
+  {
+    title: "Reviewed: Cloud Computing Adoption",
+    date: "Reviewed on April 2, 2026",
+    iconState: "success",
+  },
+];
 
 export default function HRMDDashboard() {
   const [modal, setModal] = useState(false);
