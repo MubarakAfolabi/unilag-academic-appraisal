@@ -1,6 +1,5 @@
 "use client";
 
-import { user } from "@/constant/user";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
@@ -17,6 +16,7 @@ import {
   recentActivity,
   reviewerPerformance,
 } from "@/constant/reviewerDashboard";
+import { User } from "@/constant/user";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -45,7 +45,11 @@ const overviewCards: OverviewCard[] = [
   },
 ];
 
-export default function AccessorDashboard() {
+type AccessorDashboardProps = {
+  user: User;
+};
+
+export default function AccessorDashboard({ user }: AccessorDashboardProps) {
   const [modal, setModal] = useState(false);
   const router = useRouter();
 

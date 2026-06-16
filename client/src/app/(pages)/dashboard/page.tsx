@@ -1,9 +1,24 @@
-import VCDashboard from "@/components/VC/VCDashboard";
+"use client";
+
+import dynamic from "next/dynamic";
 import { user } from "@/constant/user";
-import HRMDDashboard from "@/components/HRMD/HRMDDashboard";
-import AccessorDashboard from "@/components/Accessor/AccessorDashboard";
-import PublisherDashboard from "@/components/publisher/PublisherDashboard";
+
+const VCDashboard = dynamic(() => import("@/components/VC/VCDashboard"));
+const HRMDDashboard = dynamic(() => import("@/components/HRMD/HRMDDashboard"));
+const AccessorDashboard = dynamic(
+  () => import("@/components/Accessor/AccessorDashboard"),
+);
+const PublisherDashboard = dynamic(
+  () => import("@/components/publisher/PublisherDashboard"),
+);
 
 export default function DashboardPage() {
-  return <HRMDDashboard />;
+  const dashboards = {
+    VC: <VCDashboard user={user} />,
+    HRMD: <HRMDDashboard user={user} />,
+    ACCESSOR: <AccessorDashboard user={user} />,
+    PUBLISHER: <PublisherDashboard user={user} />,
+  };
+
+  return dashboards[user.role];
 }

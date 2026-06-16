@@ -1,12 +1,12 @@
 "use client";
 
-import { user } from "@/constant/user";
 import Image from "next/image";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut } from "lucide-react";
 import RecentActivity from "@/components/RecentActivity";
 import { RecentActivityItem } from "@/components/RecentActivity";
+import { User } from "@/constant/user";
 
 export const recentActivity: RecentActivityItem[] = [
   {
@@ -31,7 +31,11 @@ export const recentActivity: RecentActivityItem[] = [
   },
 ];
 
-export default function HRMDDashboard() {
+type HRMDDashboardProps = {
+  user: User;
+};
+
+export default function HRMDDashboard({ user }: HRMDDashboardProps) {
   const [modal, setModal] = useState(false);
 
   return (

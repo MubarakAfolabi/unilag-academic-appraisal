@@ -1,6 +1,6 @@
 type Role = "VC" | "HRMD" | "PUBLISHER" | "ACCESSOR";
 
-type User = {
+export type User = {
   firstname: string;
   lastname: string;
   title: string;

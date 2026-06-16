@@ -13,6 +13,7 @@ import { useState } from "react";
 import { SubmissionItem } from "./RecentSubmissions";
 import RecentSubmissions from "./RecentSubmissions";
 import { UploadActivityItem } from "@/components/RecentUploads";
+import { User } from "@/constant/user";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -92,7 +93,11 @@ const recentUploadActivity: UploadActivityItem[] = [
   },
 ];
 
-export default function PublisherDashboard() {
+type PublisherDashboardProps = {
+  user: User;
+};
+
+export default function PublisherDashboard({ user }: PublisherDashboardProps) {
   const [modal, setModal] = useState(false);
   const router = useRouter();
 
