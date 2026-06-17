@@ -2,12 +2,11 @@
 import { SendHorizontal } from "lucide-react";
 
 type SubmitModalProps = {
-    onClose: () => void;
-    onConfirm: () => void;
-  
+  onClose: () => void;
+  // onConfirm: () => void;
 };
 
-export default function SubmitModal({ onClose, onConfirm }: SubmitModalProps) {
+export default function SubmitModal({ onClose }: SubmitModalProps) {
   return (
     <div
       className="fixed top-0 left-0 right-0 bottom-0 bg-[hsla(0,0%,85%,0.7)] z-1 flex items-center justify-center p-4"
@@ -23,7 +22,8 @@ export default function SubmitModal({ onClose, onConfirm }: SubmitModalProps) {
         <div className="flex flex-col text-center gap-1">
           <p className="text-lg font-bold">Are you sure you want to submit?</p>
           <p className="text-sm text-[hsla(0,2%,42%,1)]">
-            Your document would be uploaded and you would be taken back to the upload page
+            Your document would be uploaded and you would be taken back to the
+            upload page
           </p>
         </div>
         <div className="flex gap-6">
@@ -33,9 +33,9 @@ export default function SubmitModal({ onClose, onConfirm }: SubmitModalProps) {
           >
             Cancel
           </button>
-          <button 
+          <button
             className="flex-1 p-2 bg-[hsla(194,30%,14%,1)] text-white border-solid border border-black rounded-lg cursor-pointer"
-            onClick={onConfirm}
+            // onClick={onConfirm}
           >
             Yes, Submit
           </button>

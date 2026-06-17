@@ -15,8 +15,7 @@ export default function UploadPage() {
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 mb-15 md:p-0 md:pb-6 bg-white min-h-screen">
       {modal && <LogoutModal onClose={() => setModal(false)} />}
 
-      <div className="block lg:hidden flex items-center justify-between mb-7 md:p-2 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
-        {/* Left: Back Arrow Button */}
+      <div className=" lg:hidden flex items-center justify-between mb-7 md:p-2 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
         <button
           className="block lg:hidden p-1 cursor-pointer text-gray-800 hover:text-black transition-colors"
           onClick={() => window.history.back()}
@@ -25,7 +24,7 @@ export default function UploadPage() {
           <ArrowLeft size={24} strokeWidth={2.5} />
         </button>
 
-        <div className="block lg:hidden flex items-center gap-3">
+        <div className=" lg:hidden flex items-center gap-3">
           <button
             className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer text-gray-700 hover:bg-gray-50 transition-colors"
             onClick={() => setModal(true)}
@@ -57,18 +56,16 @@ export default function UploadPage() {
           />
         </div>
 
-        {/* Main Heading */}
         <h1 className="text-3xl font-extrabold text-black tracking-tight sm:text-4xl">
           Upload Your Document
         </h1>
 
-        {/* Subtext */}
         <p className="text-sm sm:text-base text-gray-500 max-w-xl">
           Fill in the details below and attach your file. Once submitted, your
           document will be published and visible online.
         </p>
       </div>
-      <div className=" px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4 text-left">
+      <div className="md:p-4 rounded-xl flex flex-col items-center gap-4">
         <UploadCard />
       </div>
     </section>

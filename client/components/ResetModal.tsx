@@ -1,5 +1,5 @@
 "user client";
-import { RotateCcw  } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 type ResetModalProps = {
   onClose: () => void;
@@ -22,7 +22,8 @@ export default function ResetModal({ onClose, onConfirm }: ResetModalProps) {
         <div className="flex flex-col text-center gap-1">
           <p className="text-lg font-bold">Are you sure you want to reset?</p>
           <p className="text-sm text-[hsla(0,2%,42%,1)]">
-            All option chosen and documents uploaded would be reset and you would have to refill and upload again.
+            All option chosen and documents uploaded would be reset and you
+            would have to refill and upload again.
           </p>
         </div>
         <div className="flex gap-6">
@@ -32,9 +33,12 @@ export default function ResetModal({ onClose, onConfirm }: ResetModalProps) {
           >
             Cancel
           </button>
-          <button 
+          <button
             className="flex-1 p-2 bg-[hsla(194,30%,14%,1)] text-white border-solid border border-black rounded-lg cursor-pointer"
-            onClick={onConfirm}
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
           >
             Yes, Reset
           </button>

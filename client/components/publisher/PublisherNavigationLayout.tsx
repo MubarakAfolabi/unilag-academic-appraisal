@@ -96,14 +96,14 @@ export default function PublisherNavigationLayout() {
               </Link>
             );
           })}
-          <button
+          {/* <button
             type="button"
             onClick={() => setModal(true)}
             className="flex items-center gap-4 text-white p-4 rounded-lg hover:bg-[hsla(210,73%,64%,1)] transition-colors"
           >
             <LogOut />
             <span className="font-semibold">Logout</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </aside>
