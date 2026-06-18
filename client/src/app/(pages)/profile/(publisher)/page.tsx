@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import { userProfile } from "@/constant/publisherDashboard";
-import { LogOut, Upload, Folder} from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LogoutModal from "@/components/LogoutModal";
 import PublisherProfileCard from "@/components/PublisherProfileCard";
 import PersonalInfoCard from "@/components/PersonalInfoCard";
 import UploadListCard from "@/components/UploadListCard";
-
+import { useUser } from "@/context/userContext";
 
 export default function PublisherProfilePage() {
+  const { user, setUser } = useUser();
   const [modal, setModal] = useState(false);
   const router = useRouter();
 
@@ -31,16 +32,19 @@ export default function PublisherProfilePage() {
           </div>
 
           <div className="hidden md:block">
-          <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
-            My Profile
-          </h2>
-          <p className="text-[hsla(210,79%,46%,1)] md:text-lg">
-            <button onClick={() => router.push("/publisher")} className="hover:underline">
-              Dashboard
-            </button>
-            / My profile
-          </p>
-        </div>
+            <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
+              My Profile
+            </h2>
+            <p className="text-[hsla(210,79%,46%,1)] md:text-lg">
+              <button
+                onClick={() => router.push("/publisher")}
+                className="hover:underline"
+              >
+                Dashboard
+              </button>
+              / My profile
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -63,15 +67,8 @@ export default function PublisherProfilePage() {
       </div>
 
       <div className="md:px-6 flex flex-col gap-6 ">
-        <PublisherProfileCard />
-        <PersonalInfoCard />
-      </div>
-
-      <div className="md:px-6">
-        <button onClick={() => router.push("/upload")} className="my-3 inline-flex items-center gap-5 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700">
-          <Upload className="h-4 w-4" />
-          Upload New Work
-        </button>
+        <PublisherProfileCard user={user} />
+        <PersonalInfoCard user={user} />
         <UploadListCard />
       </div>
     </section>

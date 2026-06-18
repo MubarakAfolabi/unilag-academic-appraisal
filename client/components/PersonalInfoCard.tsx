@@ -1,13 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, PenLine, UserRound } from "lucide-react";
+import { Check, SquarePen, UserRound } from "lucide-react";
+import { User } from "@/constant/user";
 
-export default function PersonalInfoCard() {
+type infoProps = {
+  user: User;
+};
+
+export default function PersonalInfoCard({ user }: infoProps) {
   const [edit, setEdit] = useState(false);
 
   const [info, setInfo] = useState(
-    "Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing."
+    "Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing.",
   );
 
   const [phone, setPhone] = useState("0803 123 4567");
@@ -48,7 +53,7 @@ export default function PersonalInfoCard() {
   };
 
   return (
-    <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+    <div className="rounded-xl p-4 border border-solid border-[hsla(0,0%,85%,1)] flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-blue-600">
           <UserRound className="h-5 w-5" />
@@ -63,13 +68,13 @@ export default function PersonalInfoCard() {
           {edit ? (
             <Check className="h-5 w-5" />
           ) : (
-            <PenLine className="h-5 w-5" />
+            <SquarePen className="h-5 w-5" />
           )}
         </button>
       </div>
 
-      <div className="mt-4">
-        <h4 className="mb-2 text-lg font-semibold text-slate-900">About Me</h4>
+      <div>
+        <h4 className="text-lg font-semibold text-slate-900">About Me</h4>
 
         {edit ? (
           <textarea
@@ -85,7 +90,7 @@ export default function PersonalInfoCard() {
         )}
       </div>
 
-      <div className="my-5 border-t border-slate-200" />
+      <div className="h-px w-full bg-[hsla(0,0%,85%,1)]"></div>
 
       <div className="space-y-3">
         {profileFields.map((field) => (

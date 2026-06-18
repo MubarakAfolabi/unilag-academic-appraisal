@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FileText, CircleCheck, Clock3, Download } from "lucide-react";
+import { User } from "@/constant/user";
 
 const stats = [
   {
@@ -34,13 +35,16 @@ const stats = [
   },
 ];
 
-export default function PublisherProfileCard() {
+type profileProps = {
+  user: User;
+};
+
+export default function PublisherProfileCard({ user }: profileProps) {
   return (
-    <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-      <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
-        {/* Left profile block */}
-        <div className="flex flex-col items-center justify-center border-b border-slate-200 pb-5 text-center lg:border-b-0 lg:border-r lg:pb-0 lg:pr-5">
-          <div className="mb-4 h-40 w-40 overflow-hidden rounded-full bg-amber-100 shadow-inner">
+    <div className="rounded-xl bg-white p-4 border border-solid border-[hsla(0,0%,85%,1)]">
+      <div className="flex flex-col gap-4 lg:gap-6 lg:flex-row">
+        <div className="flex flex-col items-center justify-center text-center lg:px-20">
+          <div className="mb-4 h-40 w-40 overflow-hidden rounded-full bg-amber-100">
             <Image
               src="/profile-pic.svg"
               alt="Profile picture"
@@ -52,33 +56,34 @@ export default function PublisherProfileCard() {
           </div>
 
           <h3 className="text-2xl font-semibold text-slate-900">
-            Dr. Alex Johnson
+            {user.title} {user.firstname} {user.lastname}
           </h3>
 
           <span className="mt-3 rounded-full bg-emerald-50 px-5 py-2 text-sm font-semibold text-blue-600">
             Lecturer
           </span>
 
-          <p className="mt-4 text-slate-600">Department of Computer Science</p>
-          <p className="mt-1 font-semibold text-slate-900">University of Lagos</p>
+          <p className="mt-4 text-slate-600">Department of {user.department}</p>
+          <p className="mt-1 font-semibold text-slate-900">
+            University of Lagos
+          </p>
         </div>
 
-        {/* Stats block */}
-        <div className="w-full">
-          {/* Overview Title */}
+        <div className="h-px w-full bg-[hsla(0,0%,85%,1)] lg:h-auto lg:w-px"></div>
+
+        <div className="flex-1 flex flex-col justify-center">
           <div className="mb-4 flex items-center gap-2 text-blue-600">
-            <h3 className="mt-10 text-lg font-semibold">Overview</h3>
+            <h3 className="text-lg font-semibold">Overview</h3>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {stats.map((item) => {
               const Icon = item.icon;
 
               return (
-                <div
+                <li
                   key={item.name}
-                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                  className="rounded-xl border border-solid border-[hsla(0,0%,85%,1)] p-4"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -96,10 +101,10 @@ export default function PublisherProfileCard() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </div>
       </div>
     </div>
