@@ -1,56 +1,30 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Check, SquarePen, UserRound } from "lucide-react";
+import { SquarePen, UserRound } from "lucide-react";
 import { User } from "@/constant/user";
+import Link from "next/link";
 
 type infoProps = {
   user: User;
 };
 
 export default function PersonalInfoCard({ user }: infoProps) {
-  const [edit, setEdit] = useState(false);
+  // const [phone, setPhone] = useState("0803 123 4567");
+  // const [department, setDepartment] = useState("Computer Science");
+  // const [faculty, setFaculty] = useState("Science");
 
-  const [info, setInfo] = useState(
-    "Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing.",
-  );
+  // const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [phone, setPhone] = useState("0803 123 4567");
-  const [department, setDepartment] = useState("Computer Science");
-  const [faculty, setFaculty] = useState("Science");
+  // const adjustHeight = () => {
+  //   const textarea = textareaRef.current;
+  //   if (!textarea) return;
+  //   textarea.style.height = "auto";
+  //   textarea.style.height = `${textarea.scrollHeight}px`;
+  // };
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const adjustHeight = () => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
-  useEffect(() => {
-    adjustHeight();
-  }, [info, edit]);
-
-  const profileFields = [
-    { label: "Full Name", value: "Dr. Alex Johnson", editable: false },
-    { label: "Staff ID", value: "UL/CSC/2015/1122", editable: false },
-    { label: "Email", value: "alex.johnson@gmail.com", editable: false },
-    { label: "Phone", value: phone, editable: true, setter: setPhone },
-    {
-      label: "Department",
-      value: department,
-      editable: true,
-      setter: setDepartment,
-    },
-    { label: "Faculty", value: faculty, editable: true, setter: setFaculty },
-    { label: "Rank", value: "Lecturer I", editable: false },
-    { label: "Date Joined", value: "September 1, 2015", editable: false },
-  ] as const;
-
-  const handleSave = () => {
-    setEdit(false);
-  };
+  // useEffect(() => {
+  //   adjustHeight();
+  // }, [info, edit]);
 
   return (
     <div className="rounded-xl p-4 border border-solid border-[hsla(0,0%,85%,1)] flex flex-col gap-4">
@@ -60,23 +34,21 @@ export default function PersonalInfoCard({ user }: infoProps) {
           <h3 className="text-lg font-semibold">Personal Information</h3>
         </div>
 
-        <button
-          onClick={() => (edit ? handleSave() : setEdit(true))}
-          className="rounded-lg p-2 text-blue-600 transition hover:bg-blue-50"
-          aria-label={edit ? "Save changes" : "Edit profile"}
+        <Link
+          href="/profile/edit"
+          className="flex items-center gap-2 rounded-lg p-2 text-blue-600 transition bg-blue-50 cursor-pointer"
+          aria-label="Edit profile"
         >
-          {edit ? (
-            <Check className="h-5 w-5" />
-          ) : (
-            <SquarePen className="h-5 w-5" />
-          )}
-        </button>
+          <SquarePen className="h-5 w-5" />
+          <p className="hidden md:block text-lg">Edit</p>
+        </Link>
       </div>
 
       <div>
         <h4 className="text-lg font-semibold text-slate-900">About Me</h4>
+        <p className="text-sm text-[hsla(215,28%,37%,1)]">{user.bio}</p>
 
-        {edit ? (
+        {/* {edit ? (
           <textarea
             ref={textareaRef}
             value={info}
@@ -87,29 +59,47 @@ export default function PersonalInfoCard({ user }: infoProps) {
           <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm leading-relaxed text-slate-700">
             {info}
           </p>
-        )}
+        )} */}
       </div>
 
       <div className="h-px w-full bg-[hsla(0,0%,85%,1)]"></div>
 
-      <div className="space-y-3">
-        {profileFields.map((field) => (
-          <div key={field.label} className="grid grid-cols-[140px_1fr] gap-3">
-            <p className="font-semibold text-slate-900">{field.label}:</p>
-
-            {edit && field.editable ? (
-              <input
-                type="text"
-                value={field.value}
-                onChange={(e) => field.setter?.(e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-500"
-              />
-            ) : (
-              <p className="text-slate-600">{field.value}</p>
-            )}
-          </div>
-        ))}
-      </div>
+      <ul className="flex flex-col gap-2">
+        <li className="flex">
+          <p className="font-semibold flex-1">Full Name:</p>
+          <p className="text-slate-700 flex-1">
+            {user.title} {user.firstname} {user.lastname}
+          </p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Staff ID:</p>
+          <p className="text-slate-700 flex-1">{user.staffId}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Email:</p>
+          <p className="text-slate-700 flex-1">{user.email}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Phone:</p>
+          <p className="text-slate-700 flex-1">{user.phoneNo}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Department:</p>
+          <p className="text-slate-700 flex-1">{user.department}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Faculty:</p>
+          <p className="text-slate-700 flex-1">{user.faculty}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Rank:</p>
+          <p className="text-slate-700 flex-1">{user.rank}</p>
+        </li>
+        <li className="flex">
+          <p className="font-semibold flex-1">Date Joined:</p>
+          <p className="text-slate-700 flex-1">{user.dateJoined}</p>
+        </li>
+      </ul>
     </div>
   );
 }

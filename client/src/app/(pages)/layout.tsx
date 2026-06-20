@@ -24,8 +24,8 @@ export default function PageLayout({
   children: React.ReactNode;
 }>) {
   const initialUser: User = {
-    firstname: "Idris",
-    lastname: "Mubarak",
+    firstname: "Mubarak",
+    lastname: "Idris",
     title: "Dr.",
     email: "mubarakbolu150@gmail.com",
     role: "PUBLISHER",
