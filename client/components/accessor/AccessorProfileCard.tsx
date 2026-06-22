@@ -6,28 +6,28 @@ import { User } from "@/constant/user";
 
 const stats = [
   {
-    name: "Works Uploaded",
+    name: "Assigned Reviews",
     amount: 28,
     icon: FileText,
     iconBg: "bg-blue-50",
     iconColor: "text-blue-600",
   },
   {
-    name: "Received",
+    name: "Completed Reviews",
     amount: 8,
     icon: CircleCheck,
     iconBg: "bg-green-50",
     iconColor: "text-green-600",
   },
   {
-    name: "Under Review",
+    name: "Pending Reviews",
     amount: 3,
     icon: Clock3,
     iconBg: "bg-orange-50",
     iconColor: "text-orange-500",
   },
   {
-    name: "Total Download",
+    name: "Total Reviews Done",
     amount: 156,
     icon: Download,
     iconBg: "bg-violet-50",
@@ -39,7 +39,7 @@ type profileProps = {
   user: User;
 };
 
-export default function PublisherProfileCard({ user }: profileProps) {
+export default function AccessorProfileCard({ user }: profileProps) {
   return (
     <div className="rounded-xl bg-white p-4 border border-solid border-[hsla(0,0%,85%,1)]">
       <div className="flex flex-col gap-4 lg:gap-6 lg:flex-row">
@@ -72,8 +72,8 @@ export default function PublisherProfileCard({ user }: profileProps) {
         <div className="h-px w-full bg-[hsla(0,0%,85%,1)] lg:h-auto lg:w-px"></div>
 
         <div className="flex-1 flex flex-col justify-center">
-          <div className="mb-4 flex items-center gap-2 text-blue-600">
-            <h3 className="text-lg font-semibold">Overview</h3>
+          <div className="mb-4 flex items-center gap-2 text-[hsla(216,59%,54%,1)]">
+            <h3 className="font-semibold">Overview</h3>
           </div>
 
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">

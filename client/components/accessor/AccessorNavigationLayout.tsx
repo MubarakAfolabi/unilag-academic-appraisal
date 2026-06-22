@@ -18,7 +18,7 @@ const navBarArr = [
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/profile",
     icon: <UserRound size={18} />,
   },
 ];
@@ -36,12 +36,12 @@ const sideBarArr = [
   },
   {
     name: "Notifications",
-    path: "/#",
+    path: "/notifications",
     icon: <Bell />,
   },
   {
     name: "Profile",
-    path: "/#",
+    path: "/profile",
     icon: <UserRound />,
   },
 ];

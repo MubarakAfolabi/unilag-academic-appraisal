@@ -12,9 +12,9 @@ export default function PersonalInfoCard({ user }: infoProps) {
   return (
     <div className="rounded-xl p-4 border border-solid border-[hsla(0,0%,85%,1)] flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-blue-600">
+        <div className="flex items-center gap-2 text-[hsla(216,59%,54%,1)]">
           <UserRound className="h-5 w-5" />
-          <h3 className="text-lg font-semibold">Personal Information</h3>
+          <h3 className="font-semibold">Personal Information</h3>
         </div>
 
         <Link

@@ -1,7 +1,7 @@
 "use client";
 
+import { useUser } from "@/context/userContext";
 import dynamic from "next/dynamic";
-import { user } from "@/constant/user";
 
 const VCDashboard = dynamic(() => import("@/components/VC/VCDashboard"));
 const HRMDDashboard = dynamic(() => import("@/components/HRMD/HRMDDashboard"));
@@ -13,11 +13,13 @@ const PublisherDashboard = dynamic(
 );
 
 export default function DashboardPage() {
+  const { user } = useUser();
+
   const dashboards = {
-    VC: <VCDashboard user={user} />,
-    HRMD: <HRMDDashboard user={user} />,
-    ACCESSOR: <AccessorDashboard user={user} />,
-    PUBLISHER: <PublisherDashboard user={user} />,
+    VC: <VCDashboard />,
+    HRMD: <HRMDDashboard />,
+    ACCESSOR: <AccessorDashboard />,
+    PUBLISHER: <PublisherDashboard />,
   };
 
   return dashboards[user.role];

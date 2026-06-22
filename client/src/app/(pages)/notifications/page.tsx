@@ -1,22 +1,21 @@
 "use client";
 
-import { ChevronLeft, Check } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { userProfile } from "@/constant/reviewerDashboard";
 import ReviewerNotification from "@/components/ReviewerNotification";
 
-export default function ReviewerNotifications() {
+export default function Notifications() {
   const router = useRouter();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
       <header className="md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
         <div className="flex items-center gap-2 md:justify-between">
-          <div 
-          className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer md:hidden"
-          onClick={() => router.push("/reviewer")}
+          <div
+            className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer md:hidden"
+            onClick={() => router.push("/reviewer")}
           >
             <ChevronLeft />
           </div>

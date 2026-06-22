@@ -93,11 +93,7 @@ const recentUploadActivity: UploadActivityItem[] = [
   },
 ];
 
-type PublisherDashboardProps = {
-  user: User;
-};
-
-export default function PublisherDashboard({ user }: PublisherDashboardProps) {
+export default function PublisherDashboard() {
   const [modal, setModal] = useState(false);
   const router = useRouter();
 

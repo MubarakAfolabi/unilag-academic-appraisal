@@ -6,11 +6,10 @@ import { LogOut, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/VC/RecentSubmissions";
 import LogoutModal from "@/components/LogoutModal";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { OverviewCard } from "@/components/OverviewCards";
 import OverviewCards from "@/components/OverviewCards";
-import { User } from "@/constant/user";
+import { useUser } from "@/context/userContext";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -39,13 +38,9 @@ const overviewCards: OverviewCard[] = [
   },
 ];
 
-type VCDashboardProps = {
-  user: User;
-};
-
-export default function VCDashboard({ user }: VCDashboardProps) {
+export default function VCDashboard() {
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
-  const router = useRouter();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
