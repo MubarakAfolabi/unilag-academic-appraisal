@@ -28,7 +28,7 @@ export default function PageLayout({
     lastname: "Idris",
     title: "Dr.",
     email: "mubarakbolu150@gmail.com",
-    role: "PUBLISHER",
+    role: "ACCESSOR",
     department: "Computer Science",
     faculty: "Science",
     rank: "Lecturer 1",

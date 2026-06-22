@@ -26,7 +26,7 @@ export default function UploadPage() {
 
         <div className=" lg:hidden flex items-center gap-3">
           <button
-            className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer text-gray-700 hover:bg-gray-50 transition-colors"
+            className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer"
             onClick={() => setModal(true)}
             aria-label="Logout"
           >
@@ -37,8 +37,8 @@ export default function UploadPage() {
             <Image
               src={userProfile.avatar}
               alt="Profile Picture"
-              width={36}
-              height={36}
+              width={30}
+              height={30}
               className="object-cover"
             />
           </div>

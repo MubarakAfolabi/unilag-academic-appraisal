@@ -10,7 +10,6 @@ import type { User } from "@/constant/user";
 export default function profileEditPage() {
   const [modal, setModal] = useState(false);
   const { user, setUser } = useUser();
-  const [info, setInfo] = useState("");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -23,12 +22,12 @@ export default function profileEditPage() {
 
   useEffect(() => {
     adjustHeight();
-  }, [info]);
+  }, [user.bio]);
 
   const initialUser: User = { ...user };
 
   return (
-    <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col gap-6 mb-15 md:p-0 md:pb-6">
+    <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6">
       {modal && <LogoutModal onClose={() => setModal(false)} />}
       <div className="flex items-center justify-between border-b border-[hsla(0,0%,85%,1)] p-4">
         <div className="flex-1 flex items-center gap-2">
@@ -48,7 +47,7 @@ export default function profileEditPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 md:hiddenz">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
             onClick={() => setModal(true)}
@@ -58,7 +57,7 @@ export default function profileEditPage() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 lg:flex-row lg:p-4">
+      <div className="flex flex-col gap-6 lg:flex-row lg:p-4">
         <div className="p-4 lg:p-8 flex lg:flex-col lg:justify-start lg:h-fit justify-between items-center gap-2 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
           <div>
             <Image
@@ -238,9 +237,14 @@ export default function profileEditPage() {
             </h3>
             <textarea
               ref={textareaRef}
-              value={info}
-              onChange={(e) => setInfo(e.target.value)}
-              className="min-h-12.5 w-full resize-none rounded-xl border border-[hsla(0,2%,42%,1)] bg-white px-3 py-2 text-sm leading-relaxed text-slate-700 outline-none focus:border-blue-500"
+              value={user.bio}
+              onChange={(e) =>
+                setUser((prev) => ({
+                  ...prev,
+                  bio: e.target.value,
+                }))
+              }
+              className="min-h-12.5 w-full resize-none rounded-xl border border-[hsla(0,2%,42%,1)] bg-white px-3 py-2 leading-relaxed outline-none focus:border-blue-500"
             />
           </div>
 
