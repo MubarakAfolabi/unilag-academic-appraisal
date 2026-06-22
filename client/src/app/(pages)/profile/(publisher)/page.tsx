@@ -23,6 +23,7 @@ export default function PublisherProfilePage() {
       <div className="flex items-center justify-between md:p-2 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
         <div className="flex-1 flex items-center gap-2">
           <div className="md:hidden">
+            123
             <Image
               src="/unilaglogo.svg"
               alt="UNILAG logo"

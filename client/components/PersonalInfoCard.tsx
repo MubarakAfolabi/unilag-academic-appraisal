@@ -9,23 +9,6 @@ type infoProps = {
 };
 
 export default function PersonalInfoCard({ user }: infoProps) {
-  // const [phone, setPhone] = useState("0803 123 4567");
-  // const [department, setDepartment] = useState("Computer Science");
-  // const [faculty, setFaculty] = useState("Science");
-
-  // const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // const adjustHeight = () => {
-  //   const textarea = textareaRef.current;
-  //   if (!textarea) return;
-  //   textarea.style.height = "auto";
-  //   textarea.style.height = `${textarea.scrollHeight}px`;
-  // };
-
-  // useEffect(() => {
-  //   adjustHeight();
-  // }, [info, edit]);
-
   return (
     <div className="rounded-xl p-4 border border-solid border-[hsla(0,0%,85%,1)] flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -47,19 +30,6 @@ export default function PersonalInfoCard({ user }: infoProps) {
       <div>
         <h4 className="text-lg font-semibold text-slate-900">About Me</h4>
         <p className="text-sm text-[hsla(215,28%,37%,1)]">{user.bio}</p>
-
-        {/* {edit ? (
-          <textarea
-            ref={textareaRef}
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-            className="min-h-[80px] w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-relaxed text-slate-700 outline-none focus:border-blue-500"
-          />
-        ) : (
-          <p className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm leading-relaxed text-slate-700">
-            {info}
-          </p>
-        )} */}
       </div>
 
       <div className="h-px w-full bg-[hsla(0,0%,85%,1)]"></div>
