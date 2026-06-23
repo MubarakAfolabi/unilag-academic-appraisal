@@ -46,7 +46,7 @@ const registerUser = [
       }
 
       const { firstname, lastname, email, password } = matchedData(req);
-      const { role } = req.body;
+      const { staffId, role } = req.body;
       const existingUser = await queries.findUserByEmail(email);
 
       if (existingUser) {
@@ -59,7 +59,7 @@ const registerUser = [
       await queries.createUser(
         firstname,
         lastname,
-        null,
+        staffId,
         email,
         hashedPassword,
         role,

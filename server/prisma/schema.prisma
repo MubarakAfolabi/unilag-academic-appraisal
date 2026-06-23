@@ -18,7 +18,7 @@ model User {
   firstname String
   lastname  String
   title     String   @default("Dr.")
-  staffId   String?
+  staffId   String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
