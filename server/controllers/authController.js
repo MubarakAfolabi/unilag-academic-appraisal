@@ -75,15 +75,15 @@ const registerUser = [
 
 const login = async (req, res) => {
   try {
-    const { role } = req.params;
+    const { staffId, password } = req.body;
+    const user = await queries.findUserByStaffId(staffId);
 
-    const { email, password } = req.body;
-    const user = await queries.findUserByEmail(email);
+    console.log(user);
 
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid email or password" });
+        .json({ success: false, message: "Invalid Staff ID or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -91,16 +91,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid email or password" });
-    }
-
-    console.log(user.role, role);
-
-    if (user.role !== role) {
-      return res.status(403).json({
-        success: false,
-        message: `This account is registered as a ${user.role.toLowerCase()}. Please use the ${user.role.toLowerCase()} login.`,
-      });
+        .json({ success: false, message: "Invalid Staff ID or password" });
     }
 
     const token = jwt.sign(
