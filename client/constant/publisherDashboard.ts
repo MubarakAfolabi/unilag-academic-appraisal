@@ -42,6 +42,13 @@ export type SubmissionItem = {
   statusClass: string;
 };
 
+export type UploadActivityItem = {
+  filename: string;
+  meta: string;
+  status: "Processing..." | "Completed" | "Failed";
+  progressValue: number;
+};
+
 export const PublisherNotifications: Notifications[] = [
   {
     id: 1,

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { user } from "@/constant/user";
+import {publisher} from "@/constant/user";
 
 const VCNavigationLayout = dynamic(
   () => import("@/components/VC/VCNavigationLayout"),
@@ -30,7 +30,7 @@ export default function PageLayout({
 
   return (
     <div className="flex md:h-screen overflow-hidden">
-      {navigationLayouts[user.role]}
+      {navigationLayouts[publisher.role]}
       {children}
     </div>
   );

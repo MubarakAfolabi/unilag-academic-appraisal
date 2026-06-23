@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { user } from "@/constant/user";
+import { publisher } from "@/constant/user";
 
 const VCDashboard = dynamic(() => import("@/components/VC/VCDashboard"));
 const HRMDDashboard = dynamic(() => import("@/components/HRMD/HRMDDashboard"));
@@ -14,11 +14,11 @@ const PublisherDashboard = dynamic(
 
 export default function DashboardPage() {
   const dashboards = {
-    VC: <VCDashboard user={user} />,
-    HRMD: <HRMDDashboard user={user} />,
-    ACCESSOR: <AccessorDashboard user={user} />,
-    PUBLISHER: <PublisherDashboard user={user} />,
+    VC: <VCDashboard user={publisher} />,
+    HRMD: <HRMDDashboard user={publisher} />,
+    ACCESSOR: <AccessorDashboard user={publisher} />,
+    PUBLISHER: <PublisherDashboard user={publisher} />,
   };
 
-  return dashboards[user.role];
+  return dashboards[publisher.role];
 }
