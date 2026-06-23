@@ -7,9 +7,16 @@ import { userProfile } from "@/constant/publisherDashboard";
 import UploadCard from "@/components/UploadCard";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
+import { useUser } from "@/context/userContext";
+import { redirect } from "next/navigation";
 
 export default function UploadPage() {
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
+
+  if (user.role !== "PUBLISHER") {
+    redirect("/dashboard");
+  }
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 mb-15 md:p-0 md:pb-6 bg-white min-h-screen">

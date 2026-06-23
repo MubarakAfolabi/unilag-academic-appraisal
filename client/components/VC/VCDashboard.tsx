@@ -117,7 +117,7 @@ export default function VCDashboard() {
           <h2 className="text-lg font-semibold md:text-xl">
             Recent Submission
           </h2>
-          <p className="text-[hsla(210,79%,46%,1)] md:hidden font-bold cursor-pointer">
+          <p className="text-[hsla(210,79%,46%,1)] font-semibold cursor-pointer">
             View all
           </p>
         </div>
