@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, LogOut } from "lucide-react";
 import Image from "next/image";
 
 const navBarArr = [
@@ -19,6 +19,11 @@ const sideBarArr = [
     path: "/dashboard",
     icon: <LayoutGrid />,
   },
+  {
+    name: "Logout",
+    path: "/#",
+    icon: <LogOut />,
+  },
 ];
 
 export default function HRMDNavigationLayout() {
@@ -33,7 +38,7 @@ export default function HRMDNavigationLayout() {
             <Link
               href={item.path}
               key={index}
-              className={`flex flex-col items-center gap-1 ${pathname === item.path ? "text-[hsla(210,79%,46%,1)]" : "text-[hsla(228,28%,29%,1)]"}  cursor-pointer`}
+              className={`flex flex-col items-center gap-1 ${pathname.startsWith(item.path) ? "text-[hsla(210,79%,46%,1)]" : "text-[hsla(228,28%,29%,1)]"}  cursor-pointer`}
             >
               <div>{item.icon}</div>
               <p className="text-xs">{item.name}</p>
@@ -63,7 +68,7 @@ export default function HRMDNavigationLayout() {
               <Link
                 href={item.path}
                 key={index}
-                className={`flex items-center gap-4 text-white ${pathname === item.path ? "bg-[hsla(210,73%,64%,1)]" : ""} p-4 rounded-lg cursor-pointer`}
+                className={`flex items-center gap-4 text-white ${pathname.startsWith(item.path) ? "bg-[hsla(210,73%,64%,1)]" : ""} p-4 rounded-lg cursor-pointer`}
               >
                 <div>{item.icon}</div>
                 <p className="font-semibold">{item.name}</p>

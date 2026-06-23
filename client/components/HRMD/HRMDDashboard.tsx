@@ -6,7 +6,7 @@ import LogoutModal from "@/components/LogoutModal";
 import { LogOut } from "lucide-react";
 import RecentActivity from "@/components/RecentActivity";
 import { RecentActivityItem } from "@/components/RecentActivity";
-import { User } from "@/constant/user";
+import { useUser } from "@/context/userContext";
 
 export const recentActivity: RecentActivityItem[] = [
   {
@@ -31,11 +31,8 @@ export const recentActivity: RecentActivityItem[] = [
   },
 ];
 
-type HRMDDashboardProps = {
-  user: User;
-};
-
-export default function HRMDDashboard({ user }: HRMDDashboardProps) {
+export default function HRMDDashboard() {
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
 
   return (

@@ -16,7 +16,7 @@ import {
   recentActivity,
   reviewerPerformance,
 } from "@/constant/reviewerDashboard";
-import { User } from "@/constant/user";
+import { useUser } from "@/context/userContext";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -45,11 +45,8 @@ const overviewCards: OverviewCard[] = [
   },
 ];
 
-type AccessorDashboardProps = {
-  user: User;
-};
-
-export default function AccessorDashboard({ user }: AccessorDashboardProps) {
+export default function AccessorDashboard() {
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
   const router = useRouter();
 
