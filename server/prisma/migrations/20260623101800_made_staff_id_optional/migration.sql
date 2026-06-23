@@ -1,0 +1,5 @@
+-- AlterEnum
+ALTER TYPE "Role" ADD VALUE 'PUBLISHER';
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "staffId" DROP NOT NULL;

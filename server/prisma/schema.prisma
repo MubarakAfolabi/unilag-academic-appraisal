@@ -18,7 +18,7 @@ model User {
   firstname String
   lastname  String
   title     String   @default("Dr.")
-  staffId   String
+  staffId   String?
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
@@ -32,67 +32,67 @@ enum Role {
   VC
 }
 
-// Submission model
-model Submission {
-  id          Int      @id @default(autoincrement())
+// // Submission model
+// model Submission {
+//   id          Int      @id @default(autoincrement())
 
-  title       String
-  description String?
+//   title       String
+//   description String?
 
-  status      SubmissionStatus
+//   status      SubmissionStatus
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
 
-  userId      Int
-  user        User @relation(fields: [userId], references: [id])
-}
-enum SubmissionStatus {
-  SUBMITTED
-  UNDER_REVIEW
-  APPROVED
-  REJECTED
-}
+//   userId      Int
+//   user        User @relation(fields: [userId], references: [id])
+// }
+// enum SubmissionStatus {
+//   SUBMITTED
+//   UNDER_REVIEW
+//   APPROVED
+//   REJECTED
+// }
 
-// upload model
-model Upload {
-  id            Int      @id @default(autoincrement())
+// // upload model
+// model Upload {
+//   id            Int      @id @default(autoincrement())
 
-  filename      String
-  fileSize      String
+//   filename      String
+//   fileSize      String
 
-  uploadStatus  UploadStatus
+//   uploadStatus  UploadStatus
 
-  progress      Int
+//   progress      Int
 
-  createdAt     DateTime @default(now())
+//   createdAt     DateTime @default(now())
 
-  userId        Int
-  user          User @relation(fields: [userId], references: [id])
-}
-enum UploadStatus {
-  PROCESSING
-  COMPLETED
-  FAILED
-}
+//   userId        Int
+//   user          User @relation(fields: [userId], references: [id])
+// }
+// enum UploadStatus {
+//   PROCESSING
+//   COMPLETED
+//   FAILED
+// }
 
-// Review model
-model Review {
-  id          Int      @id @default(autoincrement())
+// // Review model
+// model Review {
+//   id          Int      @id @default(autoincrement())
 
-  title       String
+//   title       String
 
-  comments    String?
+//   comments    String?
 
-  status      ReviewStatus
+//   status      ReviewStatus
 
-  createdAt   DateTime @default(now())
+//   createdAt   DateTime @default(now())
 
-  userId      Int
-  user        User @relation(fields: [userId], references: [id])
-}
-enum ReviewStatus {
-  PENDING
-  COMPLETED
-  REJECTED
-}
+//   userId      Int
+//   user        User @relation(fields: [userId], references: [id])
+// }
+// enum ReviewStatus {
+//   PENDING
+//   COMPLETED
+//   REJECTED
+// }

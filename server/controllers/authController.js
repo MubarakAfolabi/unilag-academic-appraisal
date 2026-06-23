@@ -56,10 +56,10 @@ const registerUser = [
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(req.body);
       await queries.createUser(
         firstname,
         lastname,
+        null,
         email,
         hashedPassword,
         role,
