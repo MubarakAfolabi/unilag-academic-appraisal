@@ -8,11 +8,11 @@ import RecentUploads from "@/components/RecentUploads";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
-import { useState } from "react";
 import { SubmissionItem } from "./RecentSubmissions";
 import RecentSubmissions from "./RecentSubmissions";
 import { UploadActivityItem } from "@/components/RecentUploads";
 import { useUser } from "@/context/userContext";
+import { useLayout } from "@/context/layoutContext";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -93,12 +93,12 @@ const recentUploadActivity: UploadActivityItem[] = [
 ];
 
 export default function PublisherDashboard() {
-  const [modal, setModal] = useState(false);
   const { user } = useUser();
+  const { logOutModal, setLogOutModal } = useLayout();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
-      {modal && <LogoutModal onClose={() => setModal(false)} />}
+      {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
 
       <div className="flex items-center justify-between md:hidden">
         <div className="flex-1 flex items-center gap-2">
@@ -122,7 +122,7 @@ export default function PublisherDashboard() {
         <div className="flex items-center gap-4">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
-            onClick={() => setModal(true)}
+            onClick={() => setLogOutModal(true)}
           >
             <LogOut size={22} />
           </button>

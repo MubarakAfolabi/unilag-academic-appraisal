@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { LayoutGrid, CloudUpload, UserRound, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useLayout } from "@/context/layoutContext";
 
 const navBarArr = [
   {
@@ -41,19 +42,14 @@ const sideBarArr = [
     path: "/profile",
     icon: <UserRound />,
   },
-  {
-    name: "Logout",
-    path: "/#",
-    icon: <LogOut />,
-  },
 ];
 
 export default function PublisherNavigationLayout() {
   const pathname = usePathname();
-  const [modal, setModal] = useState(false);
+  const { setLogOutModal } = useLayout();
 
   return (
-    <aside className=" fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
+    <aside className="fixed bottom-0 left-0 right-0 md:static flex-1 md:min-w-3xs md:max-w-sm bg-white p-2 border-t border-[hsla(0,0%,85%,1)] md:border-none md:bg-[hsla(194,53%,67%,1)] flex md:h-screen">
       <div className="md:hidden flex flex-1 justify-between px-6">
         {navBarArr.map((item, index) => {
           return (
@@ -83,7 +79,7 @@ export default function PublisherNavigationLayout() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 flex-1">
           {sideBarArr.map((item, index) => {
             return (
               <Link
@@ -96,15 +92,14 @@ export default function PublisherNavigationLayout() {
               </Link>
             );
           })}
-          {/* <button
-            type="button"
-            onClick={() => setModal(true)}
-            className="flex items-center gap-4 text-white p-4 rounded-lg hover:bg-[hsla(210,73%,64%,1)] transition-colors"
-          >
-            <LogOut />
-            <span className="font-semibold">Logout</span>
-          </button> */}
         </div>
+        <button
+          className="hover:bg-[hsla(210,73%,64%,1)] p-2 text-white font-semibold flex gap-4 rounded-lg cursor-pointer"
+          onClick={() => setLogOutModal(true)}
+        >
+          <LogOut />
+          <span>Log Out</span>
+        </button>
       </div>
     </aside>
   );

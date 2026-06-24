@@ -20,6 +20,7 @@ const PublisherNavigationLayout = dynamic(
 
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { LayoutContext } from "@/context/layoutContext";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -30,6 +31,7 @@ export default function PageLayout({
 }>) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [logOutModal, setLogOutModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -65,10 +67,12 @@ export default function PageLayout({
   return (
     <ProtectedRoute>
       <UserContext.Provider value={{ user, setUser }}>
-        <div className="flex md:h-screen overflow-hidden">
-          {navigationLayouts[user.role]}
-          {children}
-        </div>
+        <LayoutContext.Provider value={{ logOutModal, setLogOutModal }}>
+          <div className="flex md:h-screen overflow-hidden">
+            {navigationLayouts[user.role]}
+            {children}
+          </div>
+        </LayoutContext.Provider>
       </UserContext.Provider>
     </ProtectedRoute>
   );
