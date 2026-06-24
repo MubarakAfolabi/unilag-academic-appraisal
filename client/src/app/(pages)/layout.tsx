@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { UserContext } from "@/context/userContext";
-import type { User } from "@/constant/user";
-import { useState } from "react";
+import type { User } from "@/types/user";
+import { useEffect, useState } from "react";
 
 const VCNavigationLayout = dynamic(
   () => import("@/components/VC/VCNavigationLayout"),
@@ -18,28 +18,42 @@ const PublisherNavigationLayout = dynamic(
   () => import("@/components/publisher/PublisherNavigationLayout"),
 );
 
+import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export default function PageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialUser: User = {
-    firstname: "Mubarak",
-    lastname: "Idris",
-    title: "Dr.",
-    email: "mubarakbolu150@gmail.com",
-    role: "VC",
-    department: "Computer Science",
-    faculty: "Science",
-    rank: "Lecturer 1",
-    staffId: "UL/CSC/2015/1122",
-    bio: "Lecturer in the Department of Computer Science with research interests in Artificial Intelligence, Data Mining and Mobile Computing.",
-    phoneNo: "0806 881 7701",
-    dateJoined: "September 1, 2015",
-    avatar: "/profile-pic.svg",
-  };
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
 
-  const [user, setUser] = useState<User>(initialUser);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
+    fetch(`${apiUrl}/api/profile`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data.user);
+      });
+  }, [router]);
+
+  if (!user) {
+    return <p>loading...</p>;
+  }
 
   const navigationLayouts = {
     VC: <VCNavigationLayout />,
@@ -49,11 +63,13 @@ export default function PageLayout({
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <div className="flex md:h-screen overflow-hidden">
-        {navigationLayouts[user.role]}
-        {children}
-      </div>
-    </UserContext.Provider>
+    <ProtectedRoute>
+      <UserContext.Provider value={{ user, setUser }}>
+        <div className="flex md:h-screen overflow-hidden">
+          {navigationLayouts[user.role]}
+          {children}
+        </div>
+      </UserContext.Provider>
+    </ProtectedRoute>
   );
 }

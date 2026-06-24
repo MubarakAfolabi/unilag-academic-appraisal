@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText, Bell, UserRound } from "lucide-react";
+import { LayoutGrid, FileText, Bell, UserRound, LogOut } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 const navBarArr = [
   {
@@ -66,7 +67,7 @@ export default function AccessorNavigationLayout() {
           );
         })}
       </div>
-      <div className="hidden p-2 md:flex flex-col gap-15">
+      <div className="hidden p-2 md:flex flex-col gap-15 ">
         <div className="flex gap-2 items-center">
           <Image
             src="/unilaglogo.svg"
@@ -80,7 +81,7 @@ export default function AccessorNavigationLayout() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 flex-1">
           {sideBarArr.map((item, index) => {
             return (
               <Link
@@ -94,6 +95,10 @@ export default function AccessorNavigationLayout() {
             );
           })}
         </div>
+        <button className="bg-[hsla(210,73%,64%,1)] p-2 text-white font-semibold flex gap-4 rounded-lg cursor-pointer">
+          <LogOut />
+          <span>Log Out</span>
+        </button>
       </div>
     </aside>
   );

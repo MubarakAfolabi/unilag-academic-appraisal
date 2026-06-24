@@ -22,5 +22,5 @@ export default function DashboardPage() {
     PUBLISHER: <PublisherDashboard />,
   };
 
-  return dashboards[user.role];
+  return dashboards[user!.role];
 }

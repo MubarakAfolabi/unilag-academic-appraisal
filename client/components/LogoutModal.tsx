@@ -1,3 +1,4 @@
+import { useUser } from "@/context/userContext";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -7,6 +8,14 @@ type LogoutModalProps = {
 
 export default function LogoutModal({ onClose }: LogoutModalProps) {
   const router = useRouter();
+  const { setUser } = useUser();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.replace("/login");
+  };
+
   return (
     <div
       className="fixed top-0 left-0 right-0 bottom-0 bg-[hsla(0,0%,85%,0.7)] z-1 flex items-center justify-center p-4"
@@ -33,11 +42,11 @@ export default function LogoutModal({ onClose }: LogoutModalProps) {
           >
             Cancel
           </button>
-          <button 
+          <button
             className="flex-1 p-2 bg-[hsla(194,30%,14%,1)] text-white border-solid border border-black rounded-lg cursor-pointer"
             onClick={() => {
               onClose();
-              router.push("/");
+              handleLogout();
             }}
           >
             Yes, Log out

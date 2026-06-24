@@ -14,15 +14,22 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstname String
-  lastname  String
-  title     String   @default("Dr.")
-  staffId   String   @unique
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  role      Role
+  id         Int       @id @default(autoincrement())
+  firstname  String
+  lastname   String
+  title      String    @default("Dr.")
+  staffId    String    @unique
+  email      String    @unique
+  password   String
+  createdAt  DateTime  @default(now())
+  role       Role
+  department String?
+  faculty    String?
+  rank       String?
+  bio        String?
+  phoneNo    String?
+  dateJoined DateTime?
+  avatar     String?
 }
 
 enum Role {

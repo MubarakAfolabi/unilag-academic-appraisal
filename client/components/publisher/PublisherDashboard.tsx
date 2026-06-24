@@ -8,12 +8,11 @@ import RecentUploads from "@/components/RecentUploads";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmissionItem } from "./RecentSubmissions";
 import RecentSubmissions from "./RecentSubmissions";
 import { UploadActivityItem } from "@/components/RecentUploads";
-import { User } from "@/constant/user";
+import { useUser } from "@/context/userContext";
 
 const overviewCards: OverviewCard[] = [
   {
@@ -95,7 +94,7 @@ const recentUploadActivity: UploadActivityItem[] = [
 
 export default function PublisherDashboard() {
   const [modal, setModal] = useState(false);
-  const router = useRouter();
+  const { user } = useUser();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -115,7 +114,7 @@ export default function PublisherDashboard() {
           <div>
             <h2 className="font-bold text-md">Unilag Academic Appraisal</h2>
             <p className="text-sm text-[hsla(0,2%,42%,1)]">
-              {userProfile.portal}
+              Publisher&apos;s Portal
             </p>
           </div>
         </div>
@@ -142,7 +141,10 @@ export default function PublisherDashboard() {
       <div className="flex justify-between items-center md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
         <div>
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
-            Welcome back, <span>{userProfile.fullName}</span>
+            Welcome back,{" "}
+            <span>
+              {user?.title} {user?.firstname} {user?.lastname}
+            </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
             Track your submissions and progress
@@ -151,7 +153,7 @@ export default function PublisherDashboard() {
 
         <div className="gap-4 items-center hidden md:flex">
           <Image
-            src={userProfile.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}

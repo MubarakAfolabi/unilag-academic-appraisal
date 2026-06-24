@@ -3,11 +3,35 @@
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { redirect } from "next/navigation";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Login() {
   const [staffId, setStaffId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+
+  const handleLogin = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    fetch(`${apiUrl}/api/login`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ staffId: staffId, password: password }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setResponseData(data);
+
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          redirect("/dashboard");
+        }
+      });
+  };
 
   return (
     <>
@@ -18,7 +42,13 @@ export default function Login() {
         <p className="text-sm text-slate-600">Enter Login Details Here</p>
       </div>
 
-      <form className="flex flex-col gap-4">
+      {!responseData?.success && (
+        <p className="text-center text-sm text-red-500">
+          {responseData?.message}
+        </p>
+      )}
+
+      <form className="flex flex-col gap-4" onSubmit={handleLogin}>
         <div>
           <label className="mb-1 block text-sm font-semibold text-slate-900">
             Staff ID

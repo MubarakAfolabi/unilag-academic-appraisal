@@ -14,6 +14,7 @@ app.use(passport.initialize());
 app.use("/api", authRouter);
 
 app.get("/api/profile", auth, (req, res) => {
+  const { password, ...user } = req.user;
   return res.json({ user: req.user });
 });
 

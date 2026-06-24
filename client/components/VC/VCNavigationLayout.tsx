@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText } from "lucide-react";
+import { LayoutGrid, FileText, LogOut } from "lucide-react";
 import Image from "next/image";
 
 const navBarArr = [
@@ -28,6 +28,11 @@ const sideBarArr = [
     name: "Accessment Report",
     path: "/#",
     icon: <FileText />,
+  },
+  {
+    name: "Logout",
+    path: "/#",
+    icon: <LogOut />,
   },
 ];
 
