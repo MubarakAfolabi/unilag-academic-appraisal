@@ -1,24 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { userProfile } from "@/constant/publisherDashboard";
 import { LogOut } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import LogoutModal from "@/components/LogoutModal";
 import PublisherProfileCard from "@/components/publisher/PublisherProfileCard";
 import PersonalInfoCard from "@/components/PersonalInfoCard";
 import UploadListCard from "@/components/UploadListCard";
 import { useUser } from "@/context/userContext";
+import { useLayout } from "@/context/layoutContext";
 
 export default function PublisherProfile() {
-  const { user, setUser } = useUser();
-  const [modal, setModal] = useState(false);
-  const router = useRouter();
+  const { user } = useUser();
+  const { logOutModal, setLogOutModal } = useLayout();
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
-      {modal && <LogoutModal onClose={() => setModal(false)} />}
+      {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
 
       <div className="flex items-center justify-between md:p-6 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
         <div className="flex-1 flex items-center gap-2">
@@ -41,26 +38,26 @@ export default function PublisherProfile() {
         <div className="flex items-center gap-4">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md md:hidden cursor-pointer"
-            onClick={() => setModal(true)}
+            onClick={() => setLogOutModal(true)}
           >
             <LogOut size={22} />
           </button>
 
           <div className="cursor-pointer">
             <Image
-              src={userProfile.avatar}
+              src={user?.avatar || "/profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
-              className="w-[30px] h-[30px] md:w-[50px] md:h-[50px]"
+              className="w-7.5 h-7.5 md:w-12.5 md:h-12.5"
             />
           </div>
         </div>
       </div>
 
       <div className="md:px-6 flex flex-col gap-6 ">
-        <PublisherProfileCard user={user} />
-        <PersonalInfoCard user={user} />
+        <PublisherProfileCard user={user!} />
+        <PersonalInfoCard user={user!} />
         <UploadListCard />
       </div>
     </section>

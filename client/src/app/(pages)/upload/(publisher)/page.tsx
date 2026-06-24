@@ -6,21 +6,21 @@ import { LogOut, ArrowLeft } from "lucide-react";
 import { userProfile } from "@/constant/publisherDashboard";
 import UploadCard from "@/components/UploadCard";
 import LogoutModal from "@/components/LogoutModal";
-import { useState } from "react";
 import { useUser } from "@/context/userContext";
 import { redirect } from "next/navigation";
+import { useLayout } from "@/context/layoutContext";
 
 export default function UploadPage() {
   const { user } = useUser();
-  const [modal, setModal] = useState(false);
+  const { logOutModal, setLogOutModal } = useLayout();
 
-  if (user.role !== "PUBLISHER") {
+  if (user?.role !== "PUBLISHER") {
     redirect("/dashboard");
   }
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 mb-15 md:p-0 md:pb-6 bg-white min-h-screen">
-      {modal && <LogoutModal onClose={() => setModal(false)} />}
+      {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
 
       <div className=" lg:hidden flex items-center justify-between mb-7 md:p-2 md:border-b md:border-b-[hsla(0,0%,85%,1)]">
         <button
@@ -34,7 +34,7 @@ export default function UploadPage() {
         <div className=" lg:hidden flex items-center gap-3">
           <button
             className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer"
-            onClick={() => setModal(true)}
+            onClick={() => setLogOutModal(true)}
             aria-label="Logout"
           >
             <LogOut size={20} />

@@ -5,9 +5,9 @@ import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { useUser } from "@/context/userContext";
 import { LogOut, ShieldCheck } from "lucide-react";
-import type { User } from "@/constant/user";
+import type { User } from "@/types/user";
 
-export default function profileEditPage() {
+export default function ProfileEditPage() {
   const [modal, setModal] = useState(false);
   const { user, setUser } = useUser();
 
@@ -61,7 +61,7 @@ export default function profileEditPage() {
         <div className="p-4 lg:p-8 flex lg:flex-col lg:justify-start lg:h-fit justify-between items-center gap-2 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
           <div>
             <Image
-              src={user.avatar}
+              src={user?.avatar || "/profile-pic.svg"}
               alt="Profile Picture"
               width={120}
               height={120}
@@ -69,17 +69,17 @@ export default function profileEditPage() {
           </div>
           <div className="flex flex-col lg:items-center lg:gap-2">
             <p className="font-bold text-xl">
-              {user.title} {user.firstname} {user.lastname}
+              {user?.title} {user?.firstname} {user?.lastname}
             </p>
             <p className="text-[hsla(217,80%,48%,1)]">
-              {user.role.toLowerCase()}
+              {user?.role.toLowerCase()}
             </p>
             <p className="text-[hsla(215,28%,37%,1)]">
-              Department of {user.department}
+              Department of {user?.department}
             </p>
             <p className="text-[hsla(215,28%,37%,1)]">University of Lagos</p>
             <p className="text-[hsla(215,28%,37%,1)] lg:hidden">
-              Date Joined: {user.dateJoined}
+              Date Joined: {user?.dateJoined}
             </p>
 
             <div className="flex items-center gap-2 bg-[hsla(153,28%,92%,1)] text-[hsla(217,80%,48%,1)] w-fit lg:w-full lg:justify-evenly p-2 rounded-xl">
@@ -88,14 +88,14 @@ export default function profileEditPage() {
               </div>
               <div>
                 <p>Staff ID</p>
-                <p>{user.staffId}</p>
+                <p>{user?.staffId}</p>
               </div>
             </div>
 
             <div className="h-px w-full bg-[hsla(0,0%,85%,1)] my-2 hidden lg:block"></div>
 
             <p className="text-[hsla(215,28%,37%,1)] hidden lg:block">
-              Date Joined: {user.dateJoined}
+              Date Joined: {user?.dateJoined}
             </p>
           </div>
         </div>

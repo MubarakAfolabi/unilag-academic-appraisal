@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { LayoutGrid, CloudUpload, UserRound, LogOut } from "lucide-react";
-import { useState } from "react";
 import { useLayout } from "@/context/layoutContext";
 
 const navBarArr = [

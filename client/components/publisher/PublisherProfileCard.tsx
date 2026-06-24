@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FileText, CircleCheck, Clock3, Download } from "lucide-react";
-import { User } from "@/constant/user";
+import type { User } from "@/types/user";
 
 const stats = [
   {
@@ -56,14 +56,18 @@ export default function PublisherProfileCard({ user }: profileProps) {
           </div>
 
           <h3 className="text-2xl font-semibold text-slate-900">
-            {user.title} {user.firstname} {user.lastname}
+            {user?.title} {user?.firstname} {user?.lastname}
           </h3>
 
           <span className="mt-3 rounded-full bg-emerald-50 px-5 py-2 text-sm font-semibold text-blue-600">
             Lecturer
           </span>
 
-          <p className="mt-4 text-slate-600">Department of {user.department}</p>
+          {user?.department && (
+            <p className="mt-4 text-slate-600">
+              Department of {user?.department}
+            </p>
+          )}
           <p className="mt-1 font-semibold text-slate-900">
             University of Lagos
           </p>

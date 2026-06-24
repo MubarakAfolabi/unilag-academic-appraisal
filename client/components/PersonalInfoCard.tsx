@@ -1,8 +1,8 @@
 "use client";
 
 import { SquarePen, UserRound } from "lucide-react";
-import { User } from "@/constant/user";
 import Link from "next/link";
+import type { User } from "@/types/user";
 
 type infoProps = {
   user: User;
@@ -29,7 +29,7 @@ export default function PersonalInfoCard({ user }: infoProps) {
 
       <div>
         <h4 className="text-lg font-semibold text-slate-900">About Me</h4>
-        <p className="text-sm text-[hsla(215,28%,37%,1)]">{user.bio}</p>
+        <p className="text-sm text-[hsla(215,28%,37%,1)]">{user?.bio}</p>
       </div>
 
       <div className="h-px w-full bg-[hsla(0,0%,85%,1)]"></div>
@@ -38,36 +38,36 @@ export default function PersonalInfoCard({ user }: infoProps) {
         <li className="flex">
           <p className="font-semibold flex-1">Full Name:</p>
           <p className="text-slate-700 flex-1">
-            {user.title} {user.firstname} {user.lastname}
+            {user?.title} {user?.firstname} {user?.lastname}
           </p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Staff ID:</p>
-          <p className="text-slate-700 flex-1">{user.staffId}</p>
+          <p className="text-slate-700 flex-1">{user?.staffId}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Email:</p>
-          <p className="text-slate-700 flex-1">{user.email}</p>
+          <p className="text-slate-700 flex-1">{user?.email}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Phone:</p>
-          <p className="text-slate-700 flex-1">{user.phoneNo}</p>
+          <p className="text-slate-700 flex-1">{user?.phoneNo}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Department:</p>
-          <p className="text-slate-700 flex-1">{user.department}</p>
+          <p className="text-slate-700 flex-1">{user?.department}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Faculty:</p>
-          <p className="text-slate-700 flex-1">{user.faculty}</p>
+          <p className="text-slate-700 flex-1">{user?.faculty}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Rank:</p>
-          <p className="text-slate-700 flex-1">{user.rank}</p>
+          <p className="text-slate-700 flex-1">{user?.rank}</p>
         </li>
         <li className="flex">
           <p className="font-semibold flex-1">Date Joined:</p>
-          <p className="text-slate-700 flex-1">{user.dateJoined}</p>
+          <p className="text-slate-700 flex-1">{user?.dateJoined}</p>
         </li>
       </ul>
     </div>
