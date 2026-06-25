@@ -5,11 +5,12 @@ import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { useUser } from "@/context/userContext";
 import { LogOut, ShieldCheck } from "lucide-react";
-import type { User } from "@/types/user";
+import { useLayout } from "@/context/layoutContext";
 
 export default function ProfileEditPage() {
-  const [modal, setModal] = useState(false);
   const { user, setUser } = useUser();
+  const [initialUser, setInitialUser] = useState(user);
+  const { logOutModal, setLogOutModal } = useLayout();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -20,15 +21,17 @@ export default function ProfileEditPage() {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+  const handleProfileUpdate = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     adjustHeight();
-  }, [user.bio]);
-
-  const initialUser: User = { ...user };
+  }, [initialUser?.bio]);
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6">
-      {modal && <LogoutModal onClose={() => setModal(false)} />}
+      {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
       <div className="flex items-center justify-between border-b border-[hsla(0,0%,85%,1)] p-4">
         <div className="flex-1 flex items-center gap-2">
           <div>
@@ -50,7 +53,7 @@ export default function ProfileEditPage() {
         <div className="flex items-center gap-4 md:hiddenz">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
-            onClick={() => setModal(true)}
+            onClick={() => setLogOutModal(true)}
           >
             <LogOut size={22} />
           </button>
@@ -61,7 +64,7 @@ export default function ProfileEditPage() {
         <div className="p-4 lg:p-8 flex lg:flex-col lg:justify-start lg:h-fit justify-between items-center gap-2 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
           <div>
             <Image
-              src={user?.avatar || "/profile-pic.svg"}
+              src={initialUser?.avatar || "/profile-pic.svg"}
               alt="Profile Picture"
               width={120}
               height={120}
@@ -69,17 +72,18 @@ export default function ProfileEditPage() {
           </div>
           <div className="flex flex-col lg:items-center lg:gap-2">
             <p className="font-bold text-xl">
-              {user?.title} {user?.firstname} {user?.lastname}
+              {initialUser?.title} {initialUser?.firstname}{" "}
+              {initialUser?.lastname}
             </p>
             <p className="text-[hsla(217,80%,48%,1)]">
-              {user?.role.toLowerCase()}
+              {initialUser?.role.toLowerCase()}
             </p>
             <p className="text-[hsla(215,28%,37%,1)]">
-              Department of {user?.department}
+              Department of {initialUser?.department}
             </p>
             <p className="text-[hsla(215,28%,37%,1)]">University of Lagos</p>
             <p className="text-[hsla(215,28%,37%,1)] lg:hidden">
-              Date Joined: {user?.dateJoined}
+              Date Joined: {initialUser?.dateJoined}
             </p>
 
             <div className="flex items-center gap-2 bg-[hsla(153,28%,92%,1)] text-[hsla(217,80%,48%,1)] w-fit lg:w-full lg:justify-evenly p-2 rounded-xl">
@@ -88,19 +92,22 @@ export default function ProfileEditPage() {
               </div>
               <div>
                 <p>Staff ID</p>
-                <p>{user?.staffId}</p>
+                <p>{initialUser?.staffId}</p>
               </div>
             </div>
 
             <div className="h-px w-full bg-[hsla(0,0%,85%,1)] my-2 hidden lg:block"></div>
 
             <p className="text-[hsla(215,28%,37%,1)] hidden lg:block">
-              Date Joined: {user?.dateJoined}
+              Date Joined: {initialUser?.dateJoined}
             </p>
           </div>
         </div>
 
-        <form className="flex flex-col gap-6 lg:flex-1">
+        <form
+          className="flex flex-col gap-6 lg:flex-1"
+          onSubmit={handleProfileUpdate}
+        >
           <div className="flex flex-col gap-4 p-2 lg:p-8 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
             <h3 className="text-lg text-[hsla(217,80%,48%,1)] font-semibold">
               Personal Information
@@ -112,12 +119,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.firstname}
+                  value={initialUser?.firstname}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      firstname: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, firstname: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -127,12 +136,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.lastname}
+                  value={initialUser?.lastname}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      lastname: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, lastname: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -142,12 +153,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.phoneNo}
+                  value={initialUser?.phoneNo ?? ""}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      phoneNo: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, phoneNo: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -157,12 +170,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.department}
+                  value={initialUser?.department ?? ""}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      department: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, department: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -172,12 +187,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.faculty}
+                  value={initialUser?.faculty ?? ""}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      faculty: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, faculty: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -187,12 +204,14 @@ export default function ProfileEditPage() {
                 <input
                   type="text"
                   className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                  value={user.rank}
+                  value={initialUser?.rank ?? ""}
                   onChange={(e) =>
-                    setUser((prev) => ({
-                      ...prev,
-                      rank: e.target.value,
-                    }))
+                    setInitialUser((prev) => {
+                      if (!prev) {
+                        return null;
+                      }
+                      return { ...prev, rank: e.target.value };
+                    })
                   }
                 />
               </div>
@@ -237,12 +256,14 @@ export default function ProfileEditPage() {
             </h3>
             <textarea
               ref={textareaRef}
-              value={user.bio}
+              value={initialUser?.bio ?? ""}
               onChange={(e) =>
-                setUser((prev) => ({
-                  ...prev,
-                  bio: e.target.value,
-                }))
+                setInitialUser((prev) => {
+                  if (!prev) {
+                    return null;
+                  }
+                  return { ...prev, bio: e.target.value };
+                })
               }
               className="min-h-12.5 w-full resize-none rounded-xl border border-[hsla(0,2%,42%,1)] bg-white px-3 py-2 leading-relaxed outline-none focus:border-blue-500"
             />
