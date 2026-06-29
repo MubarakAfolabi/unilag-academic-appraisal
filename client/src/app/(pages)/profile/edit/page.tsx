@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { useUser } from "@/context/userContext";
-import { LogOut, ShieldCheck } from "lucide-react";
+import { LogOut, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { useLayout } from "@/context/layoutContext";
 import AlertPopup from "@/components/AlertPopup";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -20,6 +20,8 @@ export default function ProfileEditPage() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
   const [loading, setLoading] = useState(false);
+  const [displayPassword, setDisplayPassword] = useState(false);
+  const [displayNewPassword, setDisplayNewPassword] = useState(false);
   const token = localStorage.getItem("token");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -372,16 +374,39 @@ export default function ProfileEditPage() {
             <div className="flex flex-col gap-4">
               <div className="flex flex-col">
                 <label>Password:</label>
-                <input
-                  type="password"
-                  className={`rounded-lg border p-2 outline-none ${
+                <div
+                  className={`flex justify-between items-center rounded-lg border p-2 ${
                     passwordError
                       ? "border-red-500"
-                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                      : "border-[hsla(0,2%,42%,1)] focus-within:border-blue-500"
                   }`}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                >
+                  <input
+                    className="flex-1 outline-none"
+                    type={displayPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+
+                  {displayPassword ? (
+                    <button
+                      type="button"
+                      className="cursor-pointer"
+                      onClick={() => setDisplayPassword((prev) => !prev)}
+                    >
+                      <EyeOff size={20} />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="cursor-pointer"
+                      onClick={() => setDisplayPassword((prev) => !prev)}
+                    >
+                      <Eye size={20} />
+                    </button>
+                  )}
+                </div>
+
                 {passwordError && (
                   <p className="text-red-500 text-sm">{passwordError.msg}</p>
                 )}
@@ -389,16 +414,39 @@ export default function ProfileEditPage() {
 
               <div className="flex flex-col">
                 <label>New Password:</label>
-                <input
-                  type="password"
-                  className={`rounded-lg border p-2 outline-none ${
+                <div
+                  className={`flex justify-between items-center rounded-lg border p-2 outline-none ${
                     newPasswordError
                       ? "border-red-500"
                       : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
                   }`}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
+                >
+                  <input
+                    className="flex-1 outline-none"
+                    type={displayNewPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+
+                  {displayNewPassword ? (
+                    <button
+                      type="button"
+                      className="cursor-pointer"
+                      onClick={() => setDisplayNewPassword((prev) => !prev)}
+                    >
+                      <EyeOff size={20} />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="cursor-pointer"
+                      onClick={() => setDisplayNewPassword((prev) => !prev)}
+                    >
+                      <Eye size={20} />
+                    </button>
+                  )}
+                </div>
+
                 {newPasswordError && (
                   <p className="text-red-500 text-sm">{newPasswordError.msg}</p>
                 )}
@@ -426,7 +474,10 @@ export default function ProfileEditPage() {
           </div>
 
           <div className="flex justify-between items-center mx-4 lg:justify-start lg:self-end gap-4">
-            <button className="border border-[hsla(0,2%,42%,1)] text-[hsla(224,17%,43%,1)] px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-md">
+            <button
+              className="border border-[hsla(0,2%,42%,1)] text-[hsla(224,17%,43%,1)] px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-md"
+              type="button"
+            >
               Cancel
             </button>
             <button
