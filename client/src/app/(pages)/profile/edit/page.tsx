@@ -6,11 +6,21 @@ import Image from "next/image";
 import { useUser } from "@/context/userContext";
 import { LogOut, ShieldCheck } from "lucide-react";
 import { useLayout } from "@/context/layoutContext";
+import AlertPopup from "@/components/AlertPopup";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ProfileEditPage() {
   const { user, setUser } = useUser();
   const [initialUser, setInitialUser] = useState(user);
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [errors, setErrors] = useState([]);
   const { logOutModal, setLogOutModal } = useLayout();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -23,15 +33,90 @@ export default function ProfileEditPage() {
 
   const handleProfileUpdate = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    fetch(`${apiUrl}/api/users/me`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ...initialUser,
+        password,
+        newPassword,
+        confirmNewPassword,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.errMessages) {
+          setErrors(data.errMessages);
+        }
+
+        if (data.success) {
+          setUser(initialUser);
+          setErrors([]);
+          setShowAlert(true);
+          setAlertType("success");
+          setPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
+        }
+      })
+      .catch(() => {
+        setShowAlert(true);
+        setAlertType("error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
     adjustHeight();
   }, [initialUser?.bio]);
 
+  useEffect(() => {
+    if (!showAlert) return;
+
+    const timer = setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [showAlert]);
+
+  const firstnameError = errors.find((error) => error.path === "firstname");
+  const lastnameError = errors.find((error) => error.path === "lastname");
+  const bioError = errors.find((error) => error.path === "bio");
+  const passwordError = errors.find((error) => error.path === "password");
+  const newPasswordError = errors.find((error) => error.path === "newPassword");
+  const confirmNewPasswordError = errors.find(
+    (error) => error.path === "confirmNewPassword",
+  );
+
   return (
-    <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6">
+    <section className="relative md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6">
       {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
+
+      {showAlert &&
+        (alertType === "success" ? (
+          <AlertPopup
+            type="success"
+            message="Profile Updated Successfully"
+            onClose={() => setShowAlert(false)}
+          />
+        ) : (
+          <AlertPopup
+            type="error"
+            message="Something went wrong, try again"
+            onClose={() => setShowAlert(false)}
+          />
+        ))}
+
       <div className="flex items-center justify-between border-b border-[hsla(0,0%,85%,1)] p-4">
         <div className="flex-1 flex items-center gap-2">
           <div>
@@ -50,7 +135,7 @@ export default function ProfileEditPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 md:hiddenz">
+        <div className="flex items-center gap-4 md:hidden">
           <button
             className="border-solid border border-[hsla(0,0%,85%,1)] p-1 rounded-md cursor-pointer"
             onClick={() => setLogOutModal(true)}
@@ -118,7 +203,11 @@ export default function ProfileEditPage() {
                 <label>First Name:</label>
                 <input
                   type="text"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+                  className={`rounded-lg border p-2 outline-none ${
+                    firstnameError
+                      ? "border-red-500"
+                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                  }`}
                   value={initialUser?.firstname}
                   onChange={(e) =>
                     setInitialUser((prev) => {
@@ -129,13 +218,20 @@ export default function ProfileEditPage() {
                     })
                   }
                 />
+                {firstnameError && (
+                  <p className="text-red-500 text-sm">{firstnameError.msg}</p>
+                )}
               </div>
 
               <div className="flex flex-col">
                 <label>Last Name:</label>
                 <input
                   type="text"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+                  className={`rounded-lg border p-2 outline-none ${
+                    lastnameError
+                      ? "border-red-500"
+                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                  }`}
                   value={initialUser?.lastname}
                   onChange={(e) =>
                     setInitialUser((prev) => {
@@ -146,6 +242,9 @@ export default function ProfileEditPage() {
                     })
                   }
                 />
+                {lastnameError && (
+                  <p className="text-red-500 text-sm">{lastnameError.msg}</p>
+                )}
               </div>
 
               <div className="flex flex-col">
@@ -167,9 +266,9 @@ export default function ProfileEditPage() {
 
               <div className="flex flex-col">
                 <label>Department:</label>
-                <input
-                  type="text"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+
+                <select
+                  className="border p-2 rounded outline-none focus:border-blue-500 cursor-pointer"
                   value={initialUser?.department ?? ""}
                   onChange={(e) =>
                     setInitialUser((prev) => {
@@ -179,14 +278,20 @@ export default function ProfileEditPage() {
                       return { ...prev, department: e.target.value };
                     })
                   }
-                />
+                >
+                  {!initialUser?.department && (
+                    <option value="">Select Department</option>
+                  )}
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Industrial Maths">Industrial Maths</option>
+                </select>
               </div>
 
               <div className="flex flex-col">
                 <label>Faculty:</label>
-                <input
-                  type="text"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+
+                <select
+                  className="border p-2 rounded outline-none focus:border-blue-500 cursor-pointer"
                   value={initialUser?.faculty ?? ""}
                   onChange={(e) =>
                     setInitialUser((prev) => {
@@ -196,14 +301,19 @@ export default function ProfileEditPage() {
                       return { ...prev, faculty: e.target.value };
                     })
                   }
-                />
+                >
+                  {!initialUser?.faculty && (
+                    <option value="">Select Faculty</option>
+                  )}
+                  <option value="Science">Science</option>
+                </select>
               </div>
 
               <div className="flex flex-col">
                 <label>Rank:</label>
-                <input
-                  type="text"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+
+                <select
+                  className="border p-2 rounded outline-none focus:border-blue-500 cursor-pointer"
                   value={initialUser?.rank ?? ""}
                   onChange={(e) =>
                     setInitialUser((prev) => {
@@ -213,8 +323,44 @@ export default function ProfileEditPage() {
                       return { ...prev, rank: e.target.value };
                     })
                   }
-                />
+                >
+                  {!initialUser?.rank && <option value="">Select Rank</option>}
+                  <option value="Lecturer I">Lecturer I</option>
+                  <option value="Lecturer II">Lecturer II</option>
+                  <option value="Lecturer III">Lecturer III</option>
+                </select>
               </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 p-2 lg:p-8 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
+            <h3 className="text-lg text-[hsla(217,80%,48%,1)] font-semibold">
+              About Me
+            </h3>
+            <div>
+              <textarea
+                ref={textareaRef}
+                value={initialUser?.bio ?? ""}
+                onChange={(e) =>
+                  setInitialUser((prev) => {
+                    if (!prev) {
+                      return null;
+                    }
+                    return { ...prev, bio: e.target.value };
+                  })
+                }
+                className={`min-h-12.5 w-full resize-none rounded-xl border border-[hsla(0,2%,42%,1)] bg-white px-3 py-2 leading-relaxed outline-none
+                ${
+                  bioError
+                    ? "border-red-500"
+                    : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                }
+                `}
+              />
+
+              {bioError && (
+                <p className="text-red-500 text-sm">{bioError.msg}</p>
+              )}
             </div>
           </div>
 
@@ -228,45 +374,55 @@ export default function ProfileEditPage() {
                 <label>Password:</label>
                 <input
                   type="password"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+                  className={`rounded-lg border p-2 outline-none ${
+                    passwordError
+                      ? "border-red-500"
+                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                  }`}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-              </div>
-
-              <div className="flex flex-col">
-                <label>Confirm Password:</label>
-                <input
-                  type="password"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
-                />
+                {passwordError && (
+                  <p className="text-red-500 text-sm">{passwordError.msg}</p>
+                )}
               </div>
 
               <div className="flex flex-col">
                 <label>New Password:</label>
                 <input
                   type="password"
-                  className=" rounded-lg border border-[hsla(0,2%,42%,1)] p-2 outline-none focus:border-blue-500"
+                  className={`rounded-lg border p-2 outline-none ${
+                    newPasswordError
+                      ? "border-red-500"
+                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                  }`}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
+                {newPasswordError && (
+                  <p className="text-red-500 text-sm">{newPasswordError.msg}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <label>Confirm New Password:</label>
+                <input
+                  type="password"
+                  className={`rounded-lg border p-2 outline-none ${
+                    confirmNewPasswordError
+                      ? "border-red-500"
+                      : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"
+                  }`}
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
+                {confirmNewPasswordError && (
+                  <p className="text-red-500 text-sm">
+                    {confirmNewPasswordError.msg}
+                  </p>
+                )}
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-4 p-2 lg:p-8 border border-[hsla(0,0%,85%,1)] mx-4 rounded-xl">
-            <h3 className="text-lg text-[hsla(217,80%,48%,1)] font-semibold">
-              About Me
-            </h3>
-            <textarea
-              ref={textareaRef}
-              value={initialUser?.bio ?? ""}
-              onChange={(e) =>
-                setInitialUser((prev) => {
-                  if (!prev) {
-                    return null;
-                  }
-                  return { ...prev, bio: e.target.value };
-                })
-              }
-              className="min-h-12.5 w-full resize-none rounded-xl border border-[hsla(0,2%,42%,1)] bg-white px-3 py-2 leading-relaxed outline-none focus:border-blue-500"
-            />
           </div>
 
           <div className="flex justify-between items-center mx-4 lg:justify-start lg:self-end gap-4">
@@ -274,10 +430,11 @@ export default function ProfileEditPage() {
               Cancel
             </button>
             <button
+              disabled={loading}
               type="submit"
               className="bg-[hsla(217,80%,48%,1)] text-white px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-md"
             >
-              Save Changes
+              {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>
