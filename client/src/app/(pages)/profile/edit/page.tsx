@@ -22,6 +22,7 @@ export default function ProfileEditPage() {
   const [loading, setLoading] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
   const [displayNewPassword, setDisplayNewPassword] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const token = localStorage.getItem("token");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -100,8 +101,27 @@ export default function ProfileEditPage() {
     (error) => error.path === "confirmNewPassword",
   );
 
+  useEffect(() => {
+    if (firstnameError || lastnameError) {
+      if (window.innerWidth >= 768) {
+        sectionRef.current?.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [firstnameError, lastnameError]);
+
   return (
-    <section className="relative md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6">
+    <section
+      ref={sectionRef}
+      className="md:h-full md:overflow-y-auto flex-2 flex flex-col pb-4 gap-6 mb-15 md:p-0 md:pb-6"
+    >
       {logOutModal && <LogoutModal onClose={() => setLogOutModal(false)} />}
 
       {showAlert &&

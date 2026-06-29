@@ -11,7 +11,7 @@ export default function AlertPopup({ type, message, onClose }: AlertProps) {
 
   return (
     <div
-      className={`absolute top-5 left-10 right-10 md:w-fit md:left-1/2 -translate-x-1/2 flex justify-between gap-2 rounded-md p-2 shadow-[0_0_10px_rgba(0,0,0,0.15)] ${
+      className={`fixed top-5 left-1/2 -translate-x-1/2 flex justify-between gap-10 rounded-md p-2 shadow-[0_0_10px_rgba(0,0,0,0.15)] ${
         isSuccess
           ? "bg-green-50 border border-green-200"
           : "bg-red-50 border border-red-200"
