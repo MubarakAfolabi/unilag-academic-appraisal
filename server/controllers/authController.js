@@ -78,8 +78,6 @@ const login = async (req, res) => {
     const { staffId, password } = req.body;
     const user = await queries.findUserByStaffId(staffId);
 
-    console.log(user);
-
     if (!user) {
       return res
         .status(400)

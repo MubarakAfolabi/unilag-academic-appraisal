@@ -32,7 +32,9 @@ export default function UploadDocumentForm() {
   const [displaySubmitModal, setDisplaySubmitModal] = useState(false);
   const [displayResetModal, setDisplayResetModal] = useState(false);
 
-  const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = (e) => {
+  const handleDisplaySubmitModal: React.SubmitEventHandler<HTMLFormElement> = (
+    e,
+  ) => {
     e.preventDefault();
 
     setDisplaySubmitModal(true);
@@ -46,6 +48,7 @@ export default function UploadDocumentForm() {
     }
   };
 
+  const handleSubmit = () => {};
   return (
     <>
       {displaySubmitModal && (
@@ -60,7 +63,7 @@ export default function UploadDocumentForm() {
 
       <form
         className="w-full border border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4 max-w-4xl"
-        onSubmit={handleSubmit}
+        onSubmit={handleDisplaySubmitModal}
       >
         <h2 className="text-xl font-semibold text-black">Information</h2>
 
@@ -202,7 +205,7 @@ export default function UploadDocumentForm() {
               ref={fileInputRef}
               type="file"
               id="file-upload"
-              className="hidden" // ← Hide the default ugly input
+              className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
