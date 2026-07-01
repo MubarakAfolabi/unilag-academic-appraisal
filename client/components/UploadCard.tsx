@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import SubmitModal from "@/components/SubmitModal";
 import ResetModal from "@/components/ResetModal";
 import { ChevronDown } from "lucide-react";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type PublicationType =
   | "Journal Article"
@@ -31,6 +32,7 @@ export default function UploadDocumentForm() {
 
   const [displaySubmitModal, setDisplaySubmitModal] = useState(false);
   const [displayResetModal, setDisplayResetModal] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleDisplaySubmitModal: React.SubmitEventHandler<HTMLFormElement> = (
     e,
@@ -48,11 +50,37 @@ export default function UploadDocumentForm() {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    setDisplaySubmitModal(false);
+
+    const uploadData = new FormData();
+
+    uploadData.append("publication", formData.publication);
+    uploadData.append("publicationType", formData.publicationType);
+    uploadData.append("quartile", formData.quartile);
+    uploadData.append("nonIndexed", formData.nonIndexed);
+    uploadData.append("classification", formData.classification);
+    uploadData.append("file", formData.file);
+
+    fetch(`${apiUrl}/api/upload`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: uploadData,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <>
       {displaySubmitModal && (
-        <SubmitModal onClose={() => setDisplaySubmitModal(false)} />
+        <SubmitModal
+          onClose={() => setDisplaySubmitModal(false)}
+          onConfirm={handleSubmit}
+        />
       )}
       {displayResetModal && (
         <ResetModal
@@ -222,10 +250,19 @@ export default function UploadDocumentForm() {
             </label>
 
             {formData.file && (
-              <p className="text-sm text-gray-600">
-                Selected:{" "}
-                <span className="font-medium">{formData.file.name}</span>
-              </p>
+              <>
+                <p className="text-sm text-gray-600">
+                  Selected:{" "}
+                  <span className="font-medium">{formData.file.name}</span>
+                </p>
+
+                <p className="text-sm text-gray-600">
+                  Size:{" "}
+                  <span className="font-medium">
+                    {(formData.file.size / (1024 * 1024)).toFixed(2)}MB
+                  </span>
+                </p>
+              </>
             )}
           </div>
 

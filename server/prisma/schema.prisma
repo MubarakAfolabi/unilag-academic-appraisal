@@ -14,22 +14,23 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  firstname  String
-  lastname   String
-  title      String    @default("Dr.")
-  staffId    String    @unique
-  email      String    @unique
-  password   String
-  createdAt  DateTime  @default(now())
-  role       Role
-  department String?
-  faculty    String?
-  rank       String?
-  bio        String?
-  phoneNo    String?
-  dateJoined DateTime?
-  avatar     String?
+  id           Int           @id @default(autoincrement())
+  firstname    String
+  lastname     String
+  title        String        @default("Dr.")
+  staffId      String        @unique
+  email        String        @unique
+  password     String
+  createdAt    DateTime      @default(now())
+  role         Role
+  department   String?
+  faculty      String?
+  rank         String?
+  bio          String?
+  phoneNo      String?
+  dateJoined   DateTime?
+  avatar       String?
+  publications Publication[]
 }
 
 enum Role {
@@ -37,6 +38,62 @@ enum Role {
   ACCESSOR
   HRMD
   VC
+}
+
+model Publication {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Form fields
+  fullCitation    String
+  publicationType PublicationType
+  quartileRanking QuartileRanking
+  nonIndexed      NonIndexed?
+  classification  Classification
+
+  // File upload
+  filePath String? // Path or URL to the uploaded file
+  fileName String?
+  fileSize Int? // bytes
+  mimeType String?
+
+  // Status & metadata
+  status PublicationStatus @default(PENDING)
+  userId Int
+  user   User              @relation(fields: [userId], references: [id])
+}
+
+enum PublicationType {
+  JOURNAL_ARTICLE
+  CONFERENCE
+  BOOK
+  BOOK_CHAPTER
+}
+
+enum QuartileRanking {
+  Q1
+  Q2
+  Q3
+  OTHERS
+}
+
+enum NonIndexed {
+  UNIVERSITY_BASED
+  NON_UNIVERSITY_BASED
+}
+
+enum Classification {
+  NATIONAL
+  INTERNATIONAL
+}
+
+enum PublicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  UNDER_REVIEW
+  PUBLISHED
 }
 
 // // Submission model

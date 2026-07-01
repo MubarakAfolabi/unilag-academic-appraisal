@@ -7,6 +7,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const uploadFile = (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+
   try {
     if (!req.file) {
       return res.status(400).json({
