@@ -56,10 +56,40 @@ const updateUserInfo = async (id, info) => {
   return user;
 };
 
+const createPublication = async (
+  userId,
+  fullCitation,
+  publicationType,
+  quartileRanking,
+  nonIndexed,
+  classification,
+  filePath,
+  fileName,
+  fileSize,
+  mimeType,
+) => {
+  const publication = await prisma.publication.create({
+    data: {
+      userId,
+      fullCitation,
+      publicationType,
+      quartileRanking,
+      nonIndexed,
+      classification,
+      filePath,
+      fileName,
+      fileSize,
+      mimeType,
+    },
+  });
+  return publication;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
   findUserByStaffId,
   createUser,
   updateUserInfo,
+  createPublication,
 };

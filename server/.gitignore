@@ -1,7 +1,4 @@
 node_modules
-<<<<<<< HEAD
-.env
-=======
 .env
 /generated/prisma
->>>>>>> pages/notifications
+uploads

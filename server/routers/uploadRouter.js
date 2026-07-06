@@ -15,14 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /pdf|doc|docx|zip/;
-    if (allowedTypes.test(path.extname(file.originalname).toLowerCase())) {
-      return cb(null, true);
-    }
-    cb(new Error("Invalid file type!"));
-  },
+  // limits: { fileSize: 10 * 1024 * 1024 },
 });
 
 uploadRouter.post(
