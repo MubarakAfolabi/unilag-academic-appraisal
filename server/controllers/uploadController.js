@@ -119,7 +119,7 @@ const uploadFile = [
         cleanedNonIndexed,
         classification,
         `/uploads/${req.file.filename}`,
-        req.file.fileName,
+        req.file.filename,
         req.file.size,
         req.file.mimetype,
       );
