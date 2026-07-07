@@ -21,6 +21,7 @@ const PublisherNavigationLayout = dynamic(
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { LayoutContext } from "@/context/layoutContext";
+import UploadProgressManager from "@/components/UploadProgressManager";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -72,6 +73,7 @@ export default function PageLayout({
             {navigationLayouts[user.role]}
             {children}
           </div>
+          <UploadProgressManager />
         </LayoutContext.Provider>
       </UserContext.Provider>
     </ProtectedRoute>
