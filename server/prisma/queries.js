@@ -1,3 +1,4 @@
+const { PublicationStatus } = require("@prisma/client");
 const prisma = require("./prisma.js");
 
 const findUserById = async (id) => {
@@ -85,6 +86,38 @@ const createPublication = async (
   return publication;
 };
 
+const getPublisherSubmissionOverview = async (userId) => {
+  const [
+    publicationCount,
+    publicationUnderReviewCount,
+    publicationScoredCount,
+  ] = await Promise.all([
+    await prisma.publication.count({
+      where: {
+        userId,
+      },
+    }),
+    await prisma.publication.count({
+      where: {
+        userId,
+        status: PublicationStatus.UNDER_REVIEW,
+      },
+    }),
+    await prisma.publication.count({
+      where: {
+        userId,
+        status: PublicationStatus.SCORED,
+      },
+    }),
+  ]);
+
+  return {
+    publicationCount,
+    publicationUnderReviewCount,
+    publicationScoredCount,
+  };
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -92,4 +125,5 @@ module.exports = {
   createUser,
   updateUserInfo,
   createPublication,
+  getPublisherSubmissionOverview,
 };
