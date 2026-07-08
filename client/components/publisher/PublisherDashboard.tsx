@@ -13,33 +13,9 @@ import RecentSubmissions from "./RecentSubmissions";
 import { UploadActivityItem } from "@/components/RecentUploads";
 import { useUser } from "@/context/userContext";
 import { useLayout } from "@/context/layoutContext";
+import { useEffect, useState } from "react";
 
-const overviewCards: OverviewCard[] = [
-  {
-    label: "Total Submission",
-    value: "28",
-    icon: Clock4,
-    iconColor: "text-[hsla(210,79%,46%,1)]",
-    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
-    bgClass: "bg-[hsl(209,67%,89%)]",
-  },
-  {
-    label: "Under Review",
-    value: "8",
-    icon: Hourglass,
-    iconColor: "text-[hsla(45,100%,51%,1)]",
-    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
-    bgClass: "bg-[hsl(45,100%,85%)]",
-  },
-  {
-    label: "Approved",
-    value: "15",
-    icon: CircleCheckBig,
-    iconColor: "text-[hsla(150,90%,24%,1)]",
-    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
-    bgClass: "bg-[hsl(150,28%,85%)]",
-  },
-];
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const recentSubmissions: SubmissionItem[] = [
   {
@@ -95,6 +71,59 @@ const recentUploadActivity: UploadActivityItem[] = [
 export default function PublisherDashboard() {
   const { user } = useUser();
   const { logOutModal, setLogOutModal } = useLayout();
+  const [overview, setOverview] = useState({
+    publicationCount: 0,
+    publicationUnderReviewCount: 0,
+    publicationScoredCount: 0,
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/publisher/overview`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setOverview(data?.submissionOverviewCount);
+        }
+      });
+  }, []);
+
+  const overviewCards: OverviewCard[] = [
+    {
+      label: "Total Submission",
+      value: overview?.publicationCount,
+      icon: Clock4,
+      iconColor: "text-[hsla(210,79%,46%,1)]",
+      iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+      bgClass: "bg-[hsl(209,67%,89%)]",
+    },
+    {
+      label: "Under Review",
+      value: overview?.publicationUnderReviewCount,
+      icon: Hourglass,
+      iconColor: "text-[hsla(45,100%,51%,1)]",
+      iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+      bgClass: "bg-[hsl(45,100%,85%)]",
+    },
+    {
+      label: "Scored",
+      value: overview?.publicationScoredCount,
+      icon: CircleCheckBig,
+      iconColor: "text-[hsla(150,90%,24%,1)]",
+      iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+      bgClass: "bg-[hsl(150,28%,85%)]",
+    },
+  ];
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
