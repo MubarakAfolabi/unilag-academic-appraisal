@@ -9,4 +9,10 @@ publisherRouter.get(
   publisherController.submissionOverviewGet,
 );
 
+publisherRouter.get(
+  "/publisher/recent-submissions",
+  auth,
+  publisherController.recentSubmissionsGet,
+);
+
 module.exports = publisherRouter;
