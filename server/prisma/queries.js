@@ -86,7 +86,7 @@ const createPublication = async (
   return publication;
 };
 
-const getPublisherSubmissionOverview = async (userId) => {
+const publisherSubmissionOverview = async (userId) => {
   const [
     publicationCount,
     publicationUnderReviewCount,
@@ -118,6 +118,25 @@ const getPublisherSubmissionOverview = async (userId) => {
   };
 };
 
+const publisherRecentSubmissions = async (userId) => {
+  const recentPublications = await prisma.publication.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+  return recentPublications;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -125,5 +144,6 @@ module.exports = {
   createUser,
   updateUserInfo,
   createPublication,
-  getPublisherSubmissionOverview,
+  publisherSubmissionOverview,
+  publisherRecentSubmissions,
 };

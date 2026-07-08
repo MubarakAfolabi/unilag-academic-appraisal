@@ -3,8 +3,7 @@ const queries = require("../prisma/queries.js");
 const submissionOverviewGet = async (req, res) => {
   const id = req.user.id;
 
-  const submissionOverviewCount =
-    await queries.getPublisherSubmissionOverview(id);
+  const submissionOverviewCount = await queries.publisherSubmissionOverview(id);
 
   return res.status(200).json({ success: true, submissionOverviewCount });
 
