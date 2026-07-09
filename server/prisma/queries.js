@@ -125,7 +125,7 @@ const publisherRecentSubmissions = async (userId) => {
     },
     select: {
       id: true,
-      title: true,
+      fullCitation: true,
       status: true,
       createdAt: true,
     },

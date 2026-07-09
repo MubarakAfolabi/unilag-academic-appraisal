@@ -2,7 +2,7 @@ import { Check, Circle, X, FileText } from "lucide-react";
 import { Fragment } from "react";
 
 export type SubmissionItem = {
-  title: string;
+  fullCitation: string;
   date: string;
   status: string;
   statusClass: string;
@@ -60,7 +60,7 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                 <div className="flex-1 flex items-center gap-2">
                   <div className="flex-1">
                     <p className="font-semibold lg:text-lg">
-                      {submission.title}
+                      {submission.fullCitation}
                     </p>
                     <p className="text-sm lg:text-md text-[hsla(0,2%,42%,1)]">
                       {submission.date}

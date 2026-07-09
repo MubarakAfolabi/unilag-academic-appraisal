@@ -17,41 +17,49 @@ import { useEffect, useState } from "react";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const recentSubmissions: SubmissionItem[] = [
-  {
-    title: "AI in Healthcare: Opportunities and Challenges",
-    date: "Submitted on March 21, 2026",
-    status: "Under Review",
-    statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
-    progress: [
-      { label: "Submitted", state: "done" },
-      { label: "Under Review", state: "current" },
-      { label: "Scored", state: "pending" },
-    ],
-  },
-  {
-    title: "Blockchain Technology in Education",
-    date: "Submitted on February 20, 2026",
-    status: "Agreed",
-    statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
-    progress: [
-      { label: "Submitted", state: "done" },
-      { label: "Under Review", state: "done" },
-      { label: "Scored", state: "done" },
-    ],
-  },
-  {
-    title: "The Future of Renewable Energy",
-    date: "Submitted on March 3, 2026",
-    status: "Rejected",
-    statusClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
-    progress: [
-      { label: "Submitted", state: "done" },
-      { label: "Under Review", state: "done" },
-      { label: "Scored", state: "failed" },
-    ],
-  },
-];
+const getSubmissionData = (status: string) => {
+  switch (status) {
+    case "UNDER_REVIEW":
+      return {
+        status: "Under Review",
+        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "done" },
+          { label: "Scored", state: "current" },
+        ],
+      };
+
+    case "SCORED":
+      return {
+        status: "Scored",
+        statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "done" },
+          { label: "Scored", state: "done" },
+        ],
+      };
+
+    case "PENDING":
+      return {
+        status: "Pending",
+        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "current" },
+          { label: "Scored", state: "pending" },
+        ],
+      };
+
+    default:
+      return {
+        status: status,
+        statusClass: "",
+        progress: [],
+      };
+  }
+};
 
 const recentUploadActivity: UploadActivityItem[] = [
   {
@@ -76,6 +84,9 @@ export default function PublisherDashboard() {
     publicationUnderReviewCount: 0,
     publicationScoredCount: 0,
   });
+  const [recentSubmissions, setRecentSubmissions] = useState<SubmissionItem[]>(
+    [],
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -95,6 +106,44 @@ export default function PublisherDashboard() {
         if (data?.success) {
           setOverview(data?.submissionOverviewCount);
         }
+      });
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/publisher/recent-submissions`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setRecentSubmissions(
+            data.recentSubmissions.map((publication: any) => {
+              const submissionData = getSubmissionData(publication.status);
+
+              return {
+                fullCitation: publication.fullCitation,
+                date: `Submitted on ${new Date(
+                  publication.createdAt,
+                ).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`,
+                ...submissionData,
+              };
+            }),
+          );
+        }
+        console.log(data);
       });
   }, []);
 
