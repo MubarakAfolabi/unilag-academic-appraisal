@@ -10,7 +10,7 @@ import {
   addUpload,
   updateUploadProgress,
   finishUpload,
-} from "@/components/UploadProgressManager";
+} from "@/lib/uploadStore";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

@@ -1,55 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import type { UploadItem } from "@/types/uploadItem";
-
-let uploads: UploadItem[] = [];
-const listeners = new Set<(u: UploadItem[]) => void>();
-
-function notify() {
-  const snapshot = [...uploads];
-  listeners.forEach((l) => l(snapshot));
-}
-
-export function addUpload(fileName: string): string {
-  const id = `upload-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  uploads = [...uploads, { id, fileName, progress: 0, status: "uploading" }];
-  notify();
-  return id;
-}
-
-export function updateUploadProgress(id: string, progress: number) {
-  uploads = uploads.map((u) => (u.id === id ? { ...u, progress } : u));
-  notify();
-}
-
-export function finishUpload(id: string, success: boolean) {
-  uploads = uploads.map((u) =>
-    u.id === id
-      ? { ...u, status: success ? "completed" : "error", progress: 100 }
-      : u,
-  );
-  notify();
-
-  setTimeout(() => {
-    uploads = uploads.filter((u) => u.id !== id);
-    notify();
-  }, 5000);
-}
+import { useUploads } from "@/hooks/useUploads";
 
 export default function UploadProgressManager() {
-  const [items, setItems] = useState<UploadItem[]>(uploads);
-
-  useEffect(() => {
-    setItems([...uploads]);
-    listeners.add(setItems);
-    return () => {
-      listeners.delete(setItems);
-    };
-  }, []);
+  const items = useUploads();
 
   return (
-    <div className="fixed bottom-6 right-6 z-[200] flex flex-col gap-3 max-w-xs w-full">
+    <div className="fixed bottom-6 right-6 z-200 flex flex-col gap-3 max-w-xs w-full">
       {items.map((upload) => (
         <div
           key={upload.id}
@@ -59,6 +16,7 @@ export default function UploadProgressManager() {
             <p className="font-medium text-gray-800 line-clamp-1 pr-2">
               {upload.fileName}
             </p>
+
             <span
               className={`text-xs px-2 py-0.5 rounded-full ${
                 upload.status === "completed"
