@@ -36,10 +36,11 @@ export type Notifications = {
 export type SubmissionItem = {
   title: string;
   manuscriptId: string;
-  rating: number | "In Progress" | "Not Available";
+  rating: "Positive" | "Negative";
   date: string;
-  status: "Under Review" | "Rejected" | "Approved";
-  statusClass: string;
+  score: string;
+  positiveRClass: string; 
+  negativeRClass: string;
 };
 
 export const PublisherNotifications: Notifications[] = [
@@ -148,27 +149,30 @@ export const publisherOverviewCards: OverviewCard[] = [
 export const recentSubmissions: SubmissionItem[] = [
   {
     title: "AI in Healthcare: Opportunities and Challenges",
-    rating: "In Progress",
+    rating: "Positive",
     manuscriptId: "RH-2026-0156",
     date: "Submitted on March 21, 2026",
-    status: "Under Review",
-    statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+    score: "60%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
   {
     title: "Blockchain Technology in Education",
-    rating: 4.7,
+    rating: "Negative",
     manuscriptId: "RH-2026-0156",
     date: "Submitted on February 20, 2026",
-    status: "Approved",
-    statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    score: "30%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
   {
     title: "The Future of Renewable Energy",
-    rating: "Not Available",
+    rating: "Positive",
     manuscriptId: "RH-2026-0156",
     date: "Submitted on March 3, 2026",
-    status: "Rejected",
-    statusClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
+    score: "70%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
 ];
 

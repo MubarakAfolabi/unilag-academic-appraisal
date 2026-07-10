@@ -24,11 +24,7 @@ const sideBarArr = [
     path: "/dashboard",
     icon: <LayoutGrid />,
   },
-  {
-    name: "Accessment Report",
-    path: "/#",
-    icon: <FileText />,
-  },
+
   {
     name: "Logout",
     path: "/#",

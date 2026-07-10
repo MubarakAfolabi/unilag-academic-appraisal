@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { redirect } from "next/navigation";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+console.log("NEXT_PUBLIC_API_URL =", process.env.NEXT_PUBLIC_API_URL);
 
 export default function Login() {
   const [staffId, setStaffId] = useState("");
