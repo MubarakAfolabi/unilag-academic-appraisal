@@ -10,10 +10,11 @@ import { OverviewCard } from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
 import { SubmissionItem } from "./RecentSubmissions";
 import RecentSubmissions from "./RecentSubmissions";
-import { UploadActivityItem } from "@/components/RecentUploads";
+import type { UploadItem } from "@/types/uploadItem";
 import { useUser } from "@/context/userContext";
 import { useLayout } from "@/context/layoutContext";
 import { useEffect, useState } from "react";
+import { useRecentUploads } from "@/hooks/useRecentUploads";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -61,20 +62,20 @@ const getSubmissionData = (status: string) => {
   }
 };
 
-const recentUploadActivity: UploadActivityItem[] = [
-  {
-    filename: "AI in Healthcare.pdf",
-    meta: "3.6MB",
-    status: "Processing...",
-    progressValue: 60,
-  },
-  {
-    filename: "Chemical Interactions",
-    meta: "2.8MB",
-    status: "Processing...",
-    progressValue: 75,
-  },
-];
+// const recentUploadActivity: UploadActivityItem[] = [
+//   {
+//     filename: "AI in Healthcare.pdf",
+//     meta: "3.6MB",
+//     status: "Processing...",
+//     progressValue: 60,
+//   },
+//   {
+//     filename: "Chemical Interactions",
+//     meta: "2.8MB",
+//     status: "Processing...",
+//     progressValue: 75,
+//   },
+// ];
 
 export default function PublisherDashboard() {
   const { user } = useUser();
@@ -87,6 +88,39 @@ export default function PublisherDashboard() {
   const [recentSubmissions, setRecentSubmissions] = useState<SubmissionItem[]>(
     [],
   );
+  const items = useRecentUploads();
+  const [recentUploadActivity, setRecentUploadActivity] = useState<
+    UploadItem[]
+  >([]);
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
+  useEffect(() => {
+    setRecentUploadActivity((prev) => {
+      const next = [...prev];
+
+      for (const item of items) {
+        const index = next.findIndex((upload) => upload.id === item.id);
+
+        if (index === -1) {
+          next.push({ ...item });
+        } else {
+          next[index] = {
+            ...next[index],
+            ...item,
+          };
+        }
+      }
+
+      return next;
+    });
+  }, [items]);
+
+  useEffect(() => {
+    console.log(recentUploadActivity);
+  }, [recentUploadActivity]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -258,12 +292,14 @@ export default function PublisherDashboard() {
         <RecentSubmissions recentSubmissions={recentSubmissions} />
       </div>
 
-      <div className="flex flex-col gap-2 md:px-6">
-        <h2 className="text-lg font-semibold md:text-xl">
-          Recent Upload Activity
-        </h2>
-        <RecentUploads recentUploadActivity={recentUploadActivity} />
-      </div>
+      {recentUploadActivity.length > 0 && (
+        <div className="flex flex-col gap-2 md:px-6">
+          <h2 className="text-lg font-semibold md:text-xl">
+            Recent Upload Activity
+          </h2>
+          <RecentUploads recentUploadActivity={recentUploadActivity} />
+        </div>
+      )}
     </section>
   );
 }

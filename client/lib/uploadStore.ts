@@ -1,62 +1,91 @@
 import type { UploadItem } from "@/types/uploadItem";
 
 let uploads: UploadItem[] = [];
+let recentUploads: UploadItem[] = [];
 
-const listeners = new Set<(uploads: UploadItem[]) => void>();
+const uploadListeners = new Set<(uploads: UploadItem[]) => void>();
+const recentUploadListeners = new Set<(uploads: UploadItem[]) => void>();
 
-function notify() {
-  listeners.forEach((listener) => listener([...uploads]));
+function notifyUploads() {
+  uploadListeners.forEach((listener) => listener([...uploads]));
+}
+
+function notifyRecentUploads() {
+  recentUploadListeners.forEach((listener) => listener([...recentUploads]));
 }
 
 export function subscribe(listener: (uploads: UploadItem[]) => void) {
-  listeners.add(listener);
+  uploadListeners.add(listener);
 
-  return () => listeners.delete(listener);
+  return () => uploadListeners.delete(listener);
+}
+
+export function subscribeRecentUploads(
+  listener: (uploads: UploadItem[]) => void,
+) {
+  recentUploadListeners.add(listener);
+
+  return () => recentUploadListeners.delete(listener);
 }
 
 export function getUploads() {
   return uploads;
 }
 
+export function getRecentUploads() {
+  return recentUploads;
+}
+
 export function addUpload(fileName: string): string {
   const id = `upload-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-  uploads = [
-    ...uploads,
-    {
-      id,
-      fileName,
-      progress: 0,
-      status: "uploading",
-    },
-  ];
+  const upload: UploadItem = {
+    id,
+    fileName,
+    progress: 0,
+    status: "uploading",
+  };
 
-  notify();
+  uploads = [...uploads, upload];
+  recentUploads = [...recentUploads, upload];
+
+  notifyUploads();
+  notifyRecentUploads();
 
   return id;
 }
 
 export function updateUploadProgress(id: string, progress: number) {
-  uploads = uploads.map((u) => (u.id === id ? { ...u, progress } : u));
+  uploads = uploads.map((upload) =>
+    upload.id === id ? { ...upload, progress } : upload,
+  );
 
-  notify();
+  recentUploads = recentUploads.map((upload) =>
+    upload.id === id ? { ...upload, progress } : upload,
+  );
+
+  notifyUploads();
+  notifyRecentUploads();
 }
 
 export function finishUpload(id: string, success: boolean) {
-  uploads = uploads.map((u) =>
-    u.id === id
+  const updateStatus = (upload: UploadItem): UploadItem =>
+    upload.id === id
       ? {
-          ...u,
+          ...upload,
           status: success ? "completed" : "error",
-          progress: success ? 100 : u.progress,
+          progress: success ? 100 : upload.progress,
         }
-      : u,
-  );
+      : upload;
 
-  notify();
+  uploads = uploads.map(updateStatus);
+  recentUploads = recentUploads.map(updateStatus);
+
+  notifyUploads();
+  notifyRecentUploads();
 
   setTimeout(() => {
-    uploads = uploads.filter((u) => u.id !== id);
-    notify();
+    uploads = uploads.filter((upload) => upload.id !== id);
+    notifyUploads();
   }, 5000);
 }
