@@ -21,7 +21,7 @@ export default function AssesedDashboard() {
     const params = useParams();
 
     const staff = MOCK_SUBMISSIONS.find(
-        item => item.id === Number(params.id)
+        item => item.staffId === params.id
     );
 
     if (!staff) {
@@ -96,7 +96,7 @@ const overviewCards: OverviewCard[] = [
 
           <div className="cursor-pointer h-[50px] w-[50px] rounded-full overflow-hidden">
             <Image
-              src={user?.avatar}
+              src="/profile-pic.svg"
               alt="Profile Picture"
               width={30}
               height={30}
@@ -121,7 +121,7 @@ const overviewCards: OverviewCard[] = [
 
         <div className="gap-4 items-center hidden md:flex h-[50px] w-[50px] rounded-full overflow-hidden">
           <Image
-            src={user?.avatar}
+            src="/profile-pic.svg"
             alt="Profile Picture"
             width={50}
             height={50}

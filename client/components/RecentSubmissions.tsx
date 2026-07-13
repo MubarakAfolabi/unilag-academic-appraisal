@@ -28,7 +28,6 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
             <Fragment key={index}>
               <li className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr_1.5fr] gap-4 items-center py-3">
                 
-                {/* 1. Document Details Column */}
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
                     <FileText className="w-6 h-6 lg:w-9 lg:h-9" />
@@ -69,10 +68,9 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                   {submission.score}
                 </div>
 
-                {/* 4. Action / Chevron Column */}
                 <div className="text-[hsla(0,2%,42%,1)] text-sm font-medium flex justify-end items-center">
                   <Link
-                  href={`/dashboard/assesment/${id}/`}
+                  href={`/dashboard/assesment/${id}/${submission.manuscriptId}`}
                   className="lg:hidden flex-shrink-0 text-gray-400"
                   >
                     <ChevronRight size={22} />
@@ -80,8 +78,8 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
                   <div className="hidden lg:block">
                     <Link
-                      href={`/dashboard/assesment/${id}/assessed-submission`}
-                      className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
+                      href={`/dashboard/assesment/${id}/${submission.manuscriptId}`}
+                      className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
                     >
                       View details
                       <ChevronRight size={12} className="text-gray-400" />

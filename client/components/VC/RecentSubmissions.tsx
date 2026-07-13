@@ -77,7 +77,6 @@ function getPercent(value: number, total: number) {
 }
 
 export default function RecentSubmissions({ recentSubmissions }: Props) {
-  // Clear fallback assignment regardless of state layout types
   const dataToRender = Array.isArray(recentSubmissions) && recentSubmissions.length > 0 
     ? recentSubmissions 
     : MOCK_SUBMISSIONS;
@@ -85,7 +84,6 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
   return (
     <div className="w-full block clear-both border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden min-h-[150px]">
       
-      {/* Table Headings */}
       <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-sm text-gray-700">
         <div>Publisher Details</div>
         <div className="text-center">Positive Reviews</div>
@@ -93,7 +91,6 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
         <div className="text-right">Action</div>
       </div>
 
-      {/* Table Rows */}
       <div className="divide-y divide-gray-200">
         {dataToRender.map((staff) => {
           const total = staff.totalPublications ?? staff.positiveCount + staff.negativeCount;
@@ -102,13 +99,12 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
             <Fragment key={staff.id}>
               <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors">
                 
-                {/* Profile Details */}
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-semibold shrink-0">
-                    <FileText className="w-5 h-5" />
+                    <FileText className="w-7 h-7" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-semibold text-sm text-gray-900 truncate">
+                    <p className="font-semibold text-lg text-gray-900 truncate">
                       {staff.fullName}
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5 truncate">
@@ -122,27 +118,35 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
                 {/* Positive Count */}
                 <div className="text-center">
-                  <span className="text-green-700 bg-green-50 px-2 py-1 rounded-md font-medium text-xs sm:text-sm">
+                  <span className="text-green-700 bg-green-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
                     {staff.positiveCount} ({getPercent(staff.positiveCount, total)}%)
                   </span>
                 </div>
 
                 {/* Negative Count */}
                 <div className="text-center">
-                  <span className="text-red-600 bg-red-50 px-2 py-1 rounded-md font-medium text-xs sm:text-sm">
+                  <span className="text-red-600 bg-red-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
                     {staff.negativeCount} ({getPercent(staff.negativeCount, total)}%)
                   </span>
                 </div>
 
                 {/* Action Link Button */}
-                <div className="text-right">
+                <div className="text-[hsla(0,2%,42%,1)] text-sm font-medium flex justify-end items-center">
                   <Link
-                     href={`/dashboard/assesment/${staff.id}`}
-                    className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all"
+                  href={`/dashboard/assesment/${staff.staffId}`}
+                  className="lg:hidden flex-shrink-0 text-gray-400"
                   >
-                    View Now
-                    <ChevronRight size={12} className="text-gray-400" />
+                    <ChevronRight size={22} />
                   </Link>
+                  <div className="hidden lg:block">
+                    <Link
+                      href={`/dashboard/assesment/${staff.staffId}`}
+                      className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all"
+                    >
+                      View Now
+                      <ChevronRight size={12} className="text-gray-400" />
+                    </Link>
+                  </div>
                 </div>
 
               </div>
