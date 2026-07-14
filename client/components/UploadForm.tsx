@@ -11,6 +11,7 @@ import {
   updateUploadProgress,
   finishUpload,
 } from "@/lib/uploadStore";
+import { useUser } from "@/context/userContext";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -24,7 +25,8 @@ type QuartileType = "Q1" | "Q2" | "Q3" | "OTHERS" | "";
 type NonIndexedType = "UNIVERSITY_BASED" | "NON_UNIVERSITY_BASED" | "";
 type ClassificationType = "NATIONAL" | "INTERNATIONAL" | "";
 
-export default function UploadDocumentForm() {
+export default function UploadForm() {
+  const { token } = useUser();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const currentUploadXHR = useRef<XMLHttpRequest | null>(null);
 
@@ -43,11 +45,6 @@ export default function UploadDocumentForm() {
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
 
   const validateForm = (): ValidationError[] => {
     const errors: ValidationError[] = [];
@@ -138,8 +135,6 @@ export default function UploadDocumentForm() {
     };
 
     xhr.onload = () => {
-      // Don't let a non-JSON or empty body (e.g. a 200 with no payload)
-      // throw and skip finishUpload entirely.
       let response: { errMessages?: ValidationError[] } = {};
       try {
         response = xhr.responseText ? JSON.parse(xhr.responseText) : {};

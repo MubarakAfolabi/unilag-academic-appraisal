@@ -4,7 +4,7 @@ import Image from "next/image";
 import { LogOut, ArrowLeft } from "lucide-react";
 
 import { userProfile } from "@/constant/publisherDashboard";
-import UploadCard from "@/components/UploadCard";
+import UploadForm from "@/components/UploadForm";
 import LogoutModal from "@/components/LogoutModal";
 import { useUser } from "@/context/userContext";
 import { redirect } from "next/navigation";
@@ -73,7 +73,7 @@ export default function UploadPage() {
         </p>
       </div>
       <div className="md:p-4 rounded-xl flex flex-col items-center gap-4">
-        <UploadCard />
+        <UploadForm />
       </div>
     </section>
   );
