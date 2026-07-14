@@ -35,13 +35,58 @@ export type Notifications = {
 
 export type SubmissionItem = {
   title: string;
+  author: string;
+  staffId: string;
+  academicunit: string;
+  email: string;
+  department: string;
+  filename: string;
   manuscriptId: string;
-  rating: number | "In Progress" | "Not Available";
+  rating: "Positive" | "Negative";
   date: string;
-  status: "Under Review" | "Rejected" | "Approved";
-  statusClass: string;
+  score: string;
+  positiveRClass: string; 
+  negativeRClass: string;
+};
+export type AssessedItem = {
+  title: string;
+  manuscriptId: string;
+  rating: "Positive" | "Negative";
+  date: string;
+  score: string;
+  assessedby: string;
+  assessorcomments: string;
 };
 
+export const assessedSubmissions: AssessedItem[] = [
+  {
+    title: "AI in Healthcare: Opportunities and Challenges",
+    manuscriptId: "RH-2026-0156",
+    rating: "Positive",
+    date: "March 25, 2026",
+    score: "60%",
+    assessedby: "Dr. Alex Johnson",
+    assessorcomments: "The manuscript addresses a relevant topic with strong potential contribution to the field. The methodology is sound, and the results are well presented. Recommended for acceptance with minor revisions.",
+  },
+  {
+    title: "Blockchain Technology in Education",
+    manuscriptId: "RH-2026-0157",
+    rating: "Negative",
+    date: "March 10, 2026",
+    score: "30%",
+    assessedby: "Dr. Sarah Williams",
+    assessorcomments: " The manuscript lacks depth in its analysis and fails to provide sufficient evidence to support its claims. The literature review is inadequate, and the conclusions drawn are not well substantiated. Major revisions are required before reconsideration.",
+  },
+  {
+    title: "The Future of Renewable Energy",
+    manuscriptId: "RH-2026-0158",
+    rating: "Positive",
+    date: "March 9, 2026",
+    score: "70%",
+    assessedby: "Dr. Michael Brown",
+    assessorcomments: "The manuscript provides a comprehensive overview of the topic and presents the information in a clear and organized manner. The writing is well-structured and the arguments are logically presented. Recommended for acceptance.",
+  }
+];
 export const PublisherNotifications: Notifications[] = [
   {
     id: 1,
@@ -148,41 +193,48 @@ export const publisherOverviewCards: OverviewCard[] = [
 export const recentSubmissions: SubmissionItem[] = [
   {
     title: "AI in Healthcare: Opportunities and Challenges",
-    rating: "In Progress",
+    author: "Dr. Adebayo Omotola",
+    staffId: "UNILAG-2024-0892",
+    academicunit: "Faculty of Science",
+    email: "adebayo.omotola@unilag.edu.ng",
+    department: "Department of Computer Science",
+    filename: "AI_in_Healthcare_RH-2026-0156.pdf",
+    rating: "Positive",
     manuscriptId: "RH-2026-0156",
     date: "Submitted on March 21, 2026",
-    status: "Under Review",
-    statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+    score: "60%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
   {
     title: "Blockchain Technology in Education",
-    rating: 4.7,
-    manuscriptId: "RH-2026-0156",
-    date: "Submitted on February 20, 2026",
-    status: "Approved",
-    statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    author: "Prof. Chidi Obi",
+    staffId: "UNILAG-2019-1145",
+    academicunit: "Faculty of Education",
+    email: "chidi.obi@unilag.edu.ng",
+    department: "Department of Education",
+    filename: "Blockchain_in_Education_RH-2026-0157.pdf",
+    rating: "Negative",
+    manuscriptId: "RH-2026-0157",
+    date: "Submitted on March 2, 2026",
+    score: "30%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
   {
     title: "The Future of Renewable Energy",
-    rating: "Not Available",
-    manuscriptId: "RH-2026-0156",
-    date: "Submitted on March 3, 2026",
-    status: "Rejected",
-    statusClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
+    author: "Dr. Funke Adeyemi",
+    staffId: "UNILAG-2024-0893",
+    academicunit: "Faculty of Engineering",
+    email: "funke.adeyemi@unilag.edu.ng",
+    department: "Department of Survey Engineering",
+    filename: "The_Future_of_Renewable_Energy_RH-2026-0158.pdf",
+    rating: "Positive",
+    manuscriptId: "RH-2026-0158",
+    date: "Submitted on February 25, 2026",
+    score: "70%",
+    positiveRClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+    negativeRClass: "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]",
   },
 ];
 
-export const recentUploadActivity: UploadActivityItem[] = [
-  {
-    filename: "AI in Healthcare.pdf",
-    meta: "3.6MB",
-    status: "Processing...",
-    progressValue: 60,
-  },
-  {
-    filename: "Chemical Interactions",
-    meta: "2.8MB",
-    status: "Processing...",
-    progressValue: 75,
-  },
-];

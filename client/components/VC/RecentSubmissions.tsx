@@ -1,68 +1,159 @@
-import { SubmissionItem } from "@/constant/publisherDashboard";
-import { FileText, Star, ChevronRight } from "lucide-react";
 import { Fragment } from "react";
+import { ChevronRight, FileText } from "lucide-react";
+import Link from "next/link";
 
-type Props = {
-  recentSubmissions: SubmissionItem[];
+export type StaffPublicationAssessment = {
+  id: number;
+  fullName: string;
+  staffId: string;
+  submittedAt: string; 
+  totalPublications?: number; 
+  positiveCount: number;
+  negativeCount: number;
 };
 
+type Props = {
+  recentSubmissions?: StaffPublicationAssessment[]; 
+};
+
+export const MOCK_SUBMISSIONS: StaffPublicationAssessment[] = [
+  {
+    id: 1,
+    fullName: "Dr. Adebayo Omotola",
+    staffId: "UNILAG-2024-0892",
+    submittedAt: "2026-07-01T10:30:00Z",
+    positiveCount: 14,
+    negativeCount: 2,
+  },
+  {
+    id: 2,
+    fullName: "Prof. Chidi Obi",
+    staffId: "UNILAG-2019-1145",
+    submittedAt: "2026-07-05T14:15:00Z",
+    positiveCount: 8,
+    negativeCount: 5,
+  },
+  {
+    id: 3,
+    fullName: "Dr. Funke Adeyemi",
+    staffId: "UNILAG-2024-0893",
+    submittedAt: "2026-07-08T09:45:00Z",
+    positiveCount: 8,
+    negativeCount: 10,
+  },
+  {
+    id: 4,
+    fullName: "Prof. Amina Yusuf",
+    staffId: "UNILAG-2020-1234",
+    submittedAt: "2026-07-10T11:20:00Z",
+    positiveCount: 9,
+    negativeCount: 8,
+  },
+  {
+    id: 5,
+    fullName: "Dr. Emeka Nwosu",
+    staffId: "UNILAG-2021-0987",
+    submittedAt: "2026-07-12T13:30:00Z",
+    positiveCount: 9,
+    negativeCount: 12,
+  }
+];
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString;
+
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function getPercent(value: number, total: number) {
+  if (!total) return "0";
+  const percent = (value / total) * 100;
+  return percent % 1 === 0 ? percent.toFixed(0) : percent.toFixed(1);
+}
+
 export default function RecentSubmissions({ recentSubmissions }: Props) {
+  const dataToRender = Array.isArray(recentSubmissions) && recentSubmissions.length > 0 
+    ? recentSubmissions 
+    : MOCK_SUBMISSIONS;
+
   return (
-    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
-      {recentSubmissions.map((submission, index) => {
-        return (
-          <Fragment key={index}>
-            <li className="flex justify-between items-center gap-4">
-              <div className="flex items-center gap-2 flex-3">
-                <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
-                  <FileText className="lg:w-9 lg:h-9" />
-                </div>
+    <div className="w-full block clear-both border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden min-h-[150px]">
+      
+      <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-sm text-gray-700">
+        <div>Publisher Details</div>
+        <div className="text-center">Positive Reviews</div>
+        <div className="text-center">Negative Reviews</div>
+        <div className="text-right">Action</div>
+      </div>
 
-                <div>
-                  <p className="font-semibold lg:text-lg">{submission.title}</p>
-                  <p className="text-sm lg:text-md text-[hsla(0,2%,42%,1)]">
-                    Manuscript ID: {submission.manuscriptId}
-                  </p>
-                  <p className="text-sm lg:text-md text-[hsla(0,2%,42%,1)]">
-                    {submission.date}
-                  </p>
-                </div>
-              </div>
+      <div className="divide-y divide-gray-200">
+        {dataToRender.map((staff) => {
+          const total = staff.totalPublications ?? staff.positiveCount + staff.negativeCount;
 
-              <div className="flex-1">
-                <div
-                  className={`${submission.rating === "In Progress" ? "bg-[hsla(35,98%,52%,0.1)] text-[hsla(35,98%,52%,1)]" : submission.rating === "Not Available" ? "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]" : "bg-[hsla(150,90%,24%,0.1)] text-[hsla(210,79%,46%,1)]"} w-fit h-fit p-1 rounded-lg flex items-center justify-center `}
-                >
-                  {typeof submission.rating === "number" ? (
-                    <p className="flex items-center gap-1">
-                      <Star size={18} />
-                      {submission.rating}/5
+          return (
+            <Fragment key={staff.id}>
+              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors">
+                
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-semibold shrink-0">
+                    <FileText className="w-7 h-7" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-lg text-gray-900 truncate">
+                      {staff.fullName}
                     </p>
-                  ) : (
-                    <p>{submission.rating}</p>
-                  )}
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">
+                      ID: {staff.staffId}
+                    </p>
+                    <p className="text-xs text-[hsla(0,2%,42%,1)]">
+                      Submitted: {formatDate(staff.submittedAt)}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex-1">
-                <div
-                  className={`${submission.status === "Under Review" ? "bg-[hsla(35,98%,52%,0.1)] text-[hsla(35,98%,52%,1)]" : submission.status === "Approved" ? "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]" : "bg-[hsla(353,100%,46%,0.1)] text-[hsla(0,93%,52%,1)]"} w-fit h-fit p-1 rounded-lg flex items-center justify-center`}
-                >
-                  {submission.status}
+                {/* Positive Count */}
+                <div className="text-center">
+                  <span className="text-green-700 bg-green-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
+                    {staff.positiveCount} ({getPercent(staff.positiveCount, total)}%)
+                  </span>
                 </div>
-              </div>
 
-              <div className="text-[hsla(0,2%,42%,1)]">
-                <ChevronRight size={22} />
-              </div>
-            </li>
+                {/* Negative Count */}
+                <div className="text-center">
+                  <span className="text-red-600 bg-red-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
+                    {staff.negativeCount} ({getPercent(staff.negativeCount, total)}%)
+                  </span>
+                </div>
 
-            {index < recentSubmissions.length - 1 && (
-              <hr className="w-full border-[hsla(0,0%,85%,1)]" />
-            )}
-          </Fragment>
-        );
-      })}
-    </ul>
+                {/* Action Link Button */}
+                <div className="text-[hsla(0,2%,42%,1)] text-sm font-medium flex justify-end items-center">
+                  <Link
+                  href={`/dashboard/assesment/${staff.staffId}`}
+                  className="lg:hidden flex-shrink-0 text-gray-400"
+                  >
+                    <ChevronRight size={22} />
+                  </Link>
+                  <div className="hidden lg:block">
+                    <Link
+                      href={`/dashboard/assesment/${staff.staffId}`}
+                      className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all"
+                    >
+                      View Now
+                      <ChevronRight size={12} className="text-gray-400" />
+                    </Link>
+                  </div>
+                </div>
+
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+    </div>
   );
 }
