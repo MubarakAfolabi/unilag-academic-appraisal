@@ -32,29 +32,32 @@ export default function PageLayout({
 }>) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [logOutModal, setLogOutModal] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const storedToken = localStorage.getItem("token");
 
-    if (!token) {
+    if (!storedToken) {
       router.push("/login");
       return;
     }
 
+    setToken(storedToken);
+
     fetch(`${apiUrl}/api/profile`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${storedToken}` },
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setUser(data.user);
+        setUser(data?.user);
       });
   }, [router]);
 
-  if (!user) {
+  if (!user || !token) {
     return (
       <>
         <p>loading...</p>;
@@ -72,7 +75,7 @@ export default function PageLayout({
 
   return (
     <ProtectedRoute>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, token, setToken }}>
         <LayoutContext.Provider value={{ logOutModal, setLogOutModal }}>
           <div className="flex md:h-screen overflow-hidden">
             {navigationLayouts[user.role]}

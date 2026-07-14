@@ -1,5 +1,9 @@
+"use client";
+
+import { useUser } from "@/context/userContext";
 import { Check, Circle, X, FileText, FileX } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export type SubmissionItem = {
   fullCitation: string;
@@ -12,11 +16,95 @@ export type SubmissionItem = {
   }[];
 };
 
-type Props = {
-  recentSubmissions: SubmissionItem[];
+const getSubmissionData = (status: string) => {
+  switch (status) {
+    case "UNDER_REVIEW":
+      return {
+        status: "Under Review",
+        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "done" },
+          { label: "Scored", state: "current" },
+        ],
+      };
+
+    case "SCORED":
+      return {
+        status: "Scored",
+        statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "done" },
+          { label: "Scored", state: "done" },
+        ],
+      };
+
+    case "PENDING":
+      return {
+        status: "Pending",
+        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
+        progress: [
+          { label: "Submitted", state: "done" },
+          { label: "Under Review", state: "current" },
+          { label: "Scored", state: "pending" },
+        ],
+      };
+
+    default:
+      return {
+        status: status,
+        statusClass: "",
+        progress: [],
+      };
+  }
 };
 
-export default function RecentSubmissions({ recentSubmissions }: Props) {
+export default function RecentSubmissions() {
+  const { token } = useUser();
+  const [recentSubmissions, setRecentSubmissions] = useState<SubmissionItem[]>(
+    [],
+  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/publisher/recent-submissions`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setRecentSubmissions(
+            data.recentSubmissions.map((publication: any) => {
+              const submissionData = getSubmissionData(publication.status);
+
+              return {
+                fullCitation: publication.fullCitation,
+                date: `Submitted on ${new Date(
+                  publication.createdAt,
+                ).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`,
+                ...submissionData,
+              };
+            }),
+          );
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const renderIcon = (state: SubmissionItem["progress"][number]["state"]) => {
     switch (state) {
       case "done":
@@ -45,6 +133,14 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
         );
     }
   };
+
+  if (loading) {
+    return (
+      <div className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">

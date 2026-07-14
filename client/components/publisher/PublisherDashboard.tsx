@@ -2,13 +2,11 @@
 
 import Image from "next/image";
 import { LogOut, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
-
 import { userProfile } from "@/constant/publisherDashboard";
 import RecentUploads from "@/components/RecentUploads";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
 import LogoutModal from "@/components/LogoutModal";
-import { SubmissionItem } from "./RecentSubmissions";
 import RecentSubmissions from "./RecentSubmissions";
 import type { UploadItem } from "@/types/uploadItem";
 import { useUser } from "@/context/userContext";
@@ -18,84 +16,19 @@ import { useRecentUploads } from "@/hooks/useRecentUploads";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const getSubmissionData = (status: string) => {
-  switch (status) {
-    case "UNDER_REVIEW":
-      return {
-        status: "Under Review",
-        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
-        progress: [
-          { label: "Submitted", state: "done" },
-          { label: "Under Review", state: "done" },
-          { label: "Scored", state: "current" },
-        ],
-      };
-
-    case "SCORED":
-      return {
-        status: "Scored",
-        statusClass: "bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)]",
-        progress: [
-          { label: "Submitted", state: "done" },
-          { label: "Under Review", state: "done" },
-          { label: "Scored", state: "done" },
-        ],
-      };
-
-    case "PENDING":
-      return {
-        status: "Pending",
-        statusClass: "bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)]",
-        progress: [
-          { label: "Submitted", state: "done" },
-          { label: "Under Review", state: "current" },
-          { label: "Scored", state: "pending" },
-        ],
-      };
-
-    default:
-      return {
-        status: status,
-        statusClass: "",
-        progress: [],
-      };
-  }
-};
-
-// const recentUploadActivity: UploadActivityItem[] = [
-//   {
-//     filename: "AI in Healthcare.pdf",
-//     meta: "3.6MB",
-//     status: "Processing...",
-//     progressValue: 60,
-//   },
-//   {
-//     filename: "Chemical Interactions",
-//     meta: "2.8MB",
-//     status: "Processing...",
-//     progressValue: 75,
-//   },
-// ];
-
 export default function PublisherDashboard() {
-  const { user } = useUser();
+  const { user, token } = useUser();
   const { logOutModal, setLogOutModal } = useLayout();
   const [overview, setOverview] = useState({
     publicationCount: 0,
     publicationUnderReviewCount: 0,
     publicationScoredCount: 0,
   });
-  const [recentSubmissions, setRecentSubmissions] = useState<SubmissionItem[]>(
-    [],
-  );
+
   const items = useRecentUploads();
   const [recentUploadActivity, setRecentUploadActivity] = useState<
     UploadItem[]
   >([]);
-
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
 
   useEffect(() => {
     setRecentUploadActivity((prev) => {
@@ -119,12 +52,6 @@ export default function PublisherDashboard() {
   }, [items]);
 
   useEffect(() => {
-    console.log(recentUploadActivity);
-  }, [recentUploadActivity]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       return;
     }
@@ -140,44 +67,6 @@ export default function PublisherDashboard() {
         if (data?.success) {
           setOverview(data?.submissionOverviewCount);
         }
-      });
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return;
-    }
-
-    fetch(`${apiUrl}/api/publisher/recent-submissions`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        if (data?.success) {
-          setRecentSubmissions(
-            data.recentSubmissions.map((publication: any) => {
-              const submissionData = getSubmissionData(publication.status);
-
-              return {
-                fullCitation: publication.fullCitation,
-                date: `Submitted on ${new Date(
-                  publication.createdAt,
-                ).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}`,
-                ...submissionData,
-              };
-            }),
-          );
-        }
-        console.log(data);
       });
   }, []);
 
@@ -289,7 +178,7 @@ export default function PublisherDashboard() {
             View all
           </p>
         </div>
-        <RecentSubmissions recentSubmissions={recentSubmissions} />
+        <RecentSubmissions />
       </div>
 
       {recentUploadActivity.length > 0 && (
