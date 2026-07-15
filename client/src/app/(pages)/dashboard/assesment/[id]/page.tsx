@@ -7,61 +7,52 @@ import Image from "next/image";
 
 import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/RecentSubmissions";
-import {MOCK_SUBMISSIONS} from "@/components/VC/RecentSubmissions";
+import { MOCK_SUBMISSIONS } from "@/components/VC/RecentSubmissions";
 import LogoutModal from "@/components/LogoutModal";
 import OverviewCards, { OverviewCard } from "@/components/OverviewCards";
 import { useUser } from "@/context/userContext";
 
 export default function AssesedDashboard() {
+  const { user } = useUser();
 
-    const { user } = useUser();
+  const [modal, setModal] = useState(false);
 
-    const [modal, setModal] = useState(false);
+  const params = useParams();
 
-    const params = useParams();
+  const staff = MOCK_SUBMISSIONS.find((item) => item.staffId === params.id);
 
-    const staff = MOCK_SUBMISSIONS.find(
-        item => item.staffId === params.id
-    );
+  if (!staff) {
+    return <div className="p-6">Staff not found</div>;
+  }
 
-    if (!staff) {
-        return (
-            <div className="p-6">
-                Staff not found
-            </div>
-        );
-    }
-
-const overviewCards: OverviewCard[] = [
-  {
-    label: "Total Submissions",
-    value: String(
-      (staff.totalPublications ??
-        staff.positiveCount + staff.negativeCount)
+  const overviewCards: OverviewCard[] = [
+    {
+      label: "Total Submissions",
+      value: String(
+        staff.totalPublications ?? staff.positiveCount + staff.negativeCount,
       ),
-    icon: Clock4,
-    iconColor: "text-[hsla(210,79%,46%,1)]",
-    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
-    bgClass: "bg-[hsl(209,67%,89%)]",
-  },
-  {
-    label: "Positive",
-    value: String(staff.positiveCount),
-    icon: CircleCheckBig,
-    iconColor: "text-[hsla(150,90%,24%,1)]",
-    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
-    bgClass: "bg-[hsla(150,90%,24%,0.2)]",
-  },
-  {
-    label: "Negative",
-    value: String(staff.negativeCount),
-    icon: CircleX,
-    iconColor: "text-[hsla(0,93%,52%,1)]",
-    iconWrapper: "bg-[hsla(0,93%,52%,0.1)]",
-    bgClass: "bg-[hsla(353,100%,46%,0.2)]",
-  },
-];
-
+      icon: Clock4,
+      iconColor: "text-[hsla(210,79%,46%,1)]",
+      iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+      bgClass: "bg-[hsl(209,67%,89%)]",
+    },
+    {
+      label: "Positive",
+      value: String(staff.positiveCount),
+      icon: CircleCheckBig,
+      iconColor: "text-[hsla(150,90%,24%,1)]",
+      iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+      bgClass: "bg-[hsla(150,90%,24%,0.2)]",
+    },
+    {
+      label: "Negative",
+      value: String(staff.negativeCount),
+      icon: CircleX,
+      iconColor: "text-[hsla(0,93%,52%,1)]",
+      iconWrapper: "bg-[hsla(0,93%,52%,0.1)]",
+      bgClass: "bg-[hsla(353,100%,46%,0.2)]",
+    },
+  ];
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -100,7 +91,7 @@ const overviewCards: OverviewCard[] = [
               alt="Profile Picture"
               width={30}
               height={30}
-              className="object-cover h-full w-full" 
+              className="object-cover h-full w-full"
             />
           </div>
         </div>
@@ -110,9 +101,7 @@ const overviewCards: OverviewCard[] = [
         <div>
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
             {staff.fullName}'s Submission
-            <span>
-              
-            </span>
+            <span></span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
             Overview of the academic appraisal system
@@ -125,7 +114,7 @@ const overviewCards: OverviewCard[] = [
             alt="Profile Picture"
             width={50}
             height={50}
-            className="object-cover h-full w-full" 
+            className="object-cover h-full w-full"
           />
         </div>
       </div>
@@ -144,5 +133,5 @@ const overviewCards: OverviewCard[] = [
         <RecentSubmissions recentSubmissions={recentSubmissions} />
       </div>
     </section>
-     );
+  );
 }

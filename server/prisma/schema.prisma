@@ -31,6 +31,8 @@ model User {
   dateJoined   DateTime?
   avatar       String?
   publications Publication[]
+
+  reviews Review[]
 }
 
 enum Role {
@@ -45,23 +47,22 @@ model Publication {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Form fields
   fullCitation    String
   publicationType PublicationType
   quartileRanking QuartileRanking
   nonIndexed      NonIndexed?
   classification  Classification
 
-  // File upload
-  filePath String? // Path or URL to the uploaded file
+  filePath String?
   fileName String?
-  fileSize Int? // bytes
+  fileSize Int?
   mimeType String?
 
-  // Status & metadata
   status PublicationStatus @default(PENDING)
   userId Int
   user   User              @relation(fields: [userId], references: [id])
+
+  reviews Review[]
 }
 
 enum PublicationType {
@@ -94,23 +95,25 @@ enum PublicationStatus {
   SCORED
 }
 
-// // Review model
-// model Review {
-//   id          Int      @id @default(autoincrement())
+model Review {
+  id Int @id @default(autoincrement())
 
-//   title       String
+  status      ReviewStatus @default(PENDING)
+  assignedAt  DateTime     @default(now())
+  openedAt    DateTime?
+  completedAt DateTime?
 
-//   comments    String?
+  reviewerId Int
+  reviewer   User @relation(fields: [reviewerId], references: [id])
 
-//   status      ReviewStatus
+  publicationId Int
+  publication   Publication @relation(fields: [publicationId], references: [id])
 
-//   createdAt   DateTime @default(now())
+  @@unique([reviewerId, publicationId])
+}
 
-//   userId      Int
-//   user        User @relation(fields: [userId], references: [id])
-// }
-// enum ReviewStatus {
-//   PENDING
-//   COMPLETED
-//   REJECTED
-// }
+enum ReviewStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}

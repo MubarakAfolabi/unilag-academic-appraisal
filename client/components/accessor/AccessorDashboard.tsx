@@ -7,7 +7,7 @@ import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import { useRouter } from "next/navigation";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
-import PendingSubmissions from "@/components/PendingSubmission";
+import PendingReviews from "@/components/PendingReviews";
 import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
 
@@ -92,7 +92,7 @@ export default function AccessorDashboard() {
 
           <div className="cursor-pointer">
             <Image
-              src={user.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -106,7 +106,7 @@ export default function AccessorDashboard() {
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
             Welcome back,{" "}
             <span>
-              {user.title} {user.firstname} {user.lastname}
+              {user?.title} {user?.firstname} {user?.lastname}
             </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
@@ -116,7 +116,7 @@ export default function AccessorDashboard() {
 
         <div className="gap-4 items-center hidden md:flex">
           <Image
-            src={user.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
@@ -131,14 +131,12 @@ export default function AccessorDashboard() {
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold md:text-xl">
-            Pending Submission
-          </h2>
+          <h2 className="text-lg font-semibold md:text-xl">Pending Reviews</h2>
           <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
             View all
           </p>
         </div>
-        <PendingSubmissions pendingSubmissions={pendingSubmissions} />
+        <PendingReviews pendingSubmissions={pendingSubmissions} />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">

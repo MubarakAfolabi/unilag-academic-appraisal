@@ -5,7 +5,7 @@ type Props = {
   pendingSubmissions: PendingSubmissionItem[];
 };
 
-export default function PendingSubmissions({ pendingSubmissions }: Props) {
+export default function PendingReviews({ pendingSubmissions }: Props) {
   return (
     <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex flex-col gap-4">
       {pendingSubmissions.map((submission, index) => (
