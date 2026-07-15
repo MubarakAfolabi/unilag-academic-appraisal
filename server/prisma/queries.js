@@ -156,6 +156,17 @@ const publisherRecentSubmissions = async (userId) => {
   return recentPublications;
 };
 
+const accessorDashboardOverview = async (userId) => {
+  const counts = await prisma.review.groupBy({
+    by: ["status"],
+    where: {
+      reviewerId: userId,
+    },
+    _count: true,
+  });
+  return counts;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -165,4 +176,5 @@ module.exports = {
   createPublication,
   publisherSubmissionOverview,
   publisherRecentSubmissions,
+  accessorDashboardOverview,
 };
