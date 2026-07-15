@@ -1,0 +1,14 @@
+const queries = require("../prisma/queries.js");
+
+const reviewOverviewGet = async (req, res) => {
+  const id = req.user.id;
+
+  try {
+    const reviewOverview = await queries.accessorDashboardOverview(id);
+    return res.status(200).json({ success: true, reviewOverview });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+module.exports = { reviewOverviewGet };

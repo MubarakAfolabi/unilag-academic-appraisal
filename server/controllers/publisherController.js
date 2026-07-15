@@ -16,8 +16,6 @@ const submissionOverviewGet = async (req, res) => {
 const recentSubmissionsGet = async (req, res) => {
   const id = req.user.id;
 
-  console.log(id);
-
   try {
     const recentSubmissions = await queries.publisherRecentSubmissions(id);
     return res.status(200).json({ success: true, recentSubmissions });
