@@ -69,21 +69,40 @@ const createPublication = async (
   fileSize,
   mimeType,
 ) => {
-  const publication = await prisma.publication.create({
-    data: {
-      userId,
-      fullCitation,
-      publicationType,
-      quartileRanking,
-      nonIndexed,
-      classification,
-      filePath,
-      fileName,
-      fileSize,
-      mimeType,
-    },
+  return prisma.$transaction(async (tx) => {
+    const publication = await tx.publication.create({
+      data: {
+        userId,
+        fullCitation,
+        publicationType,
+        quartileRanking,
+        nonIndexed,
+        classification,
+        filePath,
+        fileName,
+        fileSize,
+        mimeType,
+      },
+    });
+
+    const accessors = await tx.user.findMany({
+      where: {
+        role: "ACCESSOR",
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    await tx.review.createMany({
+      data: accessors.map((accessor) => ({
+        reviewerId: accessor.id,
+        publicationId: publication.id,
+      })),
+    });
+
+    return publication;
   });
-  return publication;
 };
 
 const publisherSubmissionOverview = async (userId) => {
