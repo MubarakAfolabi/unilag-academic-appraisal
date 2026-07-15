@@ -1,62 +1,103 @@
-import { Check, X, ChevronRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { FileText, ChevronRight } from "lucide-react";
 
 export type RecentActivityItem = {
+  assessedby: string;
   title: string;
   date: string;
-  iconState: "success" | "warning" | "info" | "error";
+  manuscriptId: string;
+  assessorId: string;
 };
+
 
 type Props = {
   recentActivity: RecentActivityItem[];
 };
 
 export default function RecentActivity({ recentActivity }: Props) {
-  const renderIcon = (status: RecentActivityItem["iconState"]) => {
-    switch (status) {
-      case "success":
-        return (
-          <div className="bg-[hsla(150,90%,24%,0.2)] text-[hsla(150,90%,24%,1)] w-fit p-1 rounded-full">
-            <Check size={22} />
-          </div>
-        );
+  const [showAll, setShowAll] = useState(false);
 
-      case "error":
-        return (
-          <div className="bg-[hsla(353,100%,46%,0.2)] text-[hsla(353,100%,46%,1)] w-fit p-1 rounded-full">
-            <X size={22} />
-          </div>
-        );
+  const params = useParams();
+  const currentAssessorId =
+    (params?.assessorId as string);
 
-      default:
-        return null;
-    }
-  };
+  const displayedActivities = showAll
+    ? recentActivity
+    : recentActivity.slice(0, 5);
 
   return (
-    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex flex-col gap-4">
-      {recentActivity.map((activity, index) => (
-        <li
-          key={index}
-          className={`flex items-center gap-2 ${
-            index !== recentActivity.length - 1
-              ? "border-b border-[#eeeeee] pb-4"
-              : ""
-          }`}
-        >
-          {renderIcon(activity.iconState)}
+    <div className="flex flex-col gap-2 md:px-6 md:pb-10">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold md:text-xl">
+            Recent Submission
+          </h2>
+          <button 
+          className="text-[hsla(210,79%,46%,1)] font-semibold cursor-pointer transition hover:underline"
+          onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? "Show Less" : "View All"}
+          </button>
+        </div>
 
-          <div className="flex-1 flex flex-col">
-            <p className="font-semibold lg:text-lg">{activity.title}</p>
-            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-              {activity.date}
-            </p>
-          </div>
+      <div className="flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm">
 
-          <div className="text-[hsla(0,2%,42%,1)]">
-            <ChevronRight size={22} />
-          </div>
-        </li>
-      ))}
-    </ul>
+        <div className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-sm text-gray-700">
+          <div>Assessed By</div>
+          <div>Date Submitted</div>
+          <div className="hidden lg:block text-right">Action</div>
+          <div className="lg:hidden w-4"></div> 
+        </div>
+
+        {/* List */}
+        <ul className="px-6 py-2 flex flex-col gap-2">
+          {displayedActivities.map((activity, index) => {
+            const targetUrl = `/dashboard/${activity.assessorId}`;
+
+            return (
+              <li
+                key={activity.manuscriptId}
+                className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr] gap-4 items-center py-3"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
+                    <FileText size={20} />
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-sm lg:text-base truncate">
+                      Assessed By: {activity.assessedby}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Middle - Date */}
+                <div className="col-span-1 flex items-center justify-center lg:justify-start lg:ml-6">
+                  <p className="text-sm font-medium text-gray-700 lg:text-base truncate">
+                    {activity.date}
+                  </p>
+                </div>
+
+                {/* Action - Right */}
+                <div className="col-span-2 flex justify-end items-center text-[hsla(0,2%,42%,1)] text-sm font-medium">
+                    <div>
+                      <Link
+                        href={targetUrl}
+                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
+                      >
+                        View now
+                        <ChevronRight size={12} className="text-gray-400" />
+                      </Link>
+                    </div>
+                  </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 }

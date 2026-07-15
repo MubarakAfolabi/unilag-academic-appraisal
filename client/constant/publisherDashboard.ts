@@ -85,6 +85,24 @@ export const assessedSubmissions: AssessedItem[] = [
     score: "70%",
     assessedby: "Dr. Michael Brown",
     assessorcomments: "The manuscript provides a comprehensive overview of the topic and presents the information in a clear and organized manner. The writing is well-structured and the arguments are logically presented. Recommended for acceptance.",
+  },
+  {
+    title: "Quantum Computing: Current Advances",
+    manuscriptId: "RH-2026-0159",
+    rating: "Positive", 
+    date: "March 8, 2026",
+    score: "80%",
+    assessedby: "Dr. Lisa Davis",
+    assessorcomments: "The manuscript presents a thorough and insightful analysis of the current state of quantum computing. The theoretical framework is well-developed, and the practical applications are clearly demonstrated. Highly recommended for publication.",
+  },
+  {
+    title: "AI in Finance: Opportunities and Challenges",
+    manuscriptId: "RH-2026-0160",
+    rating: "Positive",
+    date: "March 7, 2026",
+    score: "65%",
+    assessedby: "Dr. James Wilson",
+    assessorcomments: "The manuscript offers a valuable perspective on the integration of AI in Finance settings. The discussion is well-supported with relevant examples and references. Recommended for acceptance with minor revisions.",
   }
 ];
 export const PublisherNotifications: Notifications[] = [

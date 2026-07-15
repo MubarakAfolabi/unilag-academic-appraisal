@@ -70,7 +70,7 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
                 <div className="text-[hsla(0,2%,42%,1)] text-sm font-medium flex justify-end items-center">
                   <Link
-                  href={`/dashboard/assesment/${id}/${submission.manuscriptId}`}
+                  href={`/dashboard/v/${id}/${submission.manuscriptId}`}
                   className="lg:hidden flex-shrink-0 text-gray-400"
                   >
                     <ChevronRight size={22} />
@@ -78,7 +78,7 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
                   <div className="hidden lg:block">
                     <Link
-                      href={`/dashboard/assesment/${id}/${submission.manuscriptId}`}
+                      href={`/dashboard/v/${id}/${submission.manuscriptId}`}
                       className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
                     >
                       View details
