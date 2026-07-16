@@ -13,7 +13,6 @@ import ReviewPerformance from "@/components/ReviewPerformance";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 import {
-  pendingSubmissions,
   recentActivity,
   reviewerPerformance,
 } from "@/constant/reviewerDashboard";
@@ -167,7 +166,7 @@ export default function AccessorDashboard() {
             View all
           </p>
         </div>
-        <PendingReviews pendingSubmissions={pendingSubmissions} />
+        <PendingReviews />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">

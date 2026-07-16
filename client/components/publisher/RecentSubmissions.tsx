@@ -103,7 +103,7 @@ export default function RecentSubmissions() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   const renderIcon = (state: SubmissionItem["progress"][number]["state"]) => {
     switch (state) {
@@ -136,7 +136,7 @@ export default function RecentSubmissions() {
 
   if (loading) {
     return (
-      <div className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
+      <div className="flex justify-center border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
         <p>Loading...</p>
       </div>
     );

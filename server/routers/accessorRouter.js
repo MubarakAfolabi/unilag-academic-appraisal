@@ -10,4 +10,10 @@ authRouter.get(
   accessorController.reviewOverviewGet,
 );
 
+authRouter.get(
+  "/accessor/pending-reviews",
+  auth,
+  accessorController.pendingReviewsGet,
+);
+
 module.exports = authRouter;

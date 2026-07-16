@@ -170,12 +170,19 @@ const accessorDashboardOverview = async (userId) => {
 const accessorPendingReviews = async (userId) => {
   const pendingReviews = await prisma.review.findMany({
     where: {
+      status: "PENDING",
       reviewerId: userId,
     },
-    include: {
+    select: {
       publication: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              firstname: true,
+              lastname: true,
+            },
+          },
         },
       },
     },

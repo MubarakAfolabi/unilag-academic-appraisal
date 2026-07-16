@@ -11,4 +11,15 @@ const reviewOverviewGet = async (req, res) => {
   }
 };
 
-module.exports = { reviewOverviewGet };
+const pendingReviewsGet = async (req, res) => {
+  const id = req.user.id;
+
+  try {
+    const pendingReviews = await queries.accessorPendingReviews(id);
+    return res.status(200).json({ success: true, pendingReviews });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+module.exports = { reviewOverviewGet, pendingReviewsGet };
