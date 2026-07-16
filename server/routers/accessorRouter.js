@@ -16,4 +16,10 @@ authRouter.get(
   accessorController.pendingReviewsGet,
 );
 
+authRouter.get(
+  "/accessor/recent-activities",
+  auth,
+  accessorController.recentActivitiesGet,
+);
+
 module.exports = authRouter;

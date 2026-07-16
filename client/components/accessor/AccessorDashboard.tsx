@@ -12,10 +12,7 @@ import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-import {
-  recentActivity,
-  reviewerPerformance,
-} from "@/constant/reviewerDashboard";
+import { reviewerPerformance } from "@/constant/reviewerDashboard";
 import { useUser } from "@/context/userContext";
 
 export default function AccessorDashboard() {
@@ -176,7 +173,7 @@ export default function AccessorDashboard() {
             View all
           </p>
         </div>
-        <RecentActivity recentActivity={recentActivity} />
+        <RecentActivity />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6">

@@ -1,29 +1,75 @@
-import { Check, X, ChevronRight } from "lucide-react";
+"use client";
 
-export type RecentActivityItem = {
-  title: string;
-  date: string;
-  iconState: "success" | "warning" | "info" | "error";
-};
+import { useUser } from "@/context/userContext";
+import { Check, Timer, ChevronRight, FileX } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RecentActivityItem } from "@/types/recentActivityItem";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-type Props = {
-  recentActivity: RecentActivityItem[];
-};
+export default function RecentActivity() {
+  const { token } = useUser();
+  const [recentActivities, setRecentActivities] = useState<
+    RecentActivityItem[]
+  >([]);
+  const [loading, setLoading] = useState(true);
 
-export default function RecentActivity({ recentActivity }: Props) {
-  const renderIcon = (status: RecentActivityItem["iconState"]) => {
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/accessor/recent-activities`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setRecentActivities(
+            data?.recentActivities.map((item) => {
+              return {
+                ...item,
+                openedAt: `${new Date(item.openedAt).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  },
+                )}`,
+                completedAt: `${new Date(item.completedAt).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  },
+                )}`,
+              };
+            }),
+          );
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [token]);
+
+  const renderIcon = (status: RecentActivityItem["status"]) => {
     switch (status) {
-      case "success":
+      case "COMPLETED":
         return (
           <div className="bg-[hsla(150,90%,24%,0.2)] text-[hsla(150,90%,24%,1)] w-fit p-1 rounded-full">
             <Check size={22} />
           </div>
         );
 
-      case "error":
+      case "PENDING":
         return (
-          <div className="bg-[hsla(353,100%,46%,0.2)] text-[hsla(353,100%,46%,1)] w-fit p-1 rounded-full">
-            <X size={22} />
+          <div className="bg-[hsl(45,100%,85%)] text-[hsl(45,100%,51%)] w-fit p-1 rounded-full">
+            <Timer size={22} />
           </div>
         );
 
@@ -32,31 +78,59 @@ export default function RecentActivity({ recentActivity }: Props) {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
-    <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 rounded-xl flex flex-col gap-4">
-      {recentActivity.map((activity, index) => (
-        <li
-          key={index}
-          className={`flex items-center gap-2 ${
-            index !== recentActivity.length - 1
-              ? "border-b border-[#eeeeee] pb-4"
-              : ""
-          }`}
-        >
-          {renderIcon(activity.iconState)}
+    <div className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
+      {recentActivities.length > 0 ? (
+        <ul className="flex flex-col gap-4">
+          {recentActivities.map((activity, index) => (
+            <li
+              key={index}
+              className={`flex items-center gap-2 ${
+                index !== recentActivities.length - 1
+                  ? "border-b border-[#eeeeee] pb-4"
+                  : ""
+              }`}
+            >
+              {renderIcon(activity?.status)}
 
-          <div className="flex-1 flex flex-col">
-            <p className="font-semibold lg:text-lg">{activity.title}</p>
-            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-              {activity.date}
-            </p>
-          </div>
+              <div className="flex-1 flex flex-col">
+                <p className="font-semibold lg:text-lg">
+                  <span>
+                    {activity?.status === "COMPLETED"
+                      ? "Reviewed: "
+                      : "Pending: "}
+                  </span>
+                  {activity?.publication.fullCitation}
+                </p>
+                <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+                  {activity?.status === "COMPLETED"
+                    ? `Reviewed on ${activity?.completedAt}`
+                    : `Viewed on ${activity?.openedAt}`}
+                </p>
+              </div>
 
-          <div className="text-[hsla(0,2%,42%,1)]">
-            <ChevronRight size={22} />
+              <div className="text-[hsla(0,2%,42%,1)]">
+                <ChevronRight size={22} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-2 text-[hsl(0,2%,42%)]">
+          <div>
+            <FileX />
           </div>
-        </li>
-      ))}
-    </ul>
+          <p>No Recent Activity</p>
+        </div>
+      )}
+    </div>
   );
 }

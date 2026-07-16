@@ -196,23 +196,23 @@ const accessorRecentActivities = async (userId) => {
       status: {
         in: ["PENDING", "COMPLETED"],
       },
+      reviewerId: userId,
     },
     select: {
+      status: true,
+      openedAt: true,
+      completedAt: true,
       publication: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              firstname: true,
-              lastname: true,
-            },
-          },
+        select: {
+          id: true,
+          fullCitation: true,
         },
       },
     },
     orderBy: {
       assignedAt: "desc",
     },
+    take: 5,
   });
   return recentActivities;
 };

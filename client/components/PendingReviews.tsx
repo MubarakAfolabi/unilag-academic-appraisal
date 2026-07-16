@@ -96,7 +96,7 @@ export default function PendingReviews() {
           <div>
             <FileX />
           </div>
-          <p>No Recent Submissions</p>
+          <p>No Pending Reviews</p>
         </div>
       )}
     </div>
