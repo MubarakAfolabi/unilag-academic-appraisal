@@ -217,6 +217,29 @@ const accessorRecentActivities = async (userId) => {
   return recentActivities;
 };
 
+const accessorReviews = async (userId) => {
+  const allReviews = await prisma.review.findMany({
+    where: {
+      reviewerId: userId,
+    },
+    select: {
+      status: true,
+      assignedAt: true,
+      openedAt: true,
+      completedAt: true,
+      publication: {
+        select: {
+          id: true,
+          fullCitation: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    },
+  });
+  return allReviews;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -229,4 +252,5 @@ module.exports = {
   accessorDashboardOverview,
   accessorPendingReviews,
   accessorRecentActivities,
+  accessorReviews,
 };
