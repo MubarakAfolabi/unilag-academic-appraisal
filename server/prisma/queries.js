@@ -167,6 +167,22 @@ const accessorDashboardOverview = async (userId) => {
   return counts;
 };
 
+const accessorPendingReviews = async (userId) => {
+  const pendingReviews = await prisma.review.findMany({
+    where: {
+      reviewerId: userId,
+    },
+    include: {
+      publication: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  return pendingReviews;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -177,4 +193,5 @@ module.exports = {
   publisherSubmissionOverview,
   publisherRecentSubmissions,
   accessorDashboardOverview,
+  accessorPendingReviews,
 };
