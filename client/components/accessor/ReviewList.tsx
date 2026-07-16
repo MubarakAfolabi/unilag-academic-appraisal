@@ -18,27 +18,33 @@ export default function ReviewList({ allReviews }: Props) {
     {
       name: "All",
       value: "all",
-      unread: 5,
     },
     {
       name: "Pending",
       value: "pending",
-      unread: 2,
+    },
+    {
+      name: "In Progress",
+      value: "in progress",
     },
     {
       name: "Completed",
       value: "completed",
-      unread: 2,
     },
   ] as const;
 
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "completed">(
-    "all",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "all" | "pending" | "in progress" | "completed"
+  >("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredReviews = allReviews.filter((review) => {
     if (activeTab === "pending" && review.status?.toLowerCase() !== "pending")
+      return false;
+    if (
+      activeTab === "in progress" &&
+      review.status?.toLowerCase() !== "in progress"
+    )
       return false;
     if (
       activeTab === "completed" &&
@@ -46,7 +52,6 @@ export default function ReviewList({ allReviews }: Props) {
     )
       return false;
 
-    // 2. Filter by Search Query
     return (
       review.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       review.manuscriptId.toLowerCase().includes(searchQuery.toLowerCase())
@@ -63,14 +68,17 @@ export default function ReviewList({ allReviews }: Props) {
                 key={index}
                 className={`${activeTab === item.value ? "text-[hsla(216,59%,54%,1)]" : "text-[hsla(237,15%,47%,1)]"} flex flex-col gap-1 cursor-pointer relative`}
                 onClick={() => {
-                  setActiveTab(item.value as "all" | "pending" | "completed");
+                  setActiveTab(
+                    item.value as
+                      | "all"
+                      | "in progress"
+                      | "pending"
+                      | "completed",
+                  );
                 }}
               >
                 <button className="flex items-center gap-2 font-semibold cursor-pointer">
                   {item.name}
-                  <span className="bg-[hsla(216,59%,54%,0.25)] text-sm h-5 w-5 rounded-full flex items-center justify-center">
-                    {item.unread}
-                  </span>
                 </button>
                 {activeTab === item.value && (
                   <hr className="border rounded-full absolute bottom-[-5] left-0 right-0" />
@@ -97,6 +105,8 @@ export default function ReviewList({ allReviews }: Props) {
       <ul className="border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl flex flex-col gap-4">
         {filteredReviews.map((review, index) => {
           const isPending = review.status?.toLowerCase() === "pending";
+          const isInProgress = review.status?.toLowerCase() === "in progress";
+          const isCompleted = review.status?.toLowerCase() === "completed";
 
           return (
             <Fragment key={index}>
@@ -117,11 +127,19 @@ export default function ReviewList({ allReviews }: Props) {
                   </div>
 
                   <div>
-                    {isPending ? (
+                    {isPending && (
                       <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 rounded-full">
                         Pending
                       </p>
-                    ) : (
+                    )}
+
+                    {isInProgress && (
+                      <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 rounded-full">
+                        In Progress
+                      </p>
+                    )}
+
+                    {isCompleted && (
                       <p className="bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)] px-2 py-1 rounded-full">
                         Completed
                       </p>
@@ -135,16 +153,10 @@ export default function ReviewList({ allReviews }: Props) {
                     </p>
                   </div>
                 </div>
-
-                {review.status === "Completed" ? (
-                  <button className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
-                    View Review
-                  </button>
-                ) : (
-                  <button className="bg-[hsla(194,30%,14%,1)] text-[hsla(0,0%,100%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
-                    Review Now
-                  </button>
-                )}
+                <button className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
+                  View Review
+                </button>
+                )
               </li>
 
               {index < filteredReviews.length - 1 && (
@@ -156,7 +168,9 @@ export default function ReviewList({ allReviews }: Props) {
 
         {filteredReviews.length === 0 && (
           <div className="text-center py-8 text-gray-400 text-sm">
-            No reviews match your search.
+            {searchQuery.trim().length > 0
+              ? "No reviews match your search."
+              : "No Reviews"}
           </div>
         )}
       </ul>

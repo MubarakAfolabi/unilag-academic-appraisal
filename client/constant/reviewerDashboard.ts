@@ -286,7 +286,7 @@ export const allReviews: Reviews[] = [
     manuscriptId: "RH-2026-0157",
     date: "Submitted on February 13, 2026",
     dueDate: "March 15, 2026",
-    status: "Completed",
+    status: "In Progress",
   },
   {
     title: "Quantum Computing: Current Advances",
