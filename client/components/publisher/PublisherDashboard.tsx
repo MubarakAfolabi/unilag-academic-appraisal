@@ -68,10 +68,11 @@ export default function PublisherDashboard() {
           setOverview(data?.submissionOverviewCount);
         }
       });
-  }, []);
+  }, [token]);
 
   const overviewCards: OverviewCard[] = [
     {
+      status: "TOTAL",
       label: "Total Submission",
       value: overview?.publicationCount,
       icon: Clock4,
@@ -80,6 +81,7 @@ export default function PublisherDashboard() {
       bgClass: "bg-[hsl(209,67%,89%)]",
     },
     {
+      status: "UNDER_REVIEW",
       label: "Under Review",
       value: overview?.publicationUnderReviewCount,
       icon: Hourglass,
@@ -88,6 +90,7 @@ export default function PublisherDashboard() {
       bgClass: "bg-[hsl(45,100%,85%)]",
     },
     {
+      status: "SCORED",
       label: "Scored",
       value: overview?.publicationScoredCount,
       icon: CircleCheckBig,
