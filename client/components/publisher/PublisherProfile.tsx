@@ -55,8 +55,8 @@ export default function PublisherProfile() {
       </div>
 
       <div className="md:px-6 flex flex-col gap-6 ">
-        <PublisherProfileCard user={user!} />
-        <PersonalInfoCard user={user!} />
+        <PublisherProfileCard />
+        <PersonalInfoCard />
       </div>
     </section>
   );

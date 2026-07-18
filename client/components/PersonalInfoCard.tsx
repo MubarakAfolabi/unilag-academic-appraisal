@@ -2,13 +2,11 @@
 
 import { SquarePen, UserRound } from "lucide-react";
 import Link from "next/link";
-import type { User } from "@/types/user";
+import { useUser } from "@/context/userContext";
 
-type infoProps = {
-  user: User;
-};
+export default function PersonalInfoCard() {
+  const { user } = useUser();
 
-export default function PersonalInfoCard({ user }: infoProps) {
   return (
     <div className="rounded-xl p-4 border border-solid border-[hsla(0,0%,85%,1)] flex flex-col gap-4">
       <div className="flex items-center justify-between">
