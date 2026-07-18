@@ -37,8 +37,8 @@ const allReviewsGet = async (req, res) => {
   const id = req.user.id;
 
   try {
-    const allReviews = await queries.accessorReviews(id);
-    return res.status(200).json({ success: true, allReviews });
+    const reviews = await queries.accessorReviews(id);
+    return res.status(200).json({ success: true, reviews });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
   }

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import { useState, useEffect } from "react";
-import { allReviews } from "@/constant/reviewerDashboard";
 import ReviewList from "@/components/accessor/ReviewList";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
@@ -144,7 +143,7 @@ export default function Reviews() {
       </div>
 
       <div className="md:px-6">
-        <ReviewList allReviews={allReviews} />
+        <ReviewList />
       </div>
     </section>
   );
