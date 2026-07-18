@@ -4,6 +4,7 @@ import { useUser } from "@/context/userContext";
 import { PendingReviewsItem } from "@/types/pendingReviewsItem";
 import { ChevronRight, FileText, FileX } from "lucide-react";
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function PendingReviews() {
@@ -27,20 +28,7 @@ export default function PendingReviews() {
       })
       .then((data) => {
         if (data?.success) {
-          setPendingReviews(
-            data?.pendingReviews.map((item) => {
-              return {
-                ...item.publication,
-                createdAt: `Submitted on ${new Date(
-                  item.publication.createdAt,
-                ).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}`,
-              };
-            }),
-          );
+          setPendingReviews(data?.pendingReviews);
         }
       })
       .finally(() => {
@@ -75,13 +63,18 @@ export default function PendingReviews() {
 
               <div className="flex-1 flex flex-col">
                 <p className="font-semibold lg:text-lg">
-                  {review?.fullCitation}
-                </p>
-                <p>
-                  By {review?.user.firstname} {review?.user.lastname}
+                  {review?.publication.fullCitation}
                 </p>
                 <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-                  {review?.createdAt}
+                  By {review?.publication.user.firstname}{" "}
+                  {review?.publication.user.lastname}
+                </p>
+                <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+                  Submitted on{" "}
+                  {format(
+                    new Date(review?.publication.createdAt),
+                    "MMM d, yyyy",
+                  )}
                 </p>
               </div>
 

@@ -13,7 +13,7 @@ import AssignedReviews from "../AssignedReviews";
 import { assignedReviews } from "@/constant/reviewerDashboard";
 
 export default function AccessorProfile() {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
   const router = useRouter();
 

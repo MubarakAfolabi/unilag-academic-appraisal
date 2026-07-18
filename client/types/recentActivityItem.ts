@@ -1,5 +1,5 @@
 export type RecentActivityItem = {
-  status: "PENDING" | "COMPLETED";
+  status: "IN_PROGRESS" | "COMPLETED";
   openedAt: string | null;
   completedAt: string | null;
   publication: {

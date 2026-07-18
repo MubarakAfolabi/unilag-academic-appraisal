@@ -1,9 +1,10 @@
 "use client";
 
 import { useUser } from "@/context/userContext";
-import { Check, Timer, ChevronRight, FileX } from "lucide-react";
+import { Check, Clock3, ChevronRight, FileX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { RecentActivityItem } from "@/types/recentActivityItem";
+import { format } from "date-fns";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function RecentActivity() {
@@ -27,29 +28,7 @@ export default function RecentActivity() {
       })
       .then((data) => {
         if (data?.success) {
-          setRecentActivities(
-            data?.recentActivities.map((item) => {
-              return {
-                ...item,
-                openedAt: `${new Date(item.openedAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  },
-                )}`,
-                completedAt: `${new Date(item.completedAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  },
-                )}`,
-              };
-            }),
-          );
+          setRecentActivities(data?.recentActivities);
         }
       })
       .finally(() => {
@@ -66,10 +45,10 @@ export default function RecentActivity() {
           </div>
         );
 
-      case "PENDING":
+      case "IN_PROGRESS":
         return (
           <div className="bg-[hsl(45,100%,85%)] text-[hsl(45,100%,51%)] w-fit p-1 rounded-full">
-            <Timer size={22} />
+            <Clock3 size={22} />
           </div>
         );
 
@@ -106,14 +85,22 @@ export default function RecentActivity() {
                   <span>
                     {activity?.status === "COMPLETED"
                       ? "Reviewed: "
-                      : "Pending: "}
+                      : "In Progress: "}
                   </span>
                   {activity?.publication.fullCitation}
                 </p>
                 <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-                  {activity?.status === "COMPLETED"
-                    ? `Reviewed on ${activity?.completedAt}`
-                    : `Viewed on ${activity?.openedAt}`}
+                  {activity?.status === "COMPLETED" ? (
+                    <span>
+                      Reviewed on{" "}
+                      {format(new Date(activity?.completedAt), "MMM d, yyyy")}
+                    </span>
+                  ) : (
+                    <span>
+                      Viewed on{" "}
+                      {format(new Date(activity?.openedAt), "MMM d, yyyy")}
+                    </span>
+                  )}
                 </p>
               </div>
 

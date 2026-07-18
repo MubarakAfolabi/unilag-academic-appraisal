@@ -175,7 +175,9 @@ const accessorPendingReviews = async (userId) => {
     },
     select: {
       publication: {
-        include: {
+        select: {
+          fullCitation: true,
+          createdAt: true,
           user: {
             select: {
               id: true,
@@ -194,7 +196,7 @@ const accessorRecentActivities = async (userId) => {
   const recentActivities = await prisma.review.findMany({
     where: {
       status: {
-        in: ["PENDING", "COMPLETED"],
+        in: ["IN_PROGRESS", "COMPLETED"],
       },
       reviewerId: userId,
     },
