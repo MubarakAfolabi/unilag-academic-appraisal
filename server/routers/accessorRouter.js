@@ -22,4 +22,6 @@ authRouter.get(
   accessorController.recentActivitiesGet,
 );
 
+authRouter.get("/accessor/reviews", auth, accessorController.allReviewsGet);
+
 module.exports = authRouter;
