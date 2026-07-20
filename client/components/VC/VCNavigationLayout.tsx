@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, FileText, LogOut } from "lucide-react";
+import { LayoutGrid, LogOut } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { useState } from "react";
