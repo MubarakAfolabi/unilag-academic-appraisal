@@ -254,6 +254,15 @@ const getPublication = async (publicationId) => {
     where: {
       id: publicationId,
     },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstname: true,
+          lastname: true,
+        },
+      },
+    },
   });
   return publication;
 };

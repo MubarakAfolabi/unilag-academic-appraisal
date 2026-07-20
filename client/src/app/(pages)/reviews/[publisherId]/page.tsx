@@ -4,17 +4,40 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useUser } from "@/context/userContext";
 import { ArrowLeft, FileText, Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ReviewPage() {
-  const { user } = useUser();
-  const params = useParams();
+  const { user, token } = useUser();
+  const { publisherId } = useParams();
   const router = useRouter();
-
-  console.log(params);
+  const [publication, setPublication] = useState(null);
 
   const handleSubmitScore = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch(`${apiUrl}/api/accessor/publications/${publisherId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          setPublication(data?.publication);
+        }
+      });
+  }, [token, publisherId]);
+
+  useEffect(() => {
+    console.log(publication);
+  }, [publication]);
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -46,16 +69,20 @@ export default function ReviewPage() {
         </div>
         <div className="flex-1">
           <p className="font-semibold lg:text-lg">
-            AI in Healthcare: Opportunities and Challenges
+            {publication?.fullCitation}
           </p>
           <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-            By Mubarak Idris
+            By {publication?.user.firstname} {publication?.user.lastname}
           </p>
-          <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-            Submitted on April 23, 2026
-          </p>
+          {publication?.createdAt && (
+            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
+              Submitted on{" "}
+              {format(new Date(publication?.createdAt), "MMM d, yyyy")}
+            </p>
+          )}
         </div>
         <div>
+          {/* {publication?.status === ""} */}
           <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 rounded-full w-fit">
             Pending
           </p>
@@ -89,10 +116,12 @@ export default function ReviewPage() {
               <p className="text-[hsla(0,2%,42%,1)]">Author Position</p>
               <p>2nd</p>
             </div>
-            <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Date Submitted</p>
-              <p>3rd May 2026</p>
-            </div>
+            {publication?.createdAt && (
+              <div className="flex justify-between items-center">
+                <p className="text-[hsla(0,2%,42%,1)]">Date Submitted</p>
+                <p>{format(new Date(publication?.createdAt), "MMM d, yyyy")}</p>
+              </div>
+            )}
             <div className="flex justify-between items-center">
               <p className="text-[hsla(0,2%,42%,1)]">File</p>
               <div className="bg-[hsl(0,0%,96%)] flex gap-4 p-2 rounded-md">
