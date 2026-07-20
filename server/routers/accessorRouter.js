@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const accessorRouter = Router();
 const accessorController = require("../controllers/accessorController.js");
+const downloadController = require("../controllers/downloadController.js");
 const auth = require("../middleware/auth.js");
 const authRouter = require("./authRouter");
 
@@ -28,6 +29,12 @@ authRouter.get(
   "/accessor/publications/:publicationId",
   auth,
   accessorController.publicationGet,
+);
+
+authRouter.get(
+  "/accessor/publications/:publicationId/download",
+  auth,
+  downloadController.downloadPublicationFile,
 );
 
 module.exports = authRouter;
