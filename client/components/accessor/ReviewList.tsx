@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { FileText, Search } from "lucide-react";
 import { useUser } from "@/context/userContext";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type Review = {
@@ -28,6 +29,7 @@ export default function ReviewList() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const { token } = useUser();
+  const router = useRouter();
 
   const navArr = [
     {
@@ -187,7 +189,12 @@ export default function ReviewList() {
                       )}
                     </div>
                   </div>
-                  <button className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer">
+                  <button
+                    className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer"
+                    onClick={() =>
+                      router.push(`/reviews/${review?.publication.id}`)
+                    }
+                  >
                     View Review
                   </button>
                 </li>
