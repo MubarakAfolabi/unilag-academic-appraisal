@@ -24,4 +24,10 @@ authRouter.get(
 
 authRouter.get("/accessor/reviews", auth, accessorController.allReviewsGet);
 
+authRouter.get(
+  "/accessor/publications/:publicationId",
+  auth,
+  accessorController.publicationGet,
+);
+
 module.exports = authRouter;

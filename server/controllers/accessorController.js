@@ -44,9 +44,21 @@ const allReviewsGet = async (req, res) => {
   }
 };
 
+const publicationGet = async (req, res) => {
+  const publicationId = parseInt(req.params.publicationId);
+
+  try {
+    const publication = await queries.getPublication(publicationId);
+    return res.status(200).json({ success: true, publication });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
 module.exports = {
   reviewOverviewGet,
   pendingReviewsGet,
   recentActivitiesGet,
   allReviewsGet,
+  publicationGet,
 };
