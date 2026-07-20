@@ -269,6 +269,18 @@ const getPublication = async (publicationId) => {
   return publication;
 };
 
+const updateReviewStatus = async (reviewerId, status) => {
+  const review = await prisma.review.update({
+    where: {
+      id: reviewerId,
+    },
+    data: {
+      status,
+    },
+  });
+  return review;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -283,4 +295,5 @@ module.exports = {
   accessorRecentActivities,
   accessorReviews,
   getPublication,
+  updateReviewStatus,
 };
