@@ -31,7 +31,7 @@ export default function UploadPage() {
           <ArrowLeft size={24} strokeWidth={2.5} />
         </button>
 
-        <div className=" lg:hidden flex items-center gap-3">
+        <div className="lg:hidden flex items-center gap-3">
           <button
             className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer"
             onClick={() => setLogOutModal(true)}

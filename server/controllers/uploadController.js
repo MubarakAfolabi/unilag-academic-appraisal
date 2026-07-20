@@ -118,6 +118,7 @@ const uploadFile = [
         quartile,
         cleanedNonIndexed,
         classification,
+        req.file.originalname,
         `/uploads/${req.file.filename}`,
         req.file.filename,
         req.file.size,

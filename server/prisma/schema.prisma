@@ -53,10 +53,11 @@ model Publication {
   nonIndexed      NonIndexed?
   classification  Classification
 
-  filePath String?
-  fileName String?
-  fileSize Int?
-  mimeType String?
+  originalName String?
+  filePath     String?
+  fileName     String?
+  fileSize     Int?
+  mimeType     String?
 
   status PublicationStatus @default(PENDING)
   userId Int

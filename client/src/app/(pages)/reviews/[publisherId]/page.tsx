@@ -74,18 +74,6 @@ export default function ReviewPage() {
           <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
             By {publication?.user.firstname} {publication?.user.lastname}
           </p>
-          {publication?.createdAt && (
-            <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-              Submitted on{" "}
-              {format(new Date(publication?.createdAt), "MMM d, yyyy")}
-            </p>
-          )}
-        </div>
-        <div>
-          {/* {publication?.status === ""} */}
-          <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 rounded-full w-fit">
-            Pending
-          </p>
         </div>
       </div>
 
@@ -127,9 +115,11 @@ export default function ReviewPage() {
               <div className="bg-[hsl(0,0%,96%)] flex gap-4 p-2 rounded-md">
                 <div className="flex gap-1">
                   <FileText size={22} />
-                  <p>filename.pdf</p>
+                  <p>{publication?.originalName}</p>
                 </div>
-                <p className="text-[hsla(0,2%,42%,1)]">(1.2mb)</p>
+                <p className="text-[hsla(0,2%,42%,1)]">
+                  ({(publication?.fileSize / (1024 * 1024)).toFixed(1)}mb)
+                </p>
               </div>
             </div>
 
