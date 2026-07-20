@@ -1,3 +1,4 @@
+const { review } = require("../prisma/prisma.js");
 const queries = require("../prisma/queries.js");
 
 const reviewOverviewGet = async (req, res) => {
@@ -55,10 +56,23 @@ const publicationGet = async (req, res) => {
   }
 };
 
+const reviewStatusPatch = async (req, res) => {
+  const reviewId = parseInt(req.params.reviewId);
+  const { status } = req.body;
+
+  try {
+    const review = await queries.updateReviewStatus(reviewId, status);
+    return res.status(200).json({ success: true, review });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
 module.exports = {
   reviewOverviewGet,
   pendingReviewsGet,
   recentActivitiesGet,
   allReviewsGet,
   publicationGet,
+  reviewStatusPatch,
 };

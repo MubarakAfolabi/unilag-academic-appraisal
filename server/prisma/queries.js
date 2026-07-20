@@ -269,10 +269,10 @@ const getPublication = async (publicationId) => {
   return publication;
 };
 
-const updateReviewStatus = async (reviewerId, status) => {
+const updateReviewStatus = async (reviewId, status) => {
   const review = await prisma.review.update({
     where: {
-      id: reviewerId,
+      id: reviewId,
     },
     data: {
       status,

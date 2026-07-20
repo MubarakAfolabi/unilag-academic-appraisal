@@ -37,4 +37,10 @@ authRouter.get(
   downloadController.downloadPublicationFile,
 );
 
+authRouter.patch(
+  "/accessor/reviews/:reviewId/status",
+  auth,
+  accessorController.reviewStatusPatch,
+);
+
 module.exports = authRouter;
