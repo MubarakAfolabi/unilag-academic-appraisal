@@ -35,9 +35,37 @@ export default function ReviewPage() {
       });
   }, [token, publisherId]);
 
-  useEffect(() => {
-    console.log(publication);
-  }, [publication]);
+  const handleDownload = (id) => {
+    fetch(`${apiUrl}/api/accessor/publications/${id}/download`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Download failed");
+        }
+
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = publication?.originalName;
+
+        document.body.appendChild(a);
+        a.click();
+
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -115,7 +143,13 @@ export default function ReviewPage() {
               <div className="bg-[hsl(0,0%,96%)] flex gap-4 p-2 rounded-md">
                 <div className="flex gap-1">
                   <FileText size={22} />
-                  <p>{publication?.originalName}</p>
+                  <div
+                    className="underline cursor-pointer"
+                    role="button"
+                    onClick={() => handleDownload(publication?.id)}
+                  >
+                    {publication?.originalName}
+                  </div>
                 </div>
                 <p className="text-[hsla(0,2%,42%,1)]">
                   ({(publication?.fileSize / (1024 * 1024)).toFixed(1)}mb)
