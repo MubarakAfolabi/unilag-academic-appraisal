@@ -73,7 +73,7 @@ export default function OverviewHRMDDashboard() {
           <h2 className="text-2xl font-bold md:text-3xl text-gray-900 mt-1">
             {value?.assessedby}
           </h2>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-500 text-medium mt-1">
             Explore all manuscripts assessed by {value?.assessedby}
           </p>
         </div>

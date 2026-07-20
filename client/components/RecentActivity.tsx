@@ -45,7 +45,7 @@ export default function RecentActivity({ recentActivity }: Props) {
 
       <div className="flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm">
 
-        <div className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-sm text-gray-700">
+        <div className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-medium text-gray-700">
           <div>Assessed By</div>
           <div>Date Submitted</div>
           <div className="hidden lg:block text-right">Action</div>
@@ -64,11 +64,11 @@ export default function RecentActivity({ recentActivity }: Props) {
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
-                    <FileText size={20} />
+                    <FileText size={24} />
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-sm lg:text-base truncate">
+                    <p className="font-semibold text-medium lg:text-base truncate">
                       Assessed By: {activity.assessedby}
                     </p>
                   </div>
@@ -76,7 +76,7 @@ export default function RecentActivity({ recentActivity }: Props) {
 
                 {/* Middle - Date */}
                 <div className="col-span-1 flex items-center justify-center lg:justify-start lg:ml-6">
-                  <p className="text-sm font-medium text-gray-700 lg:text-base truncate">
+                  <p className="text-medium font-medium text-gray-700 lg:text-base truncate">
                     {activity.date}
                   </p>
                 </div>

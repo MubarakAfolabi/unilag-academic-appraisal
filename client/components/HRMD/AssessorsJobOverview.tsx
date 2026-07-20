@@ -28,14 +28,14 @@ const assessedManuscripts: Manuscript[] = [
     title: "The Role of IoT in Smart Cities",
     manuscriptId: "RH-2026-678",
     assessor: "Dr. Bayo Isaken",
-    submittedDate: "February 13, 2026",
+    submittedDate: "March 13, 2026",
   },
   {
     id: 3,
     title: "Quantum Computing: Current Advances",
     manuscriptId: "RH-2025-767",
     assessor: "Dr. Bayo Isaken",
-    submittedDate: "March 1, 2026",
+    submittedDate: "March 3, 2026",
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const assessedManuscripts: Manuscript[] = [
     title: "AI in Healthcare: Opportunities and Challenges",
     manuscriptId: "RH-2026-447",
     assessor: "Dr. Bayo Isaken",
-    submittedDate: "March 21, 2026",
+    submittedDate: "March 1, 2026",
   },
 ];
 
@@ -108,7 +108,7 @@ export default function AssessorsJobOverview({ assessor }: Props) {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-xl xl:text-base truncate">
+                  <h3 className="font-semibold text-lg lg:text-base truncate">
                     {item.title}
                   </h3>
 
@@ -119,7 +119,7 @@ export default function AssessorsJobOverview({ assessor }: Props) {
 
               </div>
 
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm text-justify-end">
                 Submitted on {item.submittedDate}
               </p>
 
@@ -157,7 +157,7 @@ export default function AssessorsJobOverview({ assessor }: Props) {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-xl xl:text-base truncate">
+                  <h3 className="font-semibold text-lg lg:text-base truncate">
                     {item.title}
                   </h3>
 
