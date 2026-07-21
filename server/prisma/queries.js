@@ -287,6 +287,24 @@ const updateReviewStatus = async (reviewId, status) => {
   return review;
 };
 
+const getPublication = async (publicationId) => {
+  const publication = await prisma.publication.findUnique({
+    where: {
+      id: publicationId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstname: true,
+          lastname: true,
+        },
+      },
+    },
+  });
+  return publication;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -302,4 +320,5 @@ module.exports = {
   accessorReviews,
   getReview,
   updateReviewStatus,
+  getPublication,
 };

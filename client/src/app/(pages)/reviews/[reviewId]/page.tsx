@@ -10,9 +10,9 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ReviewPage() {
   const { user, token } = useUser();
-  const { publisherId } = useParams();
+  const { reviewId } = useParams();
   const router = useRouter();
-  const [publication, setPublication] = useState(null);
+  const [review, setReview] = useState(null);
 
   const handleSubmitScore = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default function ReviewPage() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`${apiUrl}/api/accessor/publications/${publisherId}`, {
+    fetch(`${apiUrl}/api/accessor/reviews/${reviewId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -30,10 +30,10 @@ export default function ReviewPage() {
       })
       .then((data) => {
         if (data.success) {
-          setPublication(data?.publication);
+          setReview(data?.review);
         }
       });
-  }, [token, publisherId]);
+  }, [token, reviewId]);
 
   const handleDownload = (id) => {
     fetch(`${apiUrl}/api/accessor/publications/${id}/download`, {
@@ -54,7 +54,7 @@ export default function ReviewPage() {
 
         const a = document.createElement("a");
         a.href = url;
-        a.download = publication?.originalName;
+        a.download = review?.publication.originalName;
 
         document.body.appendChild(a);
         a.click();
@@ -97,10 +97,11 @@ export default function ReviewPage() {
         </div>
         <div className="flex-1">
           <p className="font-semibold lg:text-lg">
-            {publication?.fullCitation}
+            {review?.publication.fullCitation}
           </p>
           <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
-            By {publication?.user.firstname} {publication?.user.lastname}
+            By {review?.publication.user.firstname}{" "}
+            {review?.publication.user.lastname}
           </p>
         </div>
       </div>
@@ -132,10 +133,15 @@ export default function ReviewPage() {
               <p className="text-[hsla(0,2%,42%,1)]">Author Position</p>
               <p>2nd</p>
             </div>
-            {publication?.createdAt && (
+            {review?.publication.createdAt && (
               <div className="flex justify-between items-center">
                 <p className="text-[hsla(0,2%,42%,1)]">Date Submitted</p>
-                <p>{format(new Date(publication?.createdAt), "MMM d, yyyy")}</p>
+                <p>
+                  {format(
+                    new Date(review?.publication.createdAt),
+                    "MMM d, yyyy",
+                  )}
+                </p>
               </div>
             )}
             <div className="flex justify-between items-center">
@@ -146,13 +152,14 @@ export default function ReviewPage() {
                   <div
                     className="underline cursor-pointer"
                     role="button"
-                    onClick={() => handleDownload(publication?.id)}
+                    onClick={() => handleDownload(review?.publication.id)}
                   >
-                    {publication?.originalName}
+                    {review?.publication.originalName}
                   </div>
                 </div>
                 <p className="text-[hsla(0,2%,42%,1)]">
-                  ({(publication?.fileSize / (1024 * 1024)).toFixed(1)}mb)
+                  ({(review?.publication.fileSize / (1024 * 1024)).toFixed(1)}
+                  mb)
                 </p>
               </div>
             </div>
