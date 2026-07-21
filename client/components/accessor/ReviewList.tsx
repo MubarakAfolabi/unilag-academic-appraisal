@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type Review = {
+  id: number;
   status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
   assignedAt: string;
   openedAt: string | null;
@@ -145,7 +146,7 @@ export default function ReviewList() {
             const isCompleted = review?.status === "COMPLETED";
 
             return (
-              <Fragment key={index}>
+              <Fragment key={review?.id}>
                 <li className="flex flex-col gap-4 md:flex-row">
                   <div className="flex-1 flex gap-1 md:gap-2">
                     <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg">
@@ -191,9 +192,7 @@ export default function ReviewList() {
                   </div>
                   <button
                     className="text-[hsla(194,30%,14%,1)] border border-[hsla(194,30%,14%,1)] w-full md:w-fit md:h-fit md:self-center p-2 rounded-md cursor-pointer"
-                    onClick={() =>
-                      router.push(`/reviews/${review?.publication.id}`)
-                    }
+                    onClick={() => router.push(`/reviews/${review?.id}`)}
                   >
                     View Review
                   </button>

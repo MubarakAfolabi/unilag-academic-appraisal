@@ -227,6 +227,7 @@ const accessorReviews = async (userId) => {
       reviewerId: userId,
     },
     select: {
+      id: true,
       status: true,
       assignedAt: true,
       openedAt: true,
@@ -251,22 +252,27 @@ const accessorReviews = async (userId) => {
   return allReviews;
 };
 
-const getPublication = async (publicationId) => {
-  const publication = await prisma.publication.findUnique({
+const getReview = async (reviewId) => {
+  const review = await prisma.review.findUnique({
     where: {
-      id: publicationId,
+      id: reviewId,
     },
-    include: {
-      user: {
-        select: {
-          id: true,
-          firstname: true,
-          lastname: true,
+    select: {
+      id: true,
+      publication: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              firstname: true,
+              lastname: true,
+            },
+          },
         },
       },
     },
   });
-  return publication;
+  return review;
 };
 
 const updateReviewStatus = async (reviewId, status) => {
@@ -294,6 +300,6 @@ module.exports = {
   accessorPendingReviews,
   accessorRecentActivities,
   accessorReviews,
-  getPublication,
+  getReview,
   updateReviewStatus,
 };

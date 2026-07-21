@@ -45,12 +45,12 @@ const allReviewsGet = async (req, res) => {
   }
 };
 
-const publicationGet = async (req, res) => {
-  const publicationId = parseInt(req.params.publicationId);
+const reviewGet = async (req, res) => {
+  const reviewId = parseInt(req.params.reviewId);
 
   try {
-    const publication = await queries.getPublication(publicationId);
-    return res.status(200).json({ success: true, publication });
+    const review = await queries.getReview(reviewId);
+    return res.status(200).json({ success: true, review });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
   }
@@ -73,6 +73,6 @@ module.exports = {
   pendingReviewsGet,
   recentActivitiesGet,
   allReviewsGet,
-  publicationGet,
+  reviewGet,
   reviewStatusPatch,
 };

@@ -26,9 +26,9 @@ authRouter.get(
 authRouter.get("/accessor/reviews", auth, accessorController.allReviewsGet);
 
 authRouter.get(
-  "/accessor/publications/:publicationId",
+  "/accessor/reviews/:reviewId",
   auth,
-  accessorController.publicationGet,
+  accessorController.reviewGet,
 );
 
 authRouter.get(
