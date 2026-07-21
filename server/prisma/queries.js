@@ -259,6 +259,7 @@ const getReview = async (reviewId) => {
     },
     select: {
       id: true,
+      status: true,
       publication: {
         include: {
           user: {

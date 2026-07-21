@@ -8,11 +8,38 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+export type Review = {
+  id: number;
+  status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
+  publication: {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    fullCitation: string;
+    publicationType: "JOURNAL_ARTICLE" | "CONFERENCE" | "BOOK" | "BOOK_CHAPTER";
+    quartileRanking: "Q1" | "Q2" | "Q3" | "Q4" | "OTHERS";
+    nonIndexed: "UNIVERSITY_BASED" | "FACULTY_BASED";
+    classification: "INTERNATIONAL" | "NATIONAL";
+    originalName: string;
+    filePath: string;
+    fileName: string;
+    fileSize: number;
+    mimeType: string;
+    status: "PENDING" | "UNDER_REVIEW" | "SCORED" | "REJECTED";
+    userId: number;
+    user: {
+      id: number;
+      firstname: string;
+      lastname: string;
+    };
+  };
+};
+
 export default function ReviewPage() {
   const { user, token } = useUser();
   const { reviewId } = useParams();
   const router = useRouter();
-  const [review, setReview] = useState(null);
+  const [review, setReview] = useState<Review | null>(null);
 
   const handleSubmitScore = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +62,7 @@ export default function ReviewPage() {
       });
   }, [token, reviewId]);
 
-  const handleDownload = (id) => {
+  const handleDownload = (id: number) => {
     fetch(`${apiUrl}/api/accessor/publications/${id}/download`, {
       method: "GET",
       headers: {
@@ -65,6 +92,19 @@ export default function ReviewPage() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const getPublicationType = (publicationType) => {
+    switch (publicationType) {
+      case "JOURNAL_ARTICLE":
+        return "Journal Article";
+      case "CONFERENCE":
+        return "Conference";
+      case "BOOK":
+        return "Book";
+      case "BOOK_CHAPTER":
+        return "Book Chapter";
+    }
   };
 
   return (
@@ -112,27 +152,43 @@ export default function ReviewPage() {
         </div>
 
         <div className="flex flex-col gap-6 lg:flex-row md:px-6">
-          <div className="flex flex-col gap-6 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
+          <div className="flex-1 flex flex-col gap-6 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl">
             <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Journal</p>
-              <p>Unilag Academic Appraisal Journal</p>
+              <p className="text-[hsla(0,2%,42%,1)]">Full Citation</p>
+              <p>{review?.publication.fullCitation}</p>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Manuscript Type</p>
-              <p>Research Article</p>
+              <p className="text-[hsla(0,2%,42%,1)]">Publication Type</p>
+              <p>{getPublicationType(review?.publication.publicationType)}</p>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Subject Area</p>
-              <p>Healthcare & Medicine</p>
+              <p className="text-[hsla(0,2%,42%,1)]">Publication Quartile</p>
+              <p>
+                {review?.publication.quartileRanking === "OTHERS"
+                  ? "Others"
+                  : review?.publication.quartileRanking}
+              </p>
             </div>
+            {review?.publication.nonIndexed && (
+              <div className="flex justify-between items-center">
+                <p className="text-[hsla(0,2%,42%,1)]">Non-Indexed Type</p>
+                <p>
+                  {review?.publication.nonIndexed === "UNIVERSITY_BASED"
+                    ? "University Based"
+                    : "Non-university Based"}
+                </p>
+              </div>
+            )}
+
             <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Index Status</p>
-              <p>Q1</p>
+              <p className="text-[hsla(0,2%,42%,1)]">Classification</p>
+              <p>
+                {review?.publication.classification === "NATIONAL"
+                  ? "National"
+                  : "International"}
+              </p>
             </div>
-            <div className="flex justify-between items-center">
-              <p className="text-[hsla(0,2%,42%,1)]">Author Position</p>
-              <p>2nd</p>
-            </div>
+
             {review?.publication.createdAt && (
               <div className="flex justify-between items-center">
                 <p className="text-[hsla(0,2%,42%,1)]">Date Submitted</p>
@@ -164,7 +220,7 @@ export default function ReviewPage() {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="font-bold">Abstract</h3>
               <p className="text-sm">
                 This paper explores the transformative potential of artificial
@@ -172,7 +228,7 @@ export default function ReviewPage() {
                 benefits, and the challenges that must be addressed for
                 successful implentation.
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className="h-fit flex flex-col gap-4 border border-solid border-[hsla(0,0%,85%,1)] px-2 py-4 lg:px-4 lg:py-6 rounded-xl ">
