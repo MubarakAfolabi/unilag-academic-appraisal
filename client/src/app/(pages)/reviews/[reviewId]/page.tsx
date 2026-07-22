@@ -48,17 +48,30 @@ export default function ReviewPage() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`${apiUrl}/api/accessor/reviews/${reviewId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+    fetch(`${apiUrl}/api/accessor/reviews/${reviewId}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: "IN_PROGRESS" }),
     })
-      .then((response) => {
-        return response.json();
+      .then((response) => response.json())
+      .then(() => {
+        return fetch(`${apiUrl}/api/accessor/reviews/${reviewId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       })
+      .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          setReview(data?.review);
+          setReview(data.review);
         }
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, [token, reviewId]);
 
@@ -107,6 +120,23 @@ export default function ReviewPage() {
     }
   };
 
+  const getStatus = (status: string) => {
+    switch (status) {
+      case "IN_PROGRESS":
+        return (
+          <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 w-fit rounded-full">
+            In Progress
+          </p>
+        );
+      case "COMPLETED":
+        return (
+          <p className="bg-[hsla(150,90%,24%,0.1)] text-[hsla(150,90%,24%,1)] px-2 py-1 w-fit rounded-full">
+            Completed
+          </p>
+        );
+    }
+  };
+
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
       <div className="flex justify-between items-center md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
@@ -146,9 +176,7 @@ export default function ReviewPage() {
         </div>
         <div>
           <p>Review Status</p>
-          <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 w-fit rounded-full">
-            Pending
-          </p>
+          {getStatus(review?.status)}
         </div>
       </div>
 
