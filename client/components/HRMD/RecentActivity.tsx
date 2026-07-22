@@ -55,7 +55,7 @@ export default function RecentActivity({ recentActivity }: Props) {
         {/* List */}
         <ul className="px-6 py-2 flex flex-col gap-2">
           {displayedActivities.map((activity, index) => {
-            const targetUrl = `/dashboard/${activity.assessorId}`;
+            const targetUrl = `/h/${activity.assessorId}`;
 
             return (
               <li

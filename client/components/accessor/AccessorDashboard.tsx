@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
 import PendingSubmissions from "@/components/PendingSubmission";
-import RecentActivity from "@/components/RecentActivity";
+import RecentActivity from "@/components/HRMD/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
 
 import {

@@ -1,5 +1,6 @@
 "use client";
 import { useUser } from "@/context/userContext";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { useParams } from "next/navigation";
@@ -13,6 +14,10 @@ export default function OverviewHRMDDashboard() {
   const { user } = useUser();
   const [modal, setModal] = useState(false);
   const params = useParams();
+
+  if (user?.role !== "HRMD") {
+    redirect("/dashboard");
+  }
   
   const value = recentActivity.find(
     item => item.assessorId === params.id

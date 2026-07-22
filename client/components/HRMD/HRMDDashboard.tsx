@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut } from "lucide-react";
-import RecentActivity from "@/components/RecentActivity";
-import { RecentActivityItem } from "@/components/RecentActivity";
+import RecentActivity from "@/components/HRMD/RecentActivity";
+import { RecentActivityItem } from "@/components/HRMD/RecentActivity";
 import { useUser } from "@/context/userContext";
 
 export const recentActivity: RecentActivityItem[] = [

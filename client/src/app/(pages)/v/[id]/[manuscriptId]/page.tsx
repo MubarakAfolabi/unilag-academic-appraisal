@@ -6,8 +6,11 @@ import { LogOut, Download, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 import LogoutModal from "@/components/LogoutModal";
-import {recentSubmissions, assessedSubmissions,} from "@/constant/publisherDashboard";
+import {recentSubmissions,} from "@/components/VC/AssessedSubmissions";
+import { assessedSubmissions,} from "@/components/VC/AssessedSubmissions";
 import { useUser } from "@/context/userContext";
+import {redirect} from "next/navigation";
+
 
 export default function AssesedPublication() {
   const { user } = useUser();
@@ -15,6 +18,9 @@ export default function AssesedPublication() {
   const params = useParams();
   const id = params?.id;   
   const router = useRouter();
+  if (user?.role !== "VC") {
+    redirect("/dashboard");
+  }
 
   const currentManuscriptId = params?.manuscriptId as string;
 

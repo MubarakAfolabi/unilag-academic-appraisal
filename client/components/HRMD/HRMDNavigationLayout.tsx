@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, LogOut } from "lucide-react";
+import { LayoutGrid,UserRoundPlus, LogOut } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { useState } from "react";
@@ -13,6 +13,11 @@ const navBarArr = [
     path: "/dashboard",
     icon: <LayoutGrid size={18} />,
   },
+  {
+    name: "Assignment",
+    path: "/dashboard/h/designate",
+    icon: <UserRoundPlus size={18} />,
+  }
 ];
 
 const sideBarArr = [
@@ -20,6 +25,11 @@ const sideBarArr = [
     name: "Dashboard",
     path: "/dashboard",
     icon: <LayoutGrid />,
+  },
+  {
+    name: "Assignment",
+    path: "/dashboard/h/designate",
+    icon: <UserRoundPlus />,
   },
   {
     name: "Logout",

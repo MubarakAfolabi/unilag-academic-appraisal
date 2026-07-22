@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { LogOut, Clock4, CircleX, CircleCheckBig } from "lucide-react";
 
-import { recentSubmissions } from "@/constant/publisherDashboard";
 import RecentSubmissions from "@/components/VC/RecentSubmissions";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";

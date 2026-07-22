@@ -5,16 +5,20 @@ import { useParams } from "next/navigation";
 import { LogOut, Clock4, CircleX, CircleCheckBig } from "lucide-react";
 import Image from "next/image";
 
-import { recentSubmissions } from "@/constant/publisherDashboard";
-import RecentSubmissions from "@/components/RecentSubmissions";
+import { recentSubmissions } from "@/components/VC/AssessedSubmissions";
+import AssessedSubmissions from "@/components/VC/AssessedSubmissions";
 import {MOCK_SUBMISSIONS} from "@/components/VC/RecentSubmissions";
 import LogoutModal from "@/components/LogoutModal";
 import OverviewCards, { OverviewCard } from "@/components/OverviewCards";
 import { useUser } from "@/context/userContext";
+import { redirect } from "next/navigation";
 
 export default function AssesedDashboard() {
 
     const { user } = useUser();
+    if (user?.role !== "VC") {
+    redirect("/dashboard");
+    }
 
     const [modal, setModal] = useState(false);
 
@@ -141,7 +145,7 @@ const overviewCards: OverviewCard[] = [
             Assessed Submissions
           </h2>
         </div>
-        <RecentSubmissions recentSubmissions={recentSubmissions} />
+        <AssessedSubmissions recentSubmissions={recentSubmissions} />
       </div>
     </section>
      );
