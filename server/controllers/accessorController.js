@@ -61,7 +61,12 @@ const reviewStatusPatch = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const review = await queries.updateReviewStatus(reviewId, status);
+    let review = await queries.getReview(reviewId);
+
+    if (review.status !== "COMPLETED") {
+      review = await queries.updateReviewStatus(reviewId, status);
+    }
+
     return res.status(200).json({ success: true, review });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
