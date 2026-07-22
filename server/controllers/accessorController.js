@@ -1,5 +1,14 @@
 const { review } = require("../prisma/prisma.js");
 const queries = require("../prisma/queries.js");
+const { body, validationResult, matchedData } = require("express-validator");
+
+const validateReviewScore = [
+  body("score")
+    .notEmpty()
+    .withMessage("Score is required.")
+    .isFloat({ min: 4.1, max: 5.0 })
+    .withMessage("Score must be between 4.1 and 5.0."),
+];
 
 const reviewOverviewGet = async (req, res) => {
   const id = req.user.id;
@@ -73,17 +82,29 @@ const reviewStatusPatch = async (req, res) => {
   }
 };
 
-const reviewScorePatch = async (req, res) => {
-  const reviewId = parseInt(req.params.reviewId);
-  const score = parseFloat(req.body.score);
+const reviewScorePatch = [
+  validateReviewScore,
+  async (req, res) => {
+    const reviewId = parseInt(req.params.reviewId);
 
-  try {
-    const review = await queries.updateReviewScore(reviewId, score);
-    return res.status(200).json({ success: true, review });
-  } catch (err) {
-    return res.status(400).json({ success: false, message: err.message });
-  }
-};
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res
+          .status(400)
+          .json({ success: false, errMessages: errors.array() });
+      }
+
+      let { score } = matchedData(req);
+      score = parseFloat(score);
+
+      const review = await queries.updateReviewScore(reviewId, score);
+      return res.status(200).json({ success: true, review });
+    } catch (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+  },
+];
 
 module.exports = {
   reviewOverviewGet,
