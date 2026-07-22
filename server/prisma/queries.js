@@ -306,6 +306,18 @@ const getPublication = async (publicationId) => {
   return publication;
 };
 
+const updateReviewScore = async (reviewId, score) => {
+  const review = await prisma.review.update({
+    where: {
+      id: reviewId,
+    },
+    data: {
+      score,
+    },
+  });
+  return review;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -322,4 +334,5 @@ module.exports = {
   getReview,
   updateReviewStatus,
   getPublication,
+  updateReviewScore,
 };
