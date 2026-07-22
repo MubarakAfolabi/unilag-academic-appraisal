@@ -73,6 +73,18 @@ const reviewStatusPatch = async (req, res) => {
   }
 };
 
+const reviewScorePatch = async (req, res) => {
+  const reviewId = parseInt(req.params.reviewId);
+  const score = parseFloat(req.body.score);
+
+  try {
+    const review = await queries.updateReviewScore(reviewId, score);
+    return res.status(200).json({ success: true, review });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
 module.exports = {
   reviewOverviewGet,
   pendingReviewsGet,
@@ -80,4 +92,5 @@ module.exports = {
   allReviewsGet,
   reviewGet,
   reviewStatusPatch,
+  reviewScorePatch,
 };

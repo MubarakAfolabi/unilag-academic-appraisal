@@ -43,4 +43,10 @@ authRouter.patch(
   accessorController.reviewStatusPatch,
 );
 
+authRouter.patch(
+  "/accessor/reviews/:reviewId/score",
+  auth,
+  accessorController.reviewScorePatch,
+);
+
 module.exports = authRouter;
