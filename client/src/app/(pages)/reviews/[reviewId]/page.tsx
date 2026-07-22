@@ -94,7 +94,7 @@ export default function ReviewPage() {
       });
   };
 
-  const getPublicationType = (publicationType) => {
+  const getPublicationType = (publicationType: string) => {
     switch (publicationType) {
       case "JOURNAL_ARTICLE":
         return "Journal Article";
@@ -142,6 +142,12 @@ export default function ReviewPage() {
           <p className="text-sm text-[hsla(0,2%,42%,1)] lg:text-md">
             By {review?.publication.user.firstname}{" "}
             {review?.publication.user.lastname}
+          </p>
+        </div>
+        <div>
+          <p>Review Status</p>
+          <p className="bg-[hsla(60,100%,85%,0.7)] text-[hsla(35,98%,52%,1)] px-2 py-1 w-fit rounded-full">
+            Pending
           </p>
         </div>
       </div>
