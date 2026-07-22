@@ -103,6 +103,7 @@ model Review {
   assignedAt  DateTime     @default(now())
   openedAt    DateTime?
   completedAt DateTime?
+  score       Float?
 
   reviewerId Int
   reviewer   User @relation(fields: [reviewerId], references: [id])
