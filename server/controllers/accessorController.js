@@ -92,7 +92,7 @@ const reviewScorePatch = [
       if (!errors.isEmpty()) {
         return res
           .status(400)
-          .json({ success: false, errMessages: errors.array() });
+          .json({ success: false, message: errors.array() });
       }
 
       let { score } = matchedData(req);

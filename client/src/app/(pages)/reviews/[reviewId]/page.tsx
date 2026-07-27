@@ -40,10 +40,8 @@ export default function ReviewPage() {
   const { reviewId } = useParams();
   const router = useRouter();
   const [review, setReview] = useState<Review | null>(null);
-
-  const handleSubmitScore = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const [score, setScore] = useState("");
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (!token) return;
@@ -107,6 +105,29 @@ export default function ReviewPage() {
       });
   };
 
+  const handleSubmitScore = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    fetch(`${apiUrl}/api/accessor/reviews/${reviewId}/score`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ score }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          setErrors(data.message);
+        } else {
+          setErrors([]);
+        }
+      });
+  };
+
   const getPublicationType = (publicationType: string) => {
     switch (publicationType) {
       case "JOURNAL_ARTICLE":
@@ -136,6 +157,8 @@ export default function ReviewPage() {
         );
     }
   };
+
+  const scoreError = errors.find((error) => error.path === "score");
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -279,11 +302,19 @@ export default function ReviewPage() {
             </div>
 
             <form className="flex flex-col gap-4" onSubmit={handleSubmitScore}>
+              {scoreError && (
+                <p className="text-red-500 text-sm text-center">
+                  {scoreError.msg}
+                </p>
+              )}
+
               <label>
                 <input
                   type="text"
                   placeholder="Input Score"
-                  className="focus:border-[hsl(216,100%,58%)] border w-full p-2 rounded-md outline-none"
+                  className={`${scoreError ? "border-red-500" : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"} border w-full p-2 rounded-md outline-none`}
+                  value={score}
+                  onChange={(e) => setScore(e.target.value)}
                 />
               </label>
 
