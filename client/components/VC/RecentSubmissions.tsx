@@ -56,7 +56,7 @@ export const MOCK_SUBMISSIONS: StaffPublicationAssessment[] = [
     submittedAt: "2026-07-12T13:30:00Z",
     positiveCount: 9,
     negativeCount: 12,
-  }
+  },
 ];
 
 function formatDate(dateString: string) {

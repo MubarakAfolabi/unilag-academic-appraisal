@@ -15,7 +15,7 @@ const navBarArr = [
   },
   {
     name: "Assignment",
-    path: "/dashboard/h/designate",
+    path: "/designate",
     icon: <UserRoundPlus size={18} />,
   }
 ];
@@ -28,7 +28,7 @@ const sideBarArr = [
   },
   {
     name: "Assignment",
-    path: "/dashboard/h/designate",
+    path: "/designate",
     icon: <UserRoundPlus />,
   },
   {

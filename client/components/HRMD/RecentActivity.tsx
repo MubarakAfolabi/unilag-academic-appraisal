@@ -82,11 +82,11 @@ export default function RecentActivity({ recentActivity }: Props) {
                 </div>
 
                 {/* Action - Right */}
-                <div className="col-span-2 flex justify-end items-center text-[hsla(0,2%,42%,1)] text-sm font-medium">
+                <div className="flex justify-end items-center text-[hsla(0,2%,42%,1)] text-sm font-medium">
                     <div>
                       <Link
                         href={targetUrl}
-                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
+                        className="inline-flex items-center justify-center gap-0.4 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
                       >
                         View now
                         <ChevronRight size={12} className="text-gray-400" />
