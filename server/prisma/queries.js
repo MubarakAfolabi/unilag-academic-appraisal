@@ -260,6 +260,7 @@ const getReview = async (reviewId) => {
     select: {
       id: true,
       status: true,
+      score: true,
       publication: {
         include: {
           user: {

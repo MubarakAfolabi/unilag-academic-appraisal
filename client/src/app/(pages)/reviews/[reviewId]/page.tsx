@@ -6,11 +6,13 @@ import { useUser } from "@/context/userContext";
 import { ArrowLeft, FileText, Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import AlertPopup from "@/components/AlertPopup";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export type Review = {
   id: number;
   status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
+  score: number;
   publication: {
     id: number;
     createdAt: string;
@@ -40,8 +42,9 @@ export default function ReviewPage() {
   const { reviewId } = useParams();
   const router = useRouter();
   const [review, setReview] = useState<Review | null>(null);
-  const [score, setScore] = useState("");
   const [errors, setErrors] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
 
   useEffect(() => {
     if (!token) return;
@@ -68,8 +71,9 @@ export default function ReviewPage() {
           setReview(data.review);
         }
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        setAlertType("error");
+        setShowAlert(true);
       });
   }, [token, reviewId]);
 
@@ -100,8 +104,9 @@ export default function ReviewPage() {
         a.remove();
         window.URL.revokeObjectURL(url);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        setAlertType("error");
+        setShowAlert(true);
       });
   };
 
@@ -114,7 +119,7 @@ export default function ReviewPage() {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ score }),
+      body: JSON.stringify({ score: review?.score }),
     })
       .then((response) => {
         return response.json();
@@ -123,10 +128,22 @@ export default function ReviewPage() {
         if (!data.success) {
           setErrors(data.message);
         } else {
+          setAlertType("success");
+          setShowAlert(true);
           setErrors([]);
         }
+      })
+      .catch(() => {
+        setAlertType("error");
+        setShowAlert(true);
       });
   };
+
+  useEffect(() => {
+    if (!showAlert) return;
+    const timer = setTimeout(() => setShowAlert(false), 3000);
+    return () => clearTimeout(timer);
+  }, [showAlert]);
 
   const getPublicationType = (publicationType: string) => {
     switch (publicationType) {
@@ -162,6 +179,21 @@ export default function ReviewPage() {
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
+      {showAlert &&
+        (alertType === "success" ? (
+          <AlertPopup
+            type="success"
+            message="Publication Scored Succesfully"
+            onClose={() => setShowAlert(false)}
+          />
+        ) : (
+          <AlertPopup
+            type="error"
+            message="Something went wrong, try again"
+            onClose={() => setShowAlert(false)}
+          />
+        ))}
+
       <div className="flex justify-between items-center md:border-b md:border-b-[hsla(0,0%,85%,1)] md:p-6">
         <div
           className="flex items-center gap-2 text-[hsla(210,79%,46%,1)] cursor-pointer"
@@ -313,8 +345,10 @@ export default function ReviewPage() {
                   type="text"
                   placeholder="Input Score"
                   className={`${scoreError ? "border-red-500" : "border-[hsla(0,2%,42%,1)] focus:border-blue-500"} border w-full p-2 rounded-md outline-none`}
-                  value={score}
-                  onChange={(e) => setScore(e.target.value)}
+                  value={review?.score ?? ""}
+                  onChange={(e) =>
+                    setReview((prev) => ({ ...prev, score: e.target.value }))
+                  }
                 />
               </label>
 
