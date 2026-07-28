@@ -5,7 +5,6 @@ import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import { useState } from "react";
 import { allReviews } from "@/constant/reviewerDashboard";
-import { user } from "@/constant/user";
 import ReviewList from "@/components/accessor/ReviewList";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";

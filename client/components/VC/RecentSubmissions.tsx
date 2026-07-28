@@ -6,14 +6,14 @@ export type StaffPublicationAssessment = {
   id: number;
   fullName: string;
   staffId: string;
-  submittedAt: string; 
-  totalPublications?: number; 
+  submittedAt: string;
+  totalPublications?: number;
   positiveCount: number;
   negativeCount: number;
 };
 
 type Props = {
-  recentSubmissions?: StaffPublicationAssessment[]; 
+  recentSubmissions?: StaffPublicationAssessment[];
 };
 
 export const MOCK_SUBMISSIONS: StaffPublicationAssessment[] = [
@@ -77,13 +77,13 @@ function getPercent(value: number, total: number) {
 }
 
 export default function RecentSubmissions({ recentSubmissions }: Props) {
-  const dataToRender = Array.isArray(recentSubmissions) && recentSubmissions.length > 0 
-    ? recentSubmissions 
-    : MOCK_SUBMISSIONS;
+  const dataToRender =
+    Array.isArray(recentSubmissions) && recentSubmissions.length > 0
+      ? recentSubmissions
+      : MOCK_SUBMISSIONS;
 
   return (
     <div className="w-full block clear-both border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden min-h-[150px]">
-      
       <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-sm text-gray-700">
         <div>Publisher Details</div>
         <div className="text-center">Positive Reviews</div>
@@ -93,12 +93,13 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
 
       <div className="divide-y divide-gray-200">
         {dataToRender.map((staff) => {
-          const total = staff.totalPublications ?? staff.positiveCount + staff.negativeCount;
+          const total =
+            staff.totalPublications ??
+            staff.positiveCount + staff.negativeCount;
 
           return (
             <Fragment key={staff.id}>
               <div className="grid grid-cols-[2fr_1fr_1fr_1fr] md:grid-cols-[1.8fr_0.8fr_0.8fr_0.6fr] gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors">
-                
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-semibold shrink-0">
                     <FileText className="w-7 h-7" />
@@ -119,28 +120,30 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                 {/* Positive Count */}
                 <div className="text-center">
                   <span className="text-green-700 bg-green-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
-                    {staff.positiveCount} ({getPercent(staff.positiveCount, total)}%)
+                    {staff.positiveCount} (
+                    {getPercent(staff.positiveCount, total)}%)
                   </span>
                 </div>
 
                 {/* Negative Count */}
                 <div className="text-center">
                   <span className="text-red-600 bg-red-50 px-2 py-1 rounded-md font-medium text-sm sm:text-sm">
-                    {staff.negativeCount} ({getPercent(staff.negativeCount, total)}%)
+                    {staff.negativeCount} (
+                    {getPercent(staff.negativeCount, total)}%)
                   </span>
                 </div>
 
                 {/* Action Link Button */}
                 <div className="text-[hsla(0,2%,42%,1)] text-sm font-medium flex justify-end items-center">
                   <Link
-                  href={`/v/${staff.staffId}`}
-                  className="lg:hidden flex-shrink-0 text-gray-400"
+                    href={`/v/${staff.staffId}`}
+                    className="lg:hidden flex-shrink-0 text-gray-400"
                   >
                     <ChevronRight size={22} />
                   </Link>
                   <div className="hidden lg:block">
                     <Link
-                      href={`/v/${staff.staffId}`}
+                      href={`/dashboard/${staff.staffId}`}
                       className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all"
                     >
                       View Now
@@ -148,7 +151,6 @@ export default function RecentSubmissions({ recentSubmissions }: Props) {
                     </Link>
                   </div>
                 </div>
-
               </div>
             </Fragment>
           );
