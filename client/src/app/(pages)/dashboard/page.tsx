@@ -24,4 +24,3 @@ export default function DashboardPage() {
 
   return dashboards[user!.role];
 }
-//return dashboards[user!.role];

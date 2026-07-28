@@ -39,7 +39,7 @@ const overviewCards: OverviewCard[] = [
 
 export default function VCDashboard() {
   const { user } = useUser();
-  
+
   const [modal, setModal] = useState(false);
 
   return (
@@ -75,11 +75,11 @@ export default function VCDashboard() {
 
           <div className="cursor-pointer h-[50px] w-[50px] rounded-full overflow-hidden">
             <Image
-              src={user?.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
-              className="object-cover h-full w-full" 
+              className="object-cover h-full w-full"
             />
           </div>
         </div>
@@ -100,11 +100,11 @@ export default function VCDashboard() {
 
         <div className="gap-4 items-center hidden md:flex h-[50px] w-[50px] rounded-full overflow-hidden">
           <Image
-            src={user?.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
-            className="object-cover h-full w-full" 
+            className="object-cover h-full w-full"
           />
         </div>
       </div>

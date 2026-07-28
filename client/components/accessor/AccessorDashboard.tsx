@@ -1,54 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import Image from "next/image";
 import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import { useRouter } from "next/navigation";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
-import PendingSubmissions from "@/components/PendingSubmission";
-import RecentActivity from "@/components/HRMD/RecentActivity";
+import PendingReviews from "@/components/PendingReviews";
+import RecentActivity from "@/components/RecentActivity";
 import ReviewPerformance from "@/components/ReviewPerformance";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-import {
-  pendingSubmissions,
-  recentActivity,
-  reviewerPerformance,
-} from "@/constant/reviewerDashboard";
+import { reviewerPerformance } from "@/constant/reviewerDashboard";
 import { useUser } from "@/context/userContext";
 
-const overviewCards: OverviewCard[] = [
-  {
-    label: "Pending Reviews",
-    value: "24",
-    icon: Clock4,
-    iconColor: "text-[hsla(210,79%,46%,1)]",
-    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
-    bgClass: "bg-[hsl(209,67%,89%)]",
-  },
-  {
-    label: "In Progress",
-    value: "6",
-    icon: Hourglass,
-    iconColor: "text-[hsla(45,100%,51%,1)]",
-    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
-    bgClass: "bg-[hsl(45,100%,85%)]",
-  },
-  {
-    label: "Completed",
-    value: "18",
-    icon: CircleCheckBig,
-    iconColor: "text-[hsla(150,90%,24%,1)]",
-    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
-    bgClass: "bg-[hsl(150,28%,85%)]",
-  },
-];
-
 export default function AccessorDashboard() {
-  const { user } = useUser();
+  const { user, token } = useUser();
   const [modal, setModal] = useState(false);
+  const [overviewCards, setOverviewCards] = useState<OverviewCard[]>([
+    {
+      status: "PENDING",
+      label: "Pending Reviews",
+      value: 0,
+      icon: Clock4,
+      iconColor: "text-[hsla(210,79%,46%,1)]",
+      iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+      bgClass: "bg-[hsl(209,67%,89%)]",
+    },
+    {
+      status: "IN_PROGRESS",
+      label: "In Progress",
+      value: 0,
+      icon: Hourglass,
+      iconColor: "text-[hsla(45,100%,51%,1)]",
+      iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+      bgClass: "bg-[hsl(45,100%,85%)]",
+    },
+    {
+      status: "COMPLETED",
+      label: "Completed",
+      value: 0,
+      icon: CircleCheckBig,
+      iconColor: "text-[hsla(150,90%,24%,1)]",
+      iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+      bgClass: "bg-[hsl(150,28%,85%)]",
+    },
+  ]);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/accessor/overview`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setOverviewCards((prev) =>
+            prev.map((item) => ({
+              ...item,
+              value:
+                data?.reviewOverview.find(
+                  (review) => review.status === item.status,
+                )?._count ?? 0,
+            })),
+          );
+        }
+      });
+  }, [token]);
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -92,7 +119,7 @@ export default function AccessorDashboard() {
 
           <div className="cursor-pointer">
             <Image
-              src={user.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -106,7 +133,7 @@ export default function AccessorDashboard() {
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
             Welcome back,{" "}
             <span>
-              {user.title} {user.firstname} {user.lastname}
+              {user?.title} {user?.firstname} {user?.lastname}
             </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
@@ -116,7 +143,7 @@ export default function AccessorDashboard() {
 
         <div className="gap-4 items-center hidden md:flex">
           <Image
-            src={user.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
@@ -131,14 +158,12 @@ export default function AccessorDashboard() {
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold md:text-xl">
-            Pending Submission
-          </h2>
+          <h2 className="text-lg font-semibold md:text-xl">Pending Reviews</h2>
           <p className="text-[hsla(210,79%,46%,1)] font-bold cursor-pointer">
             View all
           </p>
         </div>
-        <PendingSubmissions pendingSubmissions={pendingSubmissions} />
+        <PendingReviews />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:border-b md:border-b-[hsla(0,0%,85%,1)] md:pb-10">
@@ -148,7 +173,7 @@ export default function AccessorDashboard() {
             View all
           </p>
         </div>
-        <RecentActivity recentActivity={recentActivity} />
+        <RecentActivity />
       </div>
 
       <div className="flex flex-col gap-2 md:px-6">

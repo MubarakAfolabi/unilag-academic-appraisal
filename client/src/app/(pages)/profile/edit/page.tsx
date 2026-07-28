@@ -10,7 +10,7 @@ import AlertPopup from "@/components/AlertPopup";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ProfileEditPage() {
-  const { user, setUser } = useUser();
+  const { user, setUser, token } = useUser();
   const [initialUser, setInitialUser] = useState(user);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -23,7 +23,6 @@ export default function ProfileEditPage() {
   const [displayPassword, setDisplayPassword] = useState(false);
   const [displayNewPassword, setDisplayNewPassword] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const token = localStorage.getItem("token");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -55,11 +54,11 @@ export default function ProfileEditPage() {
         return response.json();
       })
       .then((data) => {
-        if (data.errMessages) {
+        if (data?.errMessages) {
           setErrors(data.errMessages);
         }
 
-        if (data.success) {
+        if (data?.success) {
           setUser(initialUser);
           setErrors([]);
           setShowAlert(true);

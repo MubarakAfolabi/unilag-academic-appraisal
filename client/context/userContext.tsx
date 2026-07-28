@@ -6,6 +6,8 @@ import type { User } from "@/types/user";
 type UserContextType = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const UserContext = createContext<UserContextType | null>(null);

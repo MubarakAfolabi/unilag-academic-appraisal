@@ -3,41 +3,72 @@
 import Image from "next/image";
 import { LogOut, Bell, Clock4, Hourglass, CircleCheckBig } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
-import { useState } from "react";
-import { allReviews } from "@/constant/reviewerDashboard";
+import { useState, useEffect } from "react";
 import ReviewList from "@/components/accessor/ReviewList";
 import OverviewCards from "@/components/OverviewCards";
 import { OverviewCard } from "@/components/OverviewCards";
-
-const overviewCards: OverviewCard[] = [
-  {
-    label: "Pending Reviews",
-    value: "24",
-    icon: Clock4,
-    iconColor: "text-[hsla(210,79%,46%,1)]",
-    iconWrapper: "bg-[hsla(208,78%,85%,1)]",
-    bgClass: "bg-[hsl(209,67%,89%)]",
-  },
-  {
-    label: "In Progress",
-    value: "6",
-    icon: Hourglass,
-    iconColor: "text-[hsla(45,100%,51%,1)]",
-    iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
-    bgClass: "bg-[hsl(45,100%,85%)]",
-  },
-  {
-    label: "Completed",
-    value: "18",
-    icon: CircleCheckBig,
-    iconColor: "text-[hsla(150,90%,24%,1)]",
-    iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
-    bgClass: "bg-[hsl(150,28%,85%)]",
-  },
-];
+import { useUser } from "@/context/userContext";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Reviews() {
+  const { user, token } = useUser();
   const [modal, setModal] = useState(false);
+  const [overviewCards, setOverviewCards] = useState<OverviewCard[]>([
+    {
+      status: "PENDING",
+      label: "Pending Reviews",
+      value: 0,
+      icon: Clock4,
+      iconColor: "text-[hsla(210,79%,46%,1)]",
+      iconWrapper: "bg-[hsla(208,78%,85%,1)]",
+      bgClass: "bg-[hsl(209,67%,89%)]",
+    },
+    {
+      status: "IN_PROGRESS",
+      label: "In Progress",
+      value: 0,
+      icon: Hourglass,
+      iconColor: "text-[hsla(45,100%,51%,1)]",
+      iconWrapper: "bg-[hsla(60,100%,51%,0.2)]",
+      bgClass: "bg-[hsl(45,100%,85%)]",
+    },
+    {
+      status: "COMPLETED",
+      label: "Completed",
+      value: 0,
+      icon: CircleCheckBig,
+      iconColor: "text-[hsla(150,90%,24%,1)]",
+      iconWrapper: "bg-[hsla(150,90%,24%,0.2)]",
+      bgClass: "bg-[hsl(150,28%,85%)]",
+    },
+  ]);
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    fetch(`${apiUrl}/api/accessor/overview`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.success) {
+          setOverviewCards((prev) =>
+            prev.map((item) => ({
+              ...item,
+              value:
+                data?.reviewOverview.find(
+                  (review) => review.status === item.status,
+                )?._count ?? 0,
+            })),
+          );
+        }
+      });
+  }, [token]);
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -74,7 +105,7 @@ export default function Reviews() {
           </button>
           <div className="cursor-pointer">
             <Image
-              src={user.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -98,7 +129,7 @@ export default function Reviews() {
             <Bell />
           </button>
           <Image
-            src={user.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
@@ -112,7 +143,7 @@ export default function Reviews() {
       </div>
 
       <div className="md:px-6">
-        <ReviewList allReviews={allReviews} />
+        <ReviewList />
       </div>
     </section>
   );

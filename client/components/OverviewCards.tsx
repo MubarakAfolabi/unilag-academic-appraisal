@@ -1,8 +1,9 @@
 import { LucideIcon } from "lucide-react";
 
 export type OverviewCard = {
+  status: string;
   label: string;
-  value: string;
+  value: number;
   icon: LucideIcon;
   iconColor: string;
   iconWrapper: string;

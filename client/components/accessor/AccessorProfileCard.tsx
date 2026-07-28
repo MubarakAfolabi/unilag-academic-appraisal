@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FileText, CircleCheck, Clock3, Download } from "lucide-react";
-import { User } from "@/constant/user";
+import { useUser } from "@/context/userContext";
 
 const stats = [
   {
@@ -35,11 +35,9 @@ const stats = [
   },
 ];
 
-type profileProps = {
-  user: User;
-};
+export default function AccessorProfileCard() {
+  const { user } = useUser();
 
-export default function AccessorProfileCard({ user }: profileProps) {
   return (
     <div className="rounded-xl bg-white p-4 border border-solid border-[hsla(0,0%,85%,1)]">
       <div className="flex flex-col gap-4 lg:gap-6 lg:flex-row">

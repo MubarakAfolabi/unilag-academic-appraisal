@@ -5,6 +5,14 @@ import SubmitModal from "@/components/SubmitModal";
 import ResetModal from "@/components/ResetModal";
 import { ChevronDown } from "lucide-react";
 import AlertPopup from "@/components/AlertPopup";
+import type { ValidationError } from "@/types/validationError";
+import {
+  addUpload,
+  updateUploadProgress,
+  finishUpload,
+} from "@/lib/uploadStore";
+import { useUser } from "@/context/userContext";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type PublicationType =
@@ -17,8 +25,10 @@ type QuartileType = "Q1" | "Q2" | "Q3" | "OTHERS" | "";
 type NonIndexedType = "UNIVERSITY_BASED" | "NON_UNIVERSITY_BASED" | "";
 type ClassificationType = "NATIONAL" | "INTERNATIONAL" | "";
 
-export default function UploadDocumentForm() {
+export default function UploadForm() {
+  const { token } = useUser();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const currentUploadXHR = useRef<XMLHttpRequest | null>(null);
 
   const form = {
     publication: "",
@@ -30,39 +40,80 @@ export default function UploadDocumentForm() {
   };
 
   const [formData, setFormData] = useState(form);
-
   const [displaySubmitModal, setDisplaySubmitModal] = useState(false);
   const [displayResetModal, setDisplayResetModal] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<ValidationError[]>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const validateForm = (): ValidationError[] => {
+    const errors: ValidationError[] = [];
+
+    if (!formData.publication.trim()) {
+      errors.push({ path: "publication", msg: "Publication is required" });
+    }
+    if (!formData.publicationType) {
+      errors.push({
+        path: "publicationType",
+        msg: "Publication type is required",
+      });
+    }
+    if (!formData.quartile) {
+      errors.push({ path: "quartile", msg: "Quartile is required" });
+    }
+    if (formData.quartile === "OTHERS" && !formData.nonIndexed) {
+      errors.push({
+        path: "nonIndexed",
+        msg: "Please select a non-indexed type",
+      });
+    }
+    if (!formData.classification) {
+      errors.push({
+        path: "classification",
+        msg: "Classification is required",
+      });
+    }
+    if (!formData.file) {
+      errors.push({ path: "file", msg: "Please choose a file" });
+    } else {
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      if (!allowedTypes.includes(formData.file.type)) {
+        errors.push({
+          path: "file",
+          msg: "Only PDF, DOC and DOCX files are allowed",
+        });
+      }
+    }
+
+    return errors;
+  };
 
   const handleDisplaySubmitModal: React.SubmitEventHandler<HTMLFormElement> = (
     e,
   ) => {
     e.preventDefault();
 
-    setDisplaySubmitModal(true);
-  };
-
-  const handleFormReset = () => {
-    setFormData(form);
-    setErrors([]);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
     }
+
+    setErrors([]);
+    setDisplaySubmitModal(true);
   };
 
   const handleSubmit = () => {
     setDisplaySubmitModal(false);
-    setLoading(true);
+    if (!formData.file) return;
+
+    const uploadId = addUpload(formData.file.name);
 
     const uploadData = new FormData();
-
     uploadData.append("publication", formData.publication);
     uploadData.append("publicationType", formData.publicationType);
     uploadData.append("quartile", formData.quartile);
@@ -70,42 +121,62 @@ export default function UploadDocumentForm() {
     uploadData.append("classification", formData.classification);
     uploadData.append("file", formData.file);
 
-    fetch(`${apiUrl}/api/upload`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: uploadData,
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          setShowAlert(true);
-          setAlertType("success");
-          setFormData(form);
-          setErrors([]);
-        }
+    const xhr = new XMLHttpRequest();
+    currentUploadXHR.current = xhr;
 
-        if (data.errMessages) {
-          setErrors(data.errMessages);
-        }
-      })
-      .catch(() => {
+    xhr.open("POST", `${apiUrl}/api/upload`);
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        updateUploadProgress(uploadId, percent);
+      }
+    };
+
+    xhr.onload = () => {
+      let response: { errMessages?: ValidationError[] } = {};
+      try {
+        response = xhr.responseText ? JSON.parse(xhr.responseText) : {};
+      } catch (err) {
+        console.error("Failed to parse upload response:", err);
+      }
+
+      if (xhr.status === 200) {
+        finishUpload(uploadId, true);
+        setErrors([]);
+        setShowAlert(true);
+        setAlertType("success");
+      } else if (xhr.status === 400) {
+        finishUpload(uploadId, false);
+        setErrors(response.errMessages || []);
+      } else {
+        finishUpload(uploadId, false);
         setShowAlert(true);
         setAlertType("error");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      }
+    };
+
+    xhr.onerror = () => {
+      finishUpload(uploadId, false);
+      setShowAlert(true);
+      setAlertType("error");
+    };
+
+    xhr.send(uploadData);
+  };
+
+  const handleFormReset = () => {
+    setFormData(form);
+    setErrors([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   useEffect(() => {
     if (!showAlert) return;
-
-    const timer = setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
-
+    const timer = setTimeout(() => setShowAlert(false), 3000);
     return () => clearTimeout(timer);
   }, [showAlert]);
 
@@ -380,11 +451,10 @@ export default function UploadDocumentForm() {
             </button>
 
             <button
-              disabled={loading}
               type="submit"
               className="rounded-full bg-black px-6 py-2 font-semibold text-white cursor-pointer"
             >
-              {loading ? "Uploading..." : "Submit"}
+              Submit
             </button>
           </div>
         </div>

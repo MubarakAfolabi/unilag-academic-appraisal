@@ -4,7 +4,7 @@ import Image from "next/image";
 import { LogOut, ArrowLeft } from "lucide-react";
 
 import { userProfile } from "@/constant/publisherDashboard";
-import UploadCard from "@/components/UploadCard";
+import UploadForm from "@/components/UploadForm";
 import LogoutModal from "@/components/LogoutModal";
 import { useUser } from "@/context/userContext";
 import { redirect } from "next/navigation";
@@ -31,7 +31,7 @@ export default function UploadPage() {
           <ArrowLeft size={24} strokeWidth={2.5} />
         </button>
 
-        <div className=" lg:hidden flex items-center gap-3">
+        <div className="lg:hidden flex items-center gap-3">
           <button
             className="border border-[hsla(0,0%,85%,1)] p-1.5 rounded-md cursor-pointer"
             onClick={() => setLogOutModal(true)}
@@ -73,7 +73,7 @@ export default function UploadPage() {
         </p>
       </div>
       <div className="md:p-4 rounded-xl flex flex-col items-center gap-4">
-        <UploadCard />
+        <UploadForm />
       </div>
     </section>
   );

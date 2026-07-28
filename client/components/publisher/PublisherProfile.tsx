@@ -5,7 +5,6 @@ import { LogOut } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import PublisherProfileCard from "@/components/publisher/PublisherProfileCard";
 import PersonalInfoCard from "@/components/PersonalInfoCard";
-import UploadListCard from "@/components/UploadListCard";
 import { useUser } from "@/context/userContext";
 import { useLayout } from "@/context/layoutContext";
 
@@ -56,9 +55,8 @@ export default function PublisherProfile() {
       </div>
 
       <div className="md:px-6 flex flex-col gap-6 ">
-        <PublisherProfileCard user={user!} />
-        <PersonalInfoCard user={user!} />
-        <UploadListCard />
+        <PublisherProfileCard />
+        <PersonalInfoCard />
       </div>
     </section>
   );

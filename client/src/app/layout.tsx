@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import UploadProgressManager from "@/components/UploadProgressManager";
 
 export const metadata: Metadata = {
   title: "Academic Appraisal",
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <UploadProgressManager />
+      </body>
     </html>
   );
 }

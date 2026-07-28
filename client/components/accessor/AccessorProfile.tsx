@@ -9,11 +9,9 @@ import LogoutModal from "@/components/LogoutModal";
 import AccessorProfileCard from "./AccessorProfileCard";
 import PersonalInfoCard from "@/components/PersonalInfoCard";
 import { useUser } from "@/context/userContext";
-import AssignedReviews from "../AssignedReviews";
-import { assignedReviews } from "@/constant/reviewerDashboard";
 
 export default function AccessorProfile() {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const [modal, setModal] = useState(false);
   const router = useRouter();
 
@@ -53,16 +51,15 @@ export default function AccessorProfile() {
               alt="Profile Picture"
               width={30}
               height={30}
-              className="w-[30px] h-[30px] md:w-[50px] md:h-[50px]"
+              className="w-7.5 h-7.5 md:w-12.5 md:12.5"
             />
           </div>
         </div>
       </div>
 
       <div className="md:px-6 flex flex-col gap-6 ">
-        <AccessorProfileCard user={user} />
-        <PersonalInfoCard user={user} />
-        <AssignedReviews assignedReviews={assignedReviews} />
+        <AccessorProfileCard />
+        <PersonalInfoCard />
       </div>
     </section>
   );
