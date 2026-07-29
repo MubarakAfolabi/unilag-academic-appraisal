@@ -1,5 +1,6 @@
 const { PublicationStatus } = require("@prisma/client");
 const prisma = require("./prisma.js");
+const { skip } = require("@prisma/client/runtime/library");
 
 const findUserById = async (id) => {
   const user = await prisma.user.findUnique({
@@ -319,6 +320,15 @@ const updateReviewScore = async (reviewId, score) => {
     },
   });
   return review;
+};
+
+const getUsers = async (role, limit, offset) => {
+  const users = await prisma.findMany({
+    where: role ? { role } : undefined,
+    skip: offset,
+    take: limit,
+  });
+  return users;
 };
 
 module.exports = {

@@ -125,4 +125,12 @@ const updateUser = [
   },
 ];
 
+// const usersGet = async (req, res) => {
+//   try {
+//     const { role, limit } = req.query;
+//   } catch (err) {
+//     return res.status(400).json({ success: false, message: err.message });
+//   }
+// };
+
 module.exports = { updateUser };
