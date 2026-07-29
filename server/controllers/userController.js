@@ -125,12 +125,14 @@ const updateUser = [
   },
 ];
 
-// const usersGet = async (req, res) => {
-//   try {
-//     const { role, limit } = req.query;
-//   } catch (err) {
-//     return res.status(400).json({ success: false, message: err.message });
-//   }
-// };
+const usersGet = async (req, res) => {
+  try {
+    const { role, limit, offset } = req.query;
+    const users = await queries.getUsers(role, limit, offset);
+    return res.status(200).json({ success: true, users });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
 
-module.exports = { updateUser };
+module.exports = { updateUser, usersGet };

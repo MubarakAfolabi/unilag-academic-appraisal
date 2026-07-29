@@ -323,10 +323,10 @@ const updateReviewScore = async (reviewId, score) => {
 };
 
 const getUsers = async (role, limit, offset) => {
-  const users = await prisma.findMany({
+  const users = await prisma.user.findMany({
     where: role ? { role } : undefined,
-    skip: offset,
-    take: limit,
+    ...(limit && { take: Number(limit) }),
+    ...(offset && { skip: Number(offset) }),
   });
   return users;
 };
@@ -348,4 +348,5 @@ module.exports = {
   updateReviewStatus,
   getPublication,
   updateReviewScore,
+  getUsers,
 };
