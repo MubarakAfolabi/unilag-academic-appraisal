@@ -9,7 +9,7 @@ import { RecentActivityItem } from "@/components/HRMD/RecentActivity";
 import { useUser } from "@/context/userContext";
 
 export const recentActivity: RecentActivityItem[] = [
-   {
+  {
     assessedby: "Dr. Bayo Isaken",
     assessorId: "ASS-26-007",
     title: "AI in Healthcare: Opportunities and Challenges",
@@ -19,32 +19,32 @@ export const recentActivity: RecentActivityItem[] = [
   {
     assessedby: "Dr. Emily Davis",
     assessorId: "ASS-26-001",
-    title: "The Future of Renewable Energy",  
+    title: "The Future of Renewable Energy",
     date: "May 5, 2026",
     manuscriptId: "RH-2026-0167",
   },
   {
     assessedby: "Dr. David Brown",
     assessorId: "ASS-26-002",
-    title: "The Impact of Social Media on Mental Health",  
+    title: "The Impact of Social Media on Mental Health",
     date: "April 30, 2026",
     manuscriptId: "RH-2026-0166",
   },
   {
     assessedby: "Dr. Sarah Williams",
     assessorId: "ASS-26-003",
-    title: "The Role of Big Data in Healthcare",  
+    title: "The Role of Big Data in Healthcare",
     date: "April 25, 2026",
     manuscriptId: "RH-2026-0165",
   },
   {
     assessedby: "Dr. Michael Johnson",
     assessorId: "ASS-26-004",
-    title: "The Future of Space Exploration", 
+    title: "The Future of Space Exploration",
     date: "April 20, 2026",
     manuscriptId: "RH-2026-0164",
   },
-  { 
+  {
     assessedby: "Dr. Jane Smith",
     assessorId: "ASS-26-005",
     title: "The Ethics of Genetic Engineering",
@@ -58,7 +58,7 @@ export const recentActivity: RecentActivityItem[] = [
     date: "April 10, 2026",
     manuscriptId: "RH-2026-0162",
   },
- 
+
   {
     assessedby: "Dr. Anjola Odunayo",
     assessorId: "ASS-26-008",
@@ -133,7 +133,7 @@ export default function HRMDDashboard() {
 
           <div className="cursor-pointer">
             <Image
-              src={user.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -147,7 +147,7 @@ export default function HRMDDashboard() {
           <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
             Welcome back,{" "}
             <span>
-              {user.title} {user.firstname} {user.lastname}
+              {user?.title} {user?.firstname} {user?.lastname}
             </span>
           </h2>
           <p className="text-[hsla(0,2%,42%,1)] md:text-lg">
@@ -157,7 +157,7 @@ export default function HRMDDashboard() {
 
         <div className="gap-4 items-center hidden md:flex">
           <Image
-            src={user.avatar}
+            src={user?.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
