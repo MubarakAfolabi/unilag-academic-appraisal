@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut } from "lucide-react";
-import RecentActivity from "@/components/HRMD/RecentActivity";
-import { RecentActivityItem } from "@/components/HRMD/RecentActivity";
+import Accessors from "@/components/HRMD/Accessors";
+import { RecentActivityItem } from "@/components/HRMD/Accessors";
 import { useUser } from "@/context/userContext";
 
 export const recentActivity: RecentActivityItem[] = [
@@ -166,7 +166,7 @@ export default function HRMDDashboard() {
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:pb-10">
-        <RecentActivity recentActivity={recentActivity} />
+        <Accessors recentActivity={recentActivity} />
       </div>
     </section>
   );

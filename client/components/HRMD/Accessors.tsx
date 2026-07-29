@@ -13,17 +13,15 @@ export type RecentActivityItem = {
   assessorId: string;
 };
 
-
 type Props = {
   recentActivity: RecentActivityItem[];
 };
 
-export default function RecentActivity({ recentActivity }: Props) {
+export default function Accessors({ recentActivity }: Props) {
   const [showAll, setShowAll] = useState(false);
 
   const params = useParams();
-  const currentAssessorId =
-    (params?.assessorId as string);
+  const currentAssessorId = params?.assessorId as string;
 
   const displayedActivities = showAll
     ? recentActivity
@@ -31,30 +29,24 @@ export default function RecentActivity({ recentActivity }: Props) {
 
   return (
     <div className="flex flex-col gap-2 md:px-6 md:pb-10">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold md:text-xl">
-            Recent Submission
-          </h2>
-          <button 
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg font-semibold md:text-xl">Accessors</h2>
+        <button
           className="text-[hsla(210,79%,46%,1)] font-semibold cursor-pointer transition hover:underline"
           onClick={() => setShowAll(!showAll)}
-          >
-            {showAll ? "Show Less" : "View All"}
-          </button>
-        </div>
+        >
+          {showAll ? "Show Less" : "View All"}
+        </button>
+      </div>
 
       <div className="flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm">
-
         <div className="grid grid-cols-[2fr_0.9fr_1fr_auto] md:grid-cols-[4fr_2fr_1.5fr] gap-4 px-6 py-4 bg-gray-200 border-b border-gray-200 font-semibold text-medium text-gray-700">
-          <div>Assessed By</div>
-          <div>Date Submitted</div>
-          <div className="hidden lg:block text-right">Action</div>
-          <div className="lg:hidden w-4"></div> 
+          <div>Name</div>
+          <div>Last Accessed On</div>
         </div>
 
-        {/* List */}
         <ul className="px-6 py-2 flex flex-col gap-2">
-          {displayedActivities.map((activity, index) => {
+          {displayedActivities.map((activity) => {
             const targetUrl = `/h/${activity.assessorId}`;
 
             return (
@@ -69,7 +61,7 @@ export default function RecentActivity({ recentActivity }: Props) {
 
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold text-medium lg:text-base truncate">
-                      Assessed By: {activity.assessedby}
+                      {activity.assessedby}
                     </p>
                   </div>
                 </div>
@@ -83,16 +75,16 @@ export default function RecentActivity({ recentActivity }: Props) {
 
                 {/* Action - Right */}
                 <div className="flex justify-end items-center text-[hsla(0,2%,42%,1)] text-sm font-medium">
-                    <div>
-                      <Link
-                        href={targetUrl}
-                        className="inline-flex items-center justify-center gap-0.4 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
-                      >
-                        View now
-                        <ChevronRight size={12} className="text-gray-400" />
-                      </Link>
-                    </div>
+                  <div>
+                    <Link
+                      href={targetUrl}
+                      className="inline-flex items-center justify-center gap-0.4 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 shadow-sm transition-all whitespace-nowrap"
+                    >
+                      View now
+                      <ChevronRight size={12} className="text-gray-400" />
+                    </Link>
                   </div>
+                </div>
               </li>
             );
           })}

@@ -315,6 +315,7 @@ const updateReviewScore = async (reviewId, score) => {
     data: {
       score,
       status: "COMPLETED",
+      completedAt: new Date(),
     },
   });
   return review;
