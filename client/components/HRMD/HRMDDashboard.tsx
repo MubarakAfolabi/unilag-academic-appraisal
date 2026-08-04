@@ -166,7 +166,7 @@ export default function HRMDDashboard() {
       </div>
 
       <div className="flex flex-col gap-2 md:px-6 md:pb-10">
-        <Accessors recentActivity={recentActivity} />
+        <Accessors />
       </div>
     </section>
   );

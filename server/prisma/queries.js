@@ -1,6 +1,5 @@
 const { PublicationStatus } = require("@prisma/client");
 const prisma = require("./prisma.js");
-const { skip } = require("@prisma/client/runtime/library");
 
 const findUserById = async (id) => {
   const user = await prisma.user.findUnique({
@@ -327,7 +326,29 @@ const getUsers = async (role, limit, offset) => {
     where: role ? { role } : undefined,
     ...(limit && { take: Number(limit) }),
     ...(offset && { skip: Number(offset) }),
+
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      role: true,
+      reviews: {
+        where: {
+          completedAt: {
+            not: null,
+          },
+        },
+        orderBy: {
+          completedAt: "desc",
+        },
+        take: 1,
+        select: {
+          completedAt: true,
+        },
+      },
+    },
   });
+
   return users;
 };
 
