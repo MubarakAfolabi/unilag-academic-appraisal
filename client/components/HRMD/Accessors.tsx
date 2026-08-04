@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { FileText, ChevronRight } from "lucide-react";
 import { useUser } from "@/context/userContext";
 import { format } from "date-fns";
@@ -18,7 +17,6 @@ export type RecentActivityItem = {
 
 export default function Accessors() {
   const { token } = useUser();
-  const [showAll, setShowAll] = useState(false);
   const [offset, setOffset] = useState(0);
   const [accessors, setAccessors] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -80,7 +78,7 @@ export default function Accessors() {
 
             <ul className="px-6 py-2 flex flex-col gap-2">
               {accessors.map((accessor) => {
-                const targetUrl = `/dashboard/h/${accessor?.id}`;
+                const targetUrl = `/dashboard/accessors/${accessor?.id}`;
 
                 return (
                   <li

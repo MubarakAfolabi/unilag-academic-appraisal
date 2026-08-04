@@ -352,6 +352,20 @@ const getUsers = async (role, limit, offset) => {
   return users;
 };
 
+const getUser = async (userId) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      role: true,
+    },
+  });
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -370,4 +384,5 @@ module.exports = {
   getPublication,
   updateReviewScore,
   getUsers,
+  getUser,
 };

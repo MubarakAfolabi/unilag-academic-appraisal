@@ -6,5 +6,6 @@ const { user } = require("../prisma/prisma");
 
 userRouter.patch("/users/me", auth, userController.updateUser);
 userRouter.get("/users", auth, userController.usersGet);
+userRouter.get("/user/:userId", auth, userController.userGet);
 
 module.exports = userRouter;

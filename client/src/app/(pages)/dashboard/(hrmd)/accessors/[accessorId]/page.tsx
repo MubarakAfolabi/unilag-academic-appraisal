@@ -2,31 +2,41 @@
 import { useUser } from "@/context/userContext";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut, FileText, Calendar } from "lucide-react";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 import { assessedSubmissions } from "@/constant/publisherDashboard";
 import { recentActivity } from "@/components/HRMD/HRMDDashboard";
 import AssessorsJobOverview from "@/components/HRMD/AssessorsJobOverview";
 
 export default function OverviewHRMDDashboard() {
-  const { user } = useUser();
+  const { user, token } = useUser();
   const [modal, setModal] = useState(false);
-  const params = useParams();
+  const { accessorId } = useParams();
+  const { accessor, setAccessor } = useState(null);
 
   if (user?.role !== "HRMD") {
     redirect("/dashboard");
   }
-  
-  const value = recentActivity.find(
-    item => item.assessorId === params.id
-  );
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch(`${}`)
+
+  }, [token]);
+
+  // const value = recentActivity.find(
+  //   item => item.assessorId === params.id
+  // );
 
   // Filter manuscripts belonging strictly to the selected assessor
-  const filteredManuscripts = assessedSubmissions.filter(
-    item => item.assessedby === value?.assessedby
-  );
+  // const filteredManuscripts = assessedSubmissions.filter(
+  //   item => item.assessedby === value?.assessedby
+  // );
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6 bg-gray-50 min-h-screen">
@@ -76,10 +86,10 @@ export default function OverviewHRMDDashboard() {
             Publications Assessed by
           </h3>
           <h2 className="text-2xl font-bold md:text-3xl text-gray-900 mt-1">
-            {value?.assessedby}
+            {/* {value?.assessedby} */}
           </h2>
           <p className="text-gray-500 text-medium mt-1">
-            Explore all manuscripts assessed by {value?.assessedby}
+            {/* Explore all manuscripts assessed by {value?.assessedby} */}
           </p>
         </div>
 
@@ -97,7 +107,6 @@ export default function OverviewHRMDDashboard() {
       <div className="flex flex-col gap-6 md:p-6">
         {/* Overview Stats Summary */}
         <div className="w-full bg-white border border-gray-200 rounded-xl flex flex-col md:flex-row overflow-hidden">
-
           {/* Assessor */}
           <div className="flex flex-1 items-center gap-4 px-6 py-5">
             <Image
@@ -111,7 +120,7 @@ export default function OverviewHRMDDashboard() {
             <div>
               <p className="text-gray-500 text-lg">Assessor</p>
               <p className="font-bold text-xl text-gray-900">
-                {value?.assessedby}
+                {/* {value?.assessedby} */}
               </p>
             </div>
           </div>
@@ -131,7 +140,7 @@ export default function OverviewHRMDDashboard() {
               </p>
 
               <p className="font-bold text-xl text-gray-900">
-                {filteredManuscripts.length || 5} out of 7
+                {/* {filteredManuscripts.length || 5} out of 7 */}
               </p>
             </div>
           </div>
@@ -145,20 +154,17 @@ export default function OverviewHRMDDashboard() {
             </div>
 
             <div>
-              <p className="text-gray-500 text-lg">
-                Last Assessed
-              </p>
+              <p className="text-gray-500 text-lg">Last Assessed</p>
 
               <p className="font-bold text-xl text-gray-900">
-                {filteredManuscripts[0]?.date || "March 21, 2026"}
+                {/* {filteredManuscripts[0]?.date || "March 21, 2026"} */}
               </p>
             </div>
           </div>
-
         </div>
 
         {/* Assessed Manuscripts Interactive List Section */}
-      <AssessorsJobOverview assessor={value?.assessedby} />
+        {/* <AssessorsJobOverview assessor={value?.assessedby} />  */}
       </div>
     </section>
   );

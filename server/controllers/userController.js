@@ -135,4 +135,15 @@ const usersGet = async (req, res) => {
   }
 };
 
-module.exports = { updateUser, usersGet };
+const userGet = async (req, res) => {
+  try {
+    const { role } = req.query;
+    const userId = parseInt(req.params.userId);
+    const user = await queries.getUser(userId);
+    return res.status(200).json({ success: true, user });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+module.exports = { updateUser, usersGet, userGet };
