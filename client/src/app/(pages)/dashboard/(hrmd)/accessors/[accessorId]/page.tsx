@@ -25,8 +25,16 @@ export default function OverviewHRMDDashboard() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`${}`)
-
+    fetch(`${apiUrl}/api/user/${accessorId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
   }, [token]);
 
   // const value = recentActivity.find(
@@ -162,9 +170,8 @@ export default function OverviewHRMDDashboard() {
             </div>
           </div>
         </div>
-
         {/* Assessed Manuscripts Interactive List Section */}
-        {/* <AssessorsJobOverview assessor={value?.assessedby} />  */}
+        {/* <AssessorsJobOverview assessor={value?.assessedby} /> */}
       </div>
     </section>
   );
