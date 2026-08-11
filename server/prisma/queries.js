@@ -367,22 +367,35 @@ const getUser = async (userId) => {
 };
 
 const getAccessorReviewCount = async (userId) => {
-  const [totalReviews, completedReviews] = await prisma.$transaction([
-    prisma.review.count({
-      where: {
-        reviewerId: userId,
-      },
-    }),
+  const [totalReviews, completedReviews, recentReview] =
+    await prisma.$transaction([
+      prisma.review.count({
+        where: {
+          reviewerId: userId,
+        },
+      }),
 
-    prisma.review.count({
-      where: {
-        reviewerId: userId,
-        status: "COMPLETED",
-      },
-    }),
-  ]);
+      prisma.review.count({
+        where: {
+          reviewerId: userId,
+          status: "COMPLETED",
+        },
+      }),
 
-  return { totalReviews, completedReviews };
+      prisma.review.findFirst({
+        where: {
+          reviewerId: userId,
+        },
+        orderBy: {
+          completedAt: "desc",
+        },
+        select: {
+          completedAt: true,
+        },
+      }),
+    ]);
+
+  return { totalReviews, completedReviews, recentReview };
 };
 
 module.exports = {
