@@ -8,17 +8,17 @@ import LogoutModal from "@/components/LogoutModal";
 import { LogOut, FileText, Calendar } from "lucide-react";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-import { assessedSubmissions } from "@/constant/publisherDashboard";
-import { recentActivity } from "@/components/HRMD/HRMDDashboard";
-import AssessorsJobOverview from "@/components/HRMD/AssessorsJobOverview";
+// import { assessedSubmissions } from "@/constant/publisherDashboard";
+// import { recentActivity } from "@/components/HRMD/HRMDDashboard";
+// import AssessorsJobOverview from "@/components/HRMD/AssessorsJobOverview";
+// import { da } from "date-fns/locale";
 
 export default function OverviewHRMDDashboard() {
   const { user, token } = useUser();
   const [modal, setModal] = useState(false);
   const { accessorId } = useParams();
   const [accessor, setAccessor] = useState(null);
-  // const [firstName, setFirstName] = useState(null);
-  // const [lastName, setLastName] = useState(null);
+  const [reviewCount, setReviewCount] = useState(null);
 
   if (user?.role !== "HRMD") {
     redirect("/dashboard");
@@ -35,9 +35,26 @@ export default function OverviewHRMDDashboard() {
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
         if (data?.success) {
           setAccessor(data?.user);
+        }
+      })
+      .then(() => {
+        return fetch(
+          `${apiUrl}/api/accessors/reviews/overview?userId=${accessorId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data?.success) {
+          setReviewCount(data?.reviewCount);
         }
       });
   }, [token, accessorId]);
@@ -155,7 +172,8 @@ export default function OverviewHRMDDashboard() {
               </p>
 
               <p className="font-bold text-xl text-gray-900">
-                {/* {filteredManuscripts.length || 5} out of 7 */}
+                {reviewCount?.completedReviews} out of{" "}
+                {reviewCount?.totalReviews}
               </p>
             </div>
           </div>
