@@ -103,7 +103,8 @@ export default function OverviewHRMDDashboard() {
             {accessor?.firstname} {accessor?.lastname}
           </h2>
           <p className="text-gray-500 text-medium mt-1">
-            {/* Explore all manuscripts assessed by {value?.assessedby} */}
+            Explore all manuscripts assessed by {accessor?.firstname}{" "}
+            {accessor?.lastname}
           </p>
         </div>
 
@@ -134,7 +135,7 @@ export default function OverviewHRMDDashboard() {
             <div>
               <p className="text-gray-500 text-lg">Assessor</p>
               <p className="font-bold text-xl text-gray-900">
-                {/* {value?.assessedby} */}
+                {accessor?.firstname} {accessor?.lastname}
               </p>
             </div>
           </div>
