@@ -49,4 +49,9 @@ authRouter.patch(
   accessorController.reviewScorePatch,
 );
 
+authRouter.get(
+  "/accessors/reviews/overview",
+  auth,
+  accessorController.reviewCountGet,
+);
 module.exports = authRouter;

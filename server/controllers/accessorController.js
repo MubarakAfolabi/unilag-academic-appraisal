@@ -106,6 +106,17 @@ const reviewScorePatch = [
   },
 ];
 
+const reviewCountGet = async (req, res) => {
+  const userId = parseInt(req.query.userId);
+
+  try {
+    const reviewCount = await queries.getAccessorReviewCount(userId);
+    return res.status(200).json({ success: true, reviewCount });
+  } catch (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+};
+
 module.exports = {
   reviewOverviewGet,
   pendingReviewsGet,
@@ -114,4 +125,5 @@ module.exports = {
   reviewGet,
   reviewStatusPatch,
   reviewScorePatch,
+  reviewCountGet,
 };
