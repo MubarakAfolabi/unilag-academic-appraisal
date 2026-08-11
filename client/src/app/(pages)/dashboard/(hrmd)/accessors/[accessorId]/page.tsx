@@ -16,7 +16,9 @@ export default function OverviewHRMDDashboard() {
   const { user, token } = useUser();
   const [modal, setModal] = useState(false);
   const { accessorId } = useParams();
-  const { accessor, setAccessor } = useState(null);
+  const [accessor, setAccessor] = useState(null);
+  // const [firstName, setFirstName] = useState(null);
+  // const [lastName, setLastName] = useState(null);
 
   if (user?.role !== "HRMD") {
     redirect("/dashboard");
@@ -33,9 +35,12 @@ export default function OverviewHRMDDashboard() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+        if (data?.success) {
+          setAccessor(data?.user);
+        }
       });
-  }, [token]);
+  }, [token, accessorId]);
 
   // const value = recentActivity.find(
   //   item => item.assessorId === params.id
@@ -95,6 +100,7 @@ export default function OverviewHRMDDashboard() {
           </h3>
           <h2 className="text-2xl font-bold md:text-3xl text-gray-900 mt-1">
             {/* {value?.assessedby} */}
+            {accessor?.firstname} {accessor?.lastname}
           </h2>
           <p className="text-gray-500 text-medium mt-1">
             {/* Explore all manuscripts assessed by {value?.assessedby} */}
