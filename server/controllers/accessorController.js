@@ -110,7 +110,7 @@ const reviewCountGet = async (req, res) => {
   const userId = parseInt(req.query.userId);
 
   try {
-    const reviewCount = await queries.getAccessorReviewCount(userId);
+    const reviewCount = await queries.getAccessorReviewOverview(userId);
     return res.status(200).json({ success: true, reviewCount });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });

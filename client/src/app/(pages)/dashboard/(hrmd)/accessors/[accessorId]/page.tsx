@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut, FileText, Calendar } from "lucide-react";
+import { format } from "date-fns";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // import { assessedSubmissions } from "@/constant/publisherDashboard";
@@ -18,7 +19,7 @@ export default function OverviewHRMDDashboard() {
   const [modal, setModal] = useState(false);
   const { accessorId } = useParams();
   const [accessor, setAccessor] = useState(null);
-  const [reviewCount, setReviewCount] = useState(null);
+  const [reviewOverview, setReviewOverview] = useState(null);
 
   if (user?.role !== "HRMD") {
     redirect("/dashboard");
@@ -54,7 +55,7 @@ export default function OverviewHRMDDashboard() {
       .then((data) => {
         console.log(data);
         if (data?.success) {
-          setReviewCount(data?.reviewCount);
+          setReviewOverview(data?.reviewCount);
         }
       });
   }, [token, accessorId]);
@@ -172,8 +173,8 @@ export default function OverviewHRMDDashboard() {
               </p>
 
               <p className="font-bold text-xl text-gray-900">
-                {reviewCount?.completedReviews} out of{" "}
-                {reviewCount?.totalReviews}
+                {reviewOverview?.completedReviews} out of{" "}
+                {reviewOverview?.totalReviews}
               </p>
             </div>
           </div>
@@ -190,12 +191,17 @@ export default function OverviewHRMDDashboard() {
               <p className="text-gray-500 text-lg">Last Assessed</p>
 
               <p className="font-bold text-xl text-gray-900">
-                {/* {filteredManuscripts[0]?.date || "March 21, 2026"} */}
+                {reviewOverview?.recentReview
+                  ? format(
+                      new Date(reviewOverview?.recentReview.completedAt),
+                      "MMM d, yyyy",
+                    )
+                  : "Never Accessed"}
               </p>
             </div>
           </div>
         </div>
-        {/* Assessed Manuscripts Interactive List Section */}
+        Assessed Manuscripts Interactive List Section
         {/* <AssessorsJobOverview assessor={value?.assessedby} /> */}
       </div>
     </section>

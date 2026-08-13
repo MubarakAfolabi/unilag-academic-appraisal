@@ -366,7 +366,7 @@ const getUser = async (userId) => {
   });
 };
 
-const getAccessorReviewCount = async (userId) => {
+const getAccessorReviewOverview = async (userId) => {
   const [totalReviews, completedReviews, recentReview] =
     await prisma.$transaction([
       prisma.review.count({
@@ -385,6 +385,10 @@ const getAccessorReviewCount = async (userId) => {
       prisma.review.findFirst({
         where: {
           reviewerId: userId,
+          status: "COMPLETED",
+          completedAt: {
+            not: null,
+          },
         },
         orderBy: {
           completedAt: "desc",
@@ -417,5 +421,5 @@ module.exports = {
   updateReviewScore,
   getUsers,
   getUser,
-  getAccessorReviewCount,
+  getAccessorReviewOverview,
 };
