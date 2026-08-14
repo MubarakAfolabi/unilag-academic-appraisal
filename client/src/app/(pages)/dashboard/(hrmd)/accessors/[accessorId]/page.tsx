@@ -7,12 +7,11 @@ import { useParams } from "next/navigation";
 import LogoutModal from "@/components/LogoutModal";
 import { LogOut, FileText, Calendar } from "lucide-react";
 import { format } from "date-fns";
+import AssessorsJobOverview from "@/components/HRMD/AssessorsJobOverview";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // import { assessedSubmissions } from "@/constant/publisherDashboard";
 // import { recentActivity } from "@/components/HRMD/HRMDDashboard";
-// import AssessorsJobOverview from "@/components/HRMD/AssessorsJobOverview";
-// import { da } from "date-fns/locale";
 
 export default function OverviewHRMDDashboard() {
   const { user, token } = useUser();
@@ -53,9 +52,8 @@ export default function OverviewHRMDDashboard() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data?.success) {
-          setReviewOverview(data?.reviewCount);
+          setReviewOverview(data?.reviewOverview);
         }
       });
   }, [token, accessorId]);
@@ -68,6 +66,10 @@ export default function OverviewHRMDDashboard() {
   // const filteredManuscripts = assessedSubmissions.filter(
   //   item => item.assessedby === value?.assessedby
   // );
+
+  // useEffect(() => {
+  //   console.log(reviewOverview?.reviews);
+  // }, [reviewOverview]);
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6 bg-gray-50 min-h-screen">
@@ -202,7 +204,7 @@ export default function OverviewHRMDDashboard() {
           </div>
         </div>
         Assessed Manuscripts Interactive List Section
-        {/* <AssessorsJobOverview assessor={value?.assessedby} /> */}
+        <AssessorsJobOverview reviews={reviewOverview?.reviews} />
       </div>
     </section>
   );

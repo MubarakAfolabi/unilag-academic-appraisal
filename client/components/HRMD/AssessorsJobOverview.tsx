@@ -1,6 +1,7 @@
 "use client";
 
 import { FileText } from "lucide-react";
+import { format } from "date-fns";
 
 type Props = {
   assessor?: string;
@@ -70,115 +71,100 @@ const pendingAssessments: Manuscript[] = [
   },
 ];
 
-export default function AssessorsJobOverview({ assessor }: Props) {  
-  const assessed = assessedManuscripts.filter(
-  (item) => item.assessor === assessor
-  );
+export default function AssessorsJobOverview({ reviews }) {
+  const assessed = reviews?.filter((item) => item?.status === "COMPLETED");
+  const pending = reviews?.filter((item) => item?.status === "PENDING");
 
-    const pending = pendingAssessments.filter(
-    (item) => item.assessor === assessor
-);
- 
   return (
     <div className="space-y-8">
-
       {/* Assessed Manuscripts */}
-      <section>
+      {assessed?.length > 0 && (
+        <section>
+          <div className="flex items-center gap-3 mb-4">
+            <FileText className="text-[hsla(210,79%,46%,1)]" size={27} />
+            <h2 className="text-xl font-semibold">Assessed Manuscripts</h2>
+          </div>
 
-        <div className="flex items-center gap-3 mb-4">
-          <FileText className="text-[hsla(210,79%,46%,1)]" size={27} />
-          <h2 className="text-xl font-semibold">
-            Assessed Manuscripts
-          </h2>
-        </div>
+          <div className="border border-solid border-[hsla(0,0%,85%,1)] p-4 rounded-xl flex flex-col gap-4">
+            {assessed?.map((item) => (
+              <div
+                key={item?.id}
+                className="flex justify-between items-center py-4 border-b border-gray-200 last:border-none"
+              >
+                <div className="flex gap-4 min-w-0 w-full">
+                  <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
+                    <FileText size={27} />
+                  </div>
 
-        <div className="border border-solid border-[hsla(0,0%,85%,1)] p-4 rounded-xl flex flex-col gap-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-lg lg:text-base truncate">
+                      {item?.publication.fullCitation}
+                    </h3>
 
-          {assessed.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between items-center py-4 border-b border-gray-200 last:border-none"
-            >
-              <div className="flex gap-4 min-w-0 w-full">
-
-                <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
-                  <FileText
-                    size={27}
-                  />
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-lg lg:text-base truncate">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                    {/* <p className="text-sm text-[hsla(0,2%,42%,1)]">
                     Manuscript: {item.manuscriptId}
-                  </p>
+                  </p> */}
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                      By {item?.publication.user.firstname}{" "}
+                      {item?.publication.user.lastname}
+                    </p>
+                  </div>
                 </div>
 
+                <p className="text-gray-500 text-sm text-justify-end">
+                  Submitted on{" "}
+                  {format(new Date(item?.publication.createdAt), "MMM d, yyyy")}
+                </p>
               </div>
-
-              <p className="text-gray-500 text-sm text-justify-end">
-                Submitted on {item.submittedDate}
-              </p>
-
-            </div>
-          ))}
-
-        </div>
-
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Pending Assessment */}
+      {pending?.length > 0 && (
+        <section>
+          <div className="flex items-center gap-3 mt-4 mb-2">
+            <FileText className="text-[hsla(210,79%,46%,1)]" size={27} />
+            <h2 className="text-xl font-semibold">Pending Assessment</h2>
+          </div>
 
-      <section>
+          <div className="border border-solid border-[hsla(0,0%,85%,1)] p-4 rounded-xl flex flex-col gap-4">
+            {pending?.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between items-center py-4 border-b border-gray-200 last:border-none"
+              >
+                <div className="flex gap-4 min-w-0 w-full">
+                  <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
+                    <FileText size={27} />
+                  </div>
 
-        <div className="flex items-center gap-3 mt-4 mb-2">
-          <FileText className="text-[hsla(210,79%,46%,1)]" size={27} />
-          <h2 className="text-xl font-semibold">
-            Pending Assessment
-          </h2>
-        </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-lg lg:text-base truncate">
+                      {item?.publication.fullCitation}
+                    </h3>
 
-        <div className="border border-solid border-[hsla(0,0%,85%,1)] p-4 rounded-xl flex flex-col gap-4">
-
-          {pending.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between items-center py-4 border-b border-gray-200 last:border-none"
-            >
-              <div className="flex gap-4 min-w-0 w-full">
-
-                <div className="bg-[hsla(210,79%,46%,0.1)] text-[hsla(210,79%,46%,1)] w-fit h-fit p-2 rounded-lg flex-shrink-0">
-                  <FileText
-                    size={27}
-                  />
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-lg lg:text-base truncate">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                    {/* <p className="text-sm text-[hsla(0,2%,42%,1)]">
                     Manuscript: {item.manuscriptId}
-                  </p>
+                  </p> */}
+
+                    <p className="text-sm text-[hsla(0,2%,42%,1)]">
+                      By {item?.publication.user.firstname}{" "}
+                      {item?.publication.user.lastname}
+                    </p>
+                  </div>
                 </div>
 
+                <p className="text-gray-500 text-sm">
+                  Assigned on{"   "}
+                  {format(new Date(item?.publication.createdAt), "MMM d, yyyy")}
+                </p>
               </div>
-
-              <p className="text-gray-500 text-sm">
-                Assigned on {item.assignedDate}
-              </p>
-
-            </div>
-          ))}
-
-        </div>
-
-      </section>
-
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

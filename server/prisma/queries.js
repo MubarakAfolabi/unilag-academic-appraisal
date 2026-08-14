@@ -403,10 +403,27 @@ const getAccessorReviewOverview = async (userId) => {
           reviewerId: userId,
         },
         orderBy: {
-          assignedAt: "desc",
+          completedAt: "desc",
         },
-        include: {
-          publication: true,
+
+        select: {
+          id: true,
+          status: true,
+          publication: {
+            select: {
+              id: true,
+              fullCitation: true,
+              createdAt: true,
+              // assignedAt: true,
+              user: {
+                select: {
+                  id: true,
+                  firstname: true,
+                  lastname: true,
+                },
+              },
+            },
+          },
         },
       }),
     ]);
