@@ -1,4 +1,3 @@
-const { review } = require("../prisma/prisma.js");
 const queries = require("../prisma/queries.js");
 const { body, validationResult, matchedData } = require("express-validator");
 

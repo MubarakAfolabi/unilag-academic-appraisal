@@ -8,6 +8,7 @@ const userRouter = require("./routers/userRouter.js");
 const uploadRouter = require("./routers/uploadRouter.js");
 const publisherRouter = require("./routers/publisherRouter.js");
 const accessorRouter = require("./routers/accessorRouter.js");
+const hrmdRouter = require("./routers/hrmdRouter.js");
 const path = require("path");
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api", userRouter);
 app.use("/api", uploadRouter);
 app.use("/api", publisherRouter);
 app.use("/api", accessorRouter);
+app.use("/api", hrmdRouter);
 
 app.use("/upload", express.static(path.join(__dirname, "uploads")));
 
