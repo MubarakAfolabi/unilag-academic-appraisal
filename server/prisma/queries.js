@@ -87,21 +87,21 @@ const createPublication = async (
       },
     });
 
-    const accessors = await tx.user.findMany({
-      where: {
-        role: "ACCESSOR",
-      },
-      select: {
-        id: true,
-      },
-    });
+    // const accessors = await tx.user.findMany({
+    //   where: {
+    //     role: "ACCESSOR",
+    //   },
+    //   select: {
+    //     id: true,
+    //   },
+    // });
 
-    await tx.review.createMany({
-      data: accessors.map((accessor) => ({
-        reviewerId: accessor.id,
-        publicationId: publication.id,
-      })),
-    });
+    // await tx.review.createMany({
+    //   data: accessors.map((accessor) => ({
+    //     reviewerId: accessor.id,
+    //     publicationId: publication.id,
+    //   })),
+    // });
 
     return publication;
   });
@@ -431,6 +431,26 @@ const getAccessorReviewOverview = async (userId) => {
   return { totalReviews, completedReviews, recentReview, reviews };
 };
 
+const getUnassignedPublications = async () => {
+  const publications = await prisma.publication.findMany({
+    where: {
+      reviews: {
+        none: {},
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstname: true,
+            lastname: true,
+          },
+        },
+      },
+    },
+  });
+  return publications;
+};
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -451,4 +471,5 @@ module.exports = {
   getUsers,
   getUser,
   getAccessorReviewOverview,
+  getUnassignedPublications,
 };

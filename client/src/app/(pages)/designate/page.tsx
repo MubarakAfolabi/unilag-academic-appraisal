@@ -7,31 +7,31 @@ import { LogOut } from "lucide-react";
 import RecentPublication from "@/components/HRMD/RecentPublication";
 import { RecentPublicationItem } from "@/components/HRMD/RecentPublication";
 import { useUser } from "@/context/userContext";
-import {redirect} from "next/navigation";
+import { redirect } from "next/navigation";
 
 export const recentPublication: RecentPublicationItem[] = [
-   {
+  {
     title: "AI in Healthcare: Opportunities and Challenges",
     date: "May 6, 2026",
     manuscriptId: "RH-2026-0156",
   },
   {
-    title: "The Future of Renewable Energy",  
+    title: "The Future of Renewable Energy",
     date: "May 5, 2026",
     manuscriptId: "RH-2026-0167",
   },
   {
-    title: "The Impact of Social Media on Mental Health",  
+    title: "The Impact of Social Media on Mental Health",
     date: "April 30, 2026",
     manuscriptId: "RH-2026-0166",
   },
   {
-    title: "The Role of Big Data in Healthcare",  
+    title: "The Role of Big Data in Healthcare",
     date: "April 25, 2026",
     manuscriptId: "RH-2026-0165",
   },
   {
-    title: "The Future of Space Exploration", 
+    title: "The Future of Space Exploration",
     date: "April 20, 2026",
     manuscriptId: "RH-2026-0164",
   },
@@ -45,7 +45,7 @@ export const recentPublication: RecentPublicationItem[] = [
     date: "April 10, 2026",
     manuscriptId: "RH-2026-0162",
   },
- 
+
   {
     title: "The Role of IoT in Smart Cities",
     date: "April 5, 2026",
@@ -76,9 +76,9 @@ export const recentPublication: RecentPublicationItem[] = [
 export default function HRMDDashboard() {
   const { user } = useUser();
   const [modal, setModal] = useState(false);
-    if (user?.role !== "HRMD") {
-      redirect("/dashboard");
-    }
+  if (user?.role !== "HRMD") {
+    redirect("/dashboard");
+  }
 
   return (
     <section className="md:h-full md:overflow-y-auto flex-2 flex flex-col p-4 gap-6 mb-15 md:p-0 md:pb-6">
@@ -113,7 +113,7 @@ export default function HRMDDashboard() {
 
           <div className="cursor-pointer">
             <Image
-              src={user.avatar}
+              src={user?.avatar || "profile-pic.svg"}
               alt="Profile Picture"
               width={30}
               height={30}
@@ -137,7 +137,7 @@ export default function HRMDDashboard() {
 
         <div className="gap-4 items-center hidden md:flex">
           <Image
-            src={user.avatar}
+            src={user.avatar || "profile-pic.svg"}
             alt="Profile Picture"
             width={50}
             height={50}
