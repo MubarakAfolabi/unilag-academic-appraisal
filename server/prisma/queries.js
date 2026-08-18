@@ -437,13 +437,13 @@ const getUnassignedPublications = async () => {
       reviews: {
         none: {},
       },
-      include: {
-        user: {
-          select: {
-            id: true,
-            firstname: true,
-            lastname: true,
-          },
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstname: true,
+          lastname: true,
         },
       },
     },

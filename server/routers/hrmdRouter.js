@@ -4,7 +4,7 @@ const hrmdController = require("../controllers/hrmdController.js");
 const auth = require("../middleware/auth.js");
 
 hrmdRouter.get(
-  "/hrmd/publications",
+  "/hrmd/unassigned-publications",
   auth,
   hrmdController.unassignedPublicationsGet,
 );

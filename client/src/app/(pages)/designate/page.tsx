@@ -8,6 +8,7 @@ import RecentPublication from "@/components/HRMD/RecentPublication";
 import { RecentPublicationItem } from "@/components/HRMD/RecentPublication";
 import { useUser } from "@/context/userContext";
 import { redirect } from "next/navigation";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const recentPublication: RecentPublicationItem[] = [
   {
